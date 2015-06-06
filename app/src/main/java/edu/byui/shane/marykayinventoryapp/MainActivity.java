@@ -36,5 +36,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    // Its the end of the world as we know it!!! And I feel fine!
+    // It's the end of the world as we know it!!! And I feel fine!  (Shane/Greg)
 }
