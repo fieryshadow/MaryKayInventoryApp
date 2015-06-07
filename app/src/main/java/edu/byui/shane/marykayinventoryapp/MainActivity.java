@@ -13,6 +13,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Comments are fun!!
+        // No they're not.
     }
 
     @Override
@@ -36,5 +37,8 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     // its the end of the world as we know it!!! From greg No Shane mine is correct
+
+
 }
