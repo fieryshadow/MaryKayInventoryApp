@@ -1,9 +1,11 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,5 +39,26 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     // It's the end of the world as we know it!!! And I feel fine! psych  (Shane/Greg)
+
+    public void switchToUpdateProductList(View view) {
+        Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
+        startActivity(switcheroo);
+    }
+
+    public void switchToUpdateInventory(View view) {
+        Intent switcheroo = new Intent(this, UpdateInventoryActivity.class);
+        startActivity(switcheroo);
+    }
+
+    public void switchToInventoryList(View view) {
+        Intent switcheroo = new Intent(this, InventoryListActivity.class);
+        startActivity(switcheroo);
+    }
+
+    public void switchToReorderProduct(View view) {
+        Intent switcheroo = new Intent(this, ReorderProductActivity.class);
+        startActivity(switcheroo);
+    }
 }
