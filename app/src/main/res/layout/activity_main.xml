@@ -11,7 +11,7 @@
         android:text="View Inventory"
         android:id="@+id/viewInventoryButton"
         android:onClick="switchToInventoryList"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -21,7 +21,7 @@
         android:text="Scan Product"
         android:id="@+id/scanProductButton"
         android:onClick="switchToUpdateInventory"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/viewInventoryButton"
         android:layout_alignLeft="@+id/viewInventoryButton"
         android:layout_alignStart="@+id/viewInventoryButton" />
@@ -32,7 +32,7 @@
         android:text="Order Product"
         android:id="@+id/orderProductButton"
         android:onClick="switchToReorderProduct"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/scanProductButton"
         android:layout_alignLeft="@+id/scanProductButton"
         android:layout_alignStart="@+id/scanProductButton" />
@@ -43,8 +43,8 @@
         android:text="Update Product List"
         android:id="@+id/updateProductListButton"
         android:onClick="switchToUpdateProductList"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/orderProductButton"
         android:layout_alignLeft="@+id/orderProductButton"
         android:layout_alignStart="@+id/orderProductButton"
-        android:layout_marginBottom="56dp" />
+        android:layout_marginTop="40dp" />
 </RelativeLayout>
