@@ -35,4 +35,13 @@ public class UpdateInventoryActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void scanIn() {
+
+    }
+
+    public void scanOut() {
+
+    }
 }
