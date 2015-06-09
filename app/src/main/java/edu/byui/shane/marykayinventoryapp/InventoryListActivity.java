@@ -146,4 +146,16 @@ public class InventoryListActivity extends ActionBarActivity {
         }
     }
 
+
+    public void switchSection() {
+
+    }
+
+    public void sortList() {
+
+    }
+
+    public void displayList() {
+
+    }
 }

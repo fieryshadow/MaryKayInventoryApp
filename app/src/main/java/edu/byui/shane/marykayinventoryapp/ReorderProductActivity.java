@@ -35,4 +35,13 @@ public class ReorderProductActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void submit() {
+
+    }
+
+    public void cancel() {
+
+    }
 }

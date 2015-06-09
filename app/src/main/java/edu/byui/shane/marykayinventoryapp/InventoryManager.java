@@ -9,6 +9,6 @@ public class InventoryManager {
     private List<ProductEntry> inStock, outOfStock, onOrder;
 
     public List<ProductEntry> getSortableList() {
-        return null; // TODO
+        return null;
     }
 }
