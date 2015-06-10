@@ -7,7 +7,10 @@ import android.test.InstrumentationTestCase;
  */
 public class ProductTest extends InstrumentationTestCase {
     public void testName(){
-
+        // put in asserts for product names.
+        Product p = new Product();
+        p.setName("Eye Liner");
+        assertEquals("Eye Liner", p.getName());
     }
 
     public void testID() {
