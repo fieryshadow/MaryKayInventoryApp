@@ -1,9 +1,13 @@
 <resources>
-    <string name="app_name">MaryKayInventoryApp</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">MaryKay Inventory Manager</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_scanner">Scanner</string>
-    <string name="title_activity_scan_in_out">ScanInOut</string>
-    <string name="scan">Scan</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="title_activity_inventory_list">Inventory List</string>
+    <string name="title_section1">Inventory</string>
+    <string name="title_section2">MaryKay Website</string>
+
+    <string name="title_activity_reorder_product">Reorder Products</string>
+    <string name="title_activity_update_inventory">Scan Items In or Out</string>
+    <string name="title_activity_update_product_list">Update Product List</string>
 </resources>

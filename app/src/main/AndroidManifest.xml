@@ -7,6 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        android:debuggable="true"
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -17,8 +18,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScanInOut"
-            android:label="@string/title_activity_scan_in_out" >
+            android:name=".InventoryListActivity"
+            android:label="@string/title_activity_inventory_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.byui.shane.marykayinventoryapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReorderProductActivity"
+            android:label="@string/title_activity_reorder_product"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.byui.shane.marykayinventoryapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".UpdateInventoryActivity"
+            android:label="@string/title_activity_update_inventory"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.byui.shane.marykayinventoryapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".UpdateProductListActivity"
+            android:label="@string/title_activity_update_product_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.byui.shane.marykayinventoryapp.MainActivity" />
         </activity>
     </application>
     <uses-permission android:name="android.permission.CAMERA" />
