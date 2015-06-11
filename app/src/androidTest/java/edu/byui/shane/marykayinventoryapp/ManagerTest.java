@@ -3,7 +3,7 @@ package edu.byui.shane.marykayinventoryapp;
 import android.test.InstrumentationTestCase;
 
 /**
- * Created by shane on 6/10/15.
+ * Tests that the InventoryManager is working correctly
  */
 public class ManagerTest extends InstrumentationTestCase {
     public void testGetListing() {

@@ -1,7 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
 /**
- * Created by shane on 6/8/15.
+ * Keeps track of how muck of a product you have in your inventory
  */
 public class ProductEntry {
     private Product product;

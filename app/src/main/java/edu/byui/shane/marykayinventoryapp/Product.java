@@ -1,7 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
 /**
- * Created by shane on 6/8/15.
+ * Holds info pertaining to a MaryKay product
  */
 public class Product {
     private String name;

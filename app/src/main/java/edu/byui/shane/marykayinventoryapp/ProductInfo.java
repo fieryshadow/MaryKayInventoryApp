@@ -1,7 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
 /**
- * Created by shane on 6/10/15.
+ * A container for important values needing to be sent to the View (MVC)
  */
 public class ProductInfo {
     float totalCost;

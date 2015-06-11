@@ -3,7 +3,7 @@ package edu.byui.shane.marykayinventoryapp;
 import android.test.InstrumentationTestCase;
 
 /**
- * Created by Greg on 6/10/2015.
+ * Tests that the ProductEntry class is functional
  */
 public class ProductEntryTest extends InstrumentationTestCase {
     public void testProduct() {

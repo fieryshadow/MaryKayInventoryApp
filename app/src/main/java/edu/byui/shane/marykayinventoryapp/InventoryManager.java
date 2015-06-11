@@ -3,13 +3,14 @@ package edu.byui.shane.marykayinventoryapp;
 import java.util.List;
 
 /**
- * Created by shane on 6/8/15.
+ * Manages multiple lists of Products and their amounts and running costs, as well as
+ * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
     private List<ProductEntry> inStock, outOfStock, onOrder;
 
     public List<ProductInfo> getListing() {
-        return null; // anyone
+        return null; // Anyone
     }
 
     public void checkIn(int barcode) {
@@ -37,6 +38,6 @@ public class InventoryManager {
     }
 
     public ProductInfo getProductInfo(int barcode) {
-        return null; // anyone
+        return null; // Anyone
     }
 }
