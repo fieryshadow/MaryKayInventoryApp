@@ -1,5 +1,6 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
-    private List<ProductEntry> inStock, outOfStock, onOrder;
+    private Hashtable<Integer, ProductEntry> inStock, outOfStock, onOrder;
 
     public List<ProductInfo> getListing() {
         return null; // Anyone

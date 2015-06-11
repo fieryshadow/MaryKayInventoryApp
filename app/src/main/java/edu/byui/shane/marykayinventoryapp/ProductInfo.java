@@ -4,14 +4,14 @@ package edu.byui.shane.marykayinventoryapp;
  * A container for important values needing to be sent to the View (MVC)
  */
 public class ProductInfo {
-    float totalCost;
-    int amount;
-    String name;
+    private String name;
+    private int amount;
+    private float totalCost;
 
-    public ProductInfo(float totalCost, int amount, String name) {
-        this.totalCost = totalCost;
-        this.amount = amount;
+    public ProductInfo(String name, int amount, float totalCost) {
         this.name = name;
+        this.amount = amount;
+        this.totalCost = totalCost;
     }
 
     public float getTotalCost() {
