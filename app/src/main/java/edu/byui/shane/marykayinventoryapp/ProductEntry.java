@@ -7,6 +7,10 @@ public class ProductEntry {
     private Product product;
     private int numberOfProduct, defaultValue;
 
+    public float calculateTotalCost() {
+        return 0; // Shane
+    }
+
     public Product getProduct() {
         return product;
     }

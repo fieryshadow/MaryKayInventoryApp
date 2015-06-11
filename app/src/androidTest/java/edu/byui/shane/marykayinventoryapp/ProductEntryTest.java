@@ -1,9 +1,11 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.test.InstrumentationTestCase;
+
 /**
  * Created by Greg on 6/10/2015.
  */
-public class ProductEntryTest {
+public class ProductEntryTest extends InstrumentationTestCase {
     public void testProduct() {
         ProductEntry productEntry = new ProductEntry();
         assert productEntry.getProduct() == null;
@@ -20,6 +22,10 @@ public class ProductEntryTest {
     }
 
     public void testDefaultValue() {
-        //check the default value is what it is supposed to be.
+        // Shane
+    }
+
+    public void testCalculateTotalCost() {
+        // Shane
     }
 }
