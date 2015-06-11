@@ -10,4 +10,7 @@
     <string name="title_activity_reorder_product">Reorder Products</string>
     <string name="title_activity_update_inventory">Scan Items In or Out</string>
     <string name="title_activity_update_product_list">Update Product List</string>
+    <string name="Scan">Scan</string>
+    <string name="ScanIn">ScanIn</string>
+    <string name="ScanOut">Scan Out</string>
 </resources>

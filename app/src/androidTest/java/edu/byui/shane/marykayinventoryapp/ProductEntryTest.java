@@ -20,6 +20,6 @@ public class ProductEntryTest {
     }
 
     public void testDefaultValue() {
-
+        //check the default value is what it is supposed to be.
     }
 }
