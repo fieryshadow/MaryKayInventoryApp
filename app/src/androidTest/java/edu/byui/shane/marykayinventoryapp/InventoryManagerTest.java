@@ -5,7 +5,7 @@ import android.test.InstrumentationTestCase;
 /**
  * Tests that the InventoryManager is working correctly
  */
-public class ManagerTest extends InstrumentationTestCase {
+public class InventoryManagerTest extends InstrumentationTestCase {
     public void testGetListing() {
         // Anyone
     }

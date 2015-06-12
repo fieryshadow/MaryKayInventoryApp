@@ -8,17 +8,17 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
-    private Hashtable<Integer, ProductEntry> inStock, outOfStock, onOrder;
+    private Hashtable<Integer, ProductEntry> inventory; // barcode -> ProductEntry
 
     public List<ProductInfo> getListing() {
         return null; // Anyone
     }
 
-    public void checkIn(int barcode) {
+    public void checkInItem(int barcode) {
         // Greg
     }
 
-    public void checkOut(int barcode) {
+    public void checkOutItem(int barcode) {
         // Greg
     }
 
@@ -26,11 +26,11 @@ public class InventoryManager {
         // Ryan
     }
 
-    public void updateProduct(int barcode, String newName, float newCost) {
+    public void updateProduct(int barcode, String newGroup, String newName, String newColor, float newCost) {
         // Ryan
     }
 
-    public void addProduct(int barcode, String name, float cost) {
+    public void addProduct(int barcode, String group, String name, String color, float cost) {
         // Shane
     }
 

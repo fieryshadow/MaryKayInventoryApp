@@ -7,25 +7,24 @@ import android.test.InstrumentationTestCase;
  */
 public class ProductEntryTest extends InstrumentationTestCase {
     public void testProduct() {
-        ProductEntry productEntry = new ProductEntry();
-        assert productEntry.getProduct() == null;
-        Product product = new Product();
-        productEntry.setProduct(product);
-        assert productEntry.getProduct() == product;
+        Product product = new Product(1234);
+        ProductEntry productEntry = new ProductEntry(product, 0, 0, 0);
+        assertEquals(productEntry.getProduct(), product);
     }
 
-    public void testNumberOfProduct() {
-        ProductEntry productEntry = new ProductEntry();
-        assert productEntry.getNumberOfProduct() == 0;
-        productEntry.setNumberOfProduct(5);
-        assert productEntry.getNumberOfProduct() == 5;
+    public void testNumberInStock() {
+        Product product = new Product(1234);
+        ProductEntry productEntry = new ProductEntry(product, 0, 0, 0);
+        assertEquals(productEntry.getNumberInStock(), 0);
+        productEntry.receivedItem();
+        assertEquals(productEntry.getNumberInStock(), 1);
     }
 
-    public void testDefaultValue() {
-        // Shane
+    public void testHighestNumberInInventory() {
+        // Greg
     }
 
-    public void testCalculateTotalCost() {
-        // Shane
+    public void testCalculateInventoryValue() {
+        // Ryan
     }
 }
