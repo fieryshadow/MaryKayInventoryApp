@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Scanner;
+
 
 public class UpdateInventoryActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,22 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private int barcode;
+
+    public int getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(int barcode) {
+        this.barcode = barcode;
+    }
+
+
 
     public void scanIn() {
-
+        // generate a new Product Entry
+        // from barcode, set the product entry to proper settings
+        // add the new product entry to the list of products
     }
 
     public void scanOut() {
