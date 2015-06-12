@@ -6,12 +6,11 @@ import android.test.InstrumentationTestCase;
  * Tests that the InventoryManager is working correctly
  */
 public class InventoryManagerTest extends InstrumentationTestCase {
-    public void testGetListing() {
-        // Anyone
+    public void testGetListing() { // Anyone
+
     }
 
-    public void testCheckIn() {
-        // Greg
+    public void testCheckIn() { // Greg
         // check to see if the product was correctly added to the list of products
         // add a new item to the list
         InventoryManager m = new InventoryManager();
@@ -24,8 +23,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
 
     }
 
-    public void testCheckOut() {
-        // Greg
+    public void testCheckOut() { // Greg
         // check to see if the product was correctly removed from the list of products.
         InventoryManager m = new InventoryManager();
         // add a couple of items to the list
@@ -41,23 +39,23 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         assertEquals(size - 1, m.getListing().size());
     }
 
-    public void testOrderItem() {
-        // Ryan
+    public void testOrderItem() { // Ryan
+
     }
 
-    public void testUpdateProduct() {
-        // Ryan
+    public void testUpdateProduct() { // Ryan
+
     }
 
-    public void testAddProduct() {
-        // Shane
+    public void testAddProduct() { // Shane
+
     }
 
-    public void testRemoveProduct() {
-        // Shane
+    public void testRemoveProduct() { // Shane
+
     }
 
-    public void testGetProductInfo() {
-        // Anyone
+    public void testGetProductInfo() { // Anyone
+
     }
 }
