@@ -6,4 +6,15 @@ import android.test.InstrumentationTestCase;
  * Tests that the ProductInfo class is functional
  */
 public class ProductInfoTest extends InstrumentationTestCase {
+    public void testGetTotalCost() {
+
+    }
+
+    public void testGetAmount() {
+
+    }
+
+    public void testGetName() {
+
+    }
 }

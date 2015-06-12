@@ -3,7 +3,7 @@ package edu.byui.shane.marykayinventoryapp;
 /**
  * A container for important values needing to be sent to the View (MVC)
  */
-public class ProductInfo {
+public class ProductInfo { // not final interface yet...
     private String name;
     private int amount;
     private float totalCost;

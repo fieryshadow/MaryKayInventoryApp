@@ -11,11 +11,19 @@ public class DatabaseManager {
     // labels: id, group, name, cost, color, numberInStock, numberOnOrder, highestNumberInInventory
     private SQLiteDatabase table;
 
-    public void updateWith(int barcode, ProductEntry data) {
+    public DatabaseManager(String databaseLocation) {
+        // setup the database
+    }
+
+    public void updateWithItem(int barcode, ProductEntry item) {
 
     }
 
     public Hashtable<Integer, ProductEntry> readAll() {
         return null;
+    }
+
+    public void writeAll(Hashtable<Integer, ProductEntry> data) {
+
     }
 }
