@@ -16,6 +16,7 @@ public class InventoryManager {
 
     public void checkInItem(int barcode) {
         // Greg
+
     }
 
     public void checkOutItem(int barcode) {

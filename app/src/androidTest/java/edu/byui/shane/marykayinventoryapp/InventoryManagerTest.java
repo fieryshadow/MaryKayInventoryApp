@@ -12,10 +12,17 @@ public class InventoryManagerTest extends InstrumentationTestCase {
 
     public void testCheckIn() {
         // Greg
+        // check to see if the product was correctly added to the list of products
+        // add a new item to the list
+        // check to see if the number of items in the list is one larger than before.
     }
 
     public void testCheckOut() {
         // Greg
+        // check to see if the product was correctly removed from the list of products.
+        // add a couple of items to the list
+        // remove 1 item from the list
+        // check to see if the number of items in the list is 1 less than before.
     }
 
     public void testOrderItem() {
