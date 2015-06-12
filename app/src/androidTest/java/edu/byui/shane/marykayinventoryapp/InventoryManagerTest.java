@@ -32,11 +32,24 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     }
 
     public void testAddProduct() { // Shane
-
+        InventoryManager inventoryManager = new InventoryManager();
+        assertEquals(inventoryManager.getProductInfo(1234), null);
+        inventoryManager.addProduct(1234, "Eye Shadow", "bestStuff", "Orange", 12.34f);
+        Product product = new Product(1234, "Eye Shadow", "bestStuff", "Orange", 12.34f);
+        ProductInfo info = inventoryManager.getProductInfo(1234);
+        assertEquals(product.getId(), info.getId());
+        assertEquals(product.getGroup(), info.getGroup());
+        assertEquals(product.getName(), info.getName());
+        assertEquals(product.getColor(), info.getColor());
+        assertEquals(product.getCost(), info.getCost());
     }
 
     public void testRemoveProduct() { // Shane
-
+        InventoryManager inventoryManager = new InventoryManager();
+        assertEquals(inventoryManager.getProductInfo(1234), null);
+        inventoryManager.addProduct(1234, "Eye Shadow", "bestStuff", "Orange", 12.34f);
+        inventoryManager.removeProduct(1234);
+        assertEquals(inventoryManager.getProductInfo(1234), null);
     }
 
     public void testGetProductInfo() { // Anyone

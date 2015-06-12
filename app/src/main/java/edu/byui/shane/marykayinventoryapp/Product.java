@@ -12,6 +12,14 @@ public class Product {
         this.id = id;
     }
 
+    public Product(int id, String group, String name, String color, float cost) {
+        this.id = id;
+        this.group = group;
+        this.name = name;
+        this.color = color;
+        this.cost = cost;
+    }
+
     public int getId() {
         return id;
     }
