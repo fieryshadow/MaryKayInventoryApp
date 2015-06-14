@@ -31,7 +31,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         // check to see if the product was correctly removed from the list of products.
         InventoryManager m = new InventoryManager();
         // check to make sure the listing is empty
-        assertEquals(0, m.getProductInfo(12345));
+        assertEquals(0, m.getProductInfo(12345).getNumberInStock());
         // add a couple of items to the list
         m.checkInItem(12345);
         m.checkInItem(12345);
