@@ -15,7 +15,7 @@ public class ProductTest extends InstrumentationTestCase {
     }
 
     public void testGroup() { // Greg
-
+        // test to make sure that a product is added to the correct group.
     }
 
 
