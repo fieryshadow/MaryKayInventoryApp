@@ -36,7 +36,12 @@ public class ProductTest extends InstrumentationTestCase {
     }
 
     public void testColor(){ // Ryan
-
+        //Create a new product
+        Product p = new Product(99999);
+        //Set the color to blue.
+        p.setColor("blue");
+        //Ensure that the color was set correctly.
+        assertEquals(99999, p.getColor());
     }
 
     public void testCost() { // Ryan?
