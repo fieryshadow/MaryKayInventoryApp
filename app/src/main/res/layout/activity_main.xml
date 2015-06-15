@@ -29,15 +29,15 @@
         android:id="@+id/scanProductButton"
         android:onClick="switchToUpdateInventory"
         android:layout_above="@+id/anchor"
-        android:layout_alignLeft="@+id/orderProductButton"
-        android:layout_alignStart="@+id/orderProductButton"
+        android:layout_alignLeft="@+id/reorderProductButton"
+        android:layout_alignStart="@+id/reorderProductButton"
         android:layout_marginBottom="10dp" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Order Product"
-        android:id="@+id/orderProductButton"
+        android:text="Reorder Product"
+        android:id="@+id/reorderProductButton"
         android:onClick="switchToReorderProduct"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/anchor"
@@ -49,9 +49,9 @@
         android:text="Update Product List"
         android:id="@+id/updateProductListButton"
         android:onClick="switchToUpdateProductList"
-        android:layout_below="@+id/orderProductButton"
-        android:layout_alignLeft="@+id/orderProductButton"
-        android:layout_alignStart="@+id/orderProductButton"
+        android:layout_below="@+id/reorderProductButton"
+        android:layout_alignLeft="@+id/reorderProductButton"
+        android:layout_alignStart="@+id/reorderProductButton"
         android:layout_marginTop="20dp" />
 
 </RelativeLayout>
