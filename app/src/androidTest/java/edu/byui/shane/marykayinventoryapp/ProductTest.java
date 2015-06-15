@@ -14,8 +14,13 @@ public class ProductTest extends InstrumentationTestCase {
         assertEquals(1234, p.getId());
     }
 
-    public void testGroup() { // Greg
+    public void testGroup() { //Ryan
         // test to make sure that a product is added to the correct group.
+        Product p = new Product(99999);
+        //Set the newly created product's group to lipstick
+        p.setGroup("lipstick");
+        //Ensure the group was successfully saved to the item.
+        assertEquals("lipstick", p.getGroup());
     }
 
 
@@ -36,10 +41,15 @@ public class ProductTest extends InstrumentationTestCase {
     }
 
     public void testColor(){ // Ryan
-
+        //Create a new product
+        Product p = new Product(99999);
+        //Set the color to blue.
+        p.setColor("blue");
+        //Ensure that the color was set correctly.
+        assertEquals("blue", p.getColor());
     }
 
-    public void testCost() { // Ryan?
+    public void testCost() { // Greg
         // Create new product
         Product p = new Product(12345);
         // need to check that the initial cost == 0
