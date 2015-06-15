@@ -20,7 +20,7 @@ public class ProductTest extends InstrumentationTestCase {
         //Set the newly created product's group to lipstick
         p.setGroup("lipstick");
         //Ensure the group was successfully saved to the item.
-        assertEquals(99999,"lipstick");
+        assertEquals("lipstick", p.getGroup());
     }
 
 
