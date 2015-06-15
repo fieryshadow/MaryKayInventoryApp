@@ -46,7 +46,7 @@ public class ProductTest extends InstrumentationTestCase {
         //Set the color to blue.
         p.setColor("blue");
         //Ensure that the color was set correctly.
-        assertEquals(99999, p.getColor());
+        assertEquals("blue", p.getColor());
     }
 
     public void testCost() { // Greg
