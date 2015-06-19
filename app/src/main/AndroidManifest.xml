@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/mary_kay_icon"
+        android:icon="@map/mary_kay_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         android:debuggable="true"

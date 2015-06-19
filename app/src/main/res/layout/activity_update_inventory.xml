@@ -6,6 +6,12 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.byui.shane.marykayinventoryapp.UpdateInventoryActivity">
 
+    <EditText
+        android:id="@+id/ProductNumber"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:hint="Product Number"/>
 
     <Button
         android:id="@+id/ScanIn"
@@ -13,15 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:text="Add Product"/>
 
-        android:text="Scan In"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentRight="true"
         android:id="@+id/ScanOut"
-        android:text="Scan Out"/>
+        android:text="Remove Product"/>
 
 </RelativeLayout>

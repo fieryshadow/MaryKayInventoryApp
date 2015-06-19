@@ -7,23 +7,47 @@
     tools:context="edu.byui.shane.marykayinventoryapp.UpdateProductListActivity">
 
     <TextView
-        android:id="@+id/BarcodeNumber"
-        android:layout_width="wrap_content"
+        android:id="@+id/ProductNumber"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="ID: "/>
+        android:layout_alignParentTop="true"
+        android:hint="Product Number: " />
+
+    <EditText
+        android:id="@+id/ProductCategory"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ProductNumber"
+        android:hint="Product Category"/>
 
     <EditText
         android:id="@+id/ProductName"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/BarcodeNumber"
+        android:layout_below="@+id/ProductCategory"
         android:hint="Product Name"/>
+
     <EditText
-        android:id="@+id/ProductGroup"
-        android:layout_width="wrap_content"
+        android:id="@+id/ProductSection"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ProductName"
-        android:hint="Product Group" />
+        android:layout_below="@+id/color"
+        android:hint="Product Section" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/color"
+        android:hint="Product Color"
+        android:layout_below="@+id/ProductName"/>
+
+    <EditText
+        android:id="@+id/NumberofProduct"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ProductSection"
+        android:hint="How much Product" />
+
 
     <Button
         android:id="@+id/submit"
