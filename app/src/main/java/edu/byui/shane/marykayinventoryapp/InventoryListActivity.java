@@ -1,5 +1,6 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import java.util.List;
 import java.util.Locale;
 
 import android.support.v7.app.ActionBarActivity;
@@ -13,30 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class InventoryListActivity extends ActionBarActivity {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_list);
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -45,9 +35,7 @@ public class InventoryListActivity extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,10 +60,7 @@ public class InventoryListActivity extends ActionBarActivity {
     }
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+    /** Manager of the different list of products */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -86,6 +71,9 @@ public class InventoryListActivity extends ActionBarActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a InventoryFragment (defined as a static inner class below).
+            if (position == 1) {
+                return WebsiteListFragment.newInstance(position + 1);
+            }
             return InventoryFragment.newInstance(position + 1);
         }
 
@@ -108,20 +96,10 @@ public class InventoryListActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+    /** A fragment showing the inventory contents */
     public static class InventoryFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static InventoryFragment newInstance(int sectionNumber) {
             InventoryFragment fragment = new InventoryFragment();
             Bundle args = new Bundle();
@@ -136,20 +114,48 @@ public class InventoryListActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_inventory_list, container, false);
+            View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
+
+            ListView listView = (ListView) view.findViewById(R.id.listView);
+            List<ProductInfo> list = InventoryManager.getInstance().getListing();
+            ArrayAdapter<ProductInfo> products = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(products);
+
+            return view;
+        }
+    }
+
+    /** A fragment showing the MaryKay stock */
+    public static class WebsiteListFragment extends Fragment {
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public static WebsiteListFragment newInstance(int sectionNumber) {
+            WebsiteListFragment fragment = new WebsiteListFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public WebsiteListFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
+
+            ListView listView = (ListView) view.findViewById(R.id.listView);
+            List<ProductInfo> list = InventoryManager.getInstance().getWebsiteListing();
+            ArrayAdapter<ProductInfo> products = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(products);
+
+            return view;
         }
     }
 
 
-    public void switchSection() {
-
-    }
-
-    public void sortList() {
-
-    }
-
-    public void displayList() {
+    public void sortList(int sortKind) {
 
     }
 }

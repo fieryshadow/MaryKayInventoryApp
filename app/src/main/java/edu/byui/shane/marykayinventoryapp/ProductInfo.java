@@ -4,13 +4,12 @@ package edu.byui.shane.marykayinventoryapp;
  * A container for important values needing to be sent to the View (MVC)
  */
 public class ProductInfo {
-    private int id;
-    private String group, name, color;
+    private String id, group, name, color;
     private float cost;
     private int numberInStock, numberOnOrder, highestNumberInInventory;
     private float inventoryValue, totalWorth;
 
-    public ProductInfo(int id, String group, String name, String color, float cost,
+    public ProductInfo(String id, String group, String name, String color, float cost,
                        int numberInStock, int numberOnOrder, int highestNumberInInventory,
                        float inventoryValue, float totalWorth) {
         this.id = id;
@@ -25,7 +24,7 @@ public class ProductInfo {
         this.totalWorth = totalWorth;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -63,5 +62,10 @@ public class ProductInfo {
 
     public float getTotalWorth() {
         return totalWorth;
+    }
+
+    @Override
+    public String toString() {
+        return "$" + getInventoryValue() + " of " + getColor() + " " + getName() + " " + getGroup();
     }
 }

@@ -4,15 +4,14 @@ package edu.byui.shane.marykayinventoryapp;
  * Holds info pertaining to a MaryKay product
  */
 public class Product {
-    private String group, name, color;
+    private String id, group, name, color;
     private float cost;
-    private int id;
 
-    public Product(int id) {
+    public Product(String id) {
         this.id = id;
     }
 
-    public Product(int id, String group, String name, String color, float cost) {
+    public Product(String id, String group, String name, String color, float cost) {
         this.id = id;
         this.group = group;
         this.name = name;
@@ -20,7 +19,7 @@ public class Product {
         this.cost = cost;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

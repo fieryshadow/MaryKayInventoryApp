@@ -1,5 +1,6 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -8,38 +9,71 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
-    private Hashtable<Integer, ProductEntry> inventory; // barcode -> ProductEntry
+    private Hashtable<String, ProductEntry> inventory; // barcode: ProductEntry
+
+    private static final InventoryManager manager = new InventoryManager();
+    public static InventoryManager getInstance() { return manager; } // singleton for use in app
+
+    public InventoryManager() {
+        inventory = new Hashtable<>();
+
+        // testing values
+        inventory.put("1234", new ProductEntry(new Product("1234", "foundation", "liquid", "peach", 12.34f), 0, 0, 0));
+        inventory.put("5678", new ProductEntry(new Product("5678", "foundation", "liquid", "dark", 34.34f), 4, 5, 6));
+        inventory.put("2345", new ProductEntry(new Product("2435", "eyeliner", "lash enhancing", "deep black", 56.34f), 7, 8, 9));
+        inventory.put("3456", new ProductEntry(new Product("3456", "lipstick", "liquid", "bright red", 78.34f), 0, 0, 0));
+        inventory.put("6789", new ProductEntry(new Product("6789", "lipstick", "twist up", "natural", 96.57f), 3, 5, 7));
+        inventory.put("0987", new ProductEntry(new Product("0987", "foundation", "liquid", "green", 12.34f), 0, 0, 0));
+        inventory.put("9876", new ProductEntry(new Product("9876", "foundation", "liquid", "light", 34.34f), 4, 5, 6));
+        inventory.put("8765", new ProductEntry(new Product("8765", "eyeliner", "lash enhancing", "pale sparkles", 56.34f), 7, 8, 9));
+        inventory.put("7654", new ProductEntry(new Product("7654", "lipstick", "liquid", "leafy", 78.34f), 0, 0, 0));
+        inventory.put("6543", new ProductEntry(new Product("6543", "blush", "gnarly", "soft", 96.57f), 3, 5, 7));
+    }
 
     public List<ProductInfo> getListing() {
-        return null;
+        List<ProductInfo> listing = new ArrayList<>();
+        for (ProductEntry entry : inventory.values()) {
+            if (entry.getHighestNumberInInventory() != 0) {
+                listing.add(entry.getInfo());
+            }
+        }
+        return listing;
     }
 
-    public void checkInItem(int barcode) {
-
-
+    public List<ProductInfo> getWebsiteListing() {
+        List<ProductInfo> listing = new ArrayList<>();
+        for (ProductEntry entry : inventory.values()) {
+            listing.add(entry.getInfo());
+        }
+        return listing;
     }
 
-    public void checkOutItem(int barcode) {
+    public void checkInItem(String barcode) { // make return boolean of whether it's successful?
 
-    }
-
-    public void orderItem(int barcode, int amount) {
-
-    }
-
-    public void updateProduct(int barcode, String newGroup, String newName, String newColor, float newCost) {
-
-    }
-
-    public void addProduct(int barcode, String group, String name, String color, float cost) {
-
-    }
-
-    public void removeProduct(int barcode) {
 
     }
 
-    public ProductInfo getProductInfo(int barcode) {
+    public void checkOutItem(String barcode) {
+
+    }
+
+    public void orderItem(String barcode, int amount) {
+
+    }
+
+    public void updateProduct(String barcode, String newGroup, String newName, String newColor, float newCost) {
+
+    }
+
+    public void addProduct(String barcode, String group, String name, String color, float cost) {
+
+    }
+
+    public void removeProduct(String barcode) {
+
+    }
+
+    public ProductInfo getProductInfo(String barcode) {
         ProductEntry productEntry = inventory.get(barcode);
         if (productEntry == null) {
             return null;

@@ -24,7 +24,7 @@ public class ProductEntry {
     }
 
     public float calculateCostOf(int amount) {
-        return 0;
+        return amount * product.getCost();
     }
 
     public boolean isOutOfStock() {
