@@ -1,9 +1,11 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class UpdateProductListActivity extends ActionBarActivity {
@@ -11,7 +13,13 @@ public class UpdateProductListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_product_list);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
+
+        TextView ProductID = new TextView(this);
+        ProductID.setTextSize(20);
+        ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + message);
+        setContentView(ProductID);
     }
 
     @Override

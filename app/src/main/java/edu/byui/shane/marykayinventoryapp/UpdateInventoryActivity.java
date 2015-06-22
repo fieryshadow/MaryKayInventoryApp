@@ -1,16 +1,19 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import java.util.Scanner;
 
 
 public class UpdateInventoryActivity extends ActionBarActivity {
 
-
+    public final static String EXTRA_MESSAGE = "Product Number: ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +55,18 @@ public class UpdateInventoryActivity extends ActionBarActivity {
 
 
 
-    public void scanIn() {
-        // generate a new Product Entry
-        // from barcode, set the product entry to proper settings
-        // add the new product entry to the list of products
-    }
-
-    public void scanOut() {
-
+    public void updateProduct(View view) {
+        //create intent
+        Intent intent = new Intent(this, UpdateProductListActivity.class);
+        // get info from the edit text box
+        EditText Product = (EditText) findViewById(R.id.ProductNumber);
+        // create message to send
+        String message = Product.getText().toString();
+        // test print of the full message to be sent
+        System.out.println(EXTRA_MESSAGE + message);
+        // add info from edit text box to the intent
+        intent.putExtra(EXTRA_MESSAGE, message);
+        // start the activity
+        startActivity(intent);
     }
 }
