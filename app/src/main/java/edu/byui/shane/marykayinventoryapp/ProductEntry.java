@@ -50,8 +50,8 @@ public class ProductEntry {
     }
 
     public ProductInfo getInfo() {
-        return new ProductInfo(
-                product.getId(), product.getGroup(), product.getName(), product.getColor(),
+
+        return new ProductInfo(product.getId(), product.getGroup(), product.getName(), product.getSection(),product.getColor(),
                 product.getCost(), numberInStock, numberOnOrder, highestNumberInInventory,
                 calculateInventoryValue(), calculateTotalWorth());
     }
