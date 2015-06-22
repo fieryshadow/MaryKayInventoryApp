@@ -13,13 +13,14 @@ public class UpdateProductListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_update_product_list);
         Intent intent = getIntent();
         String message = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
 
-        TextView ProductID = new TextView(this);
+        TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
         ProductID.setTextSize(20);
         ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + message);
-        setContentView(ProductID);
+
     }
 
     @Override
