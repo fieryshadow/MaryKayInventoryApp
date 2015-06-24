@@ -42,7 +42,7 @@ public class Product {
 
     public void setName(String name) {
         //Team Activity Error log - Ryan
-        if(name == "") {
+        if(name.equals("")) {
             Log.e("Product setName()", "Error: product must have a name!");
         }
         this.name = name;
