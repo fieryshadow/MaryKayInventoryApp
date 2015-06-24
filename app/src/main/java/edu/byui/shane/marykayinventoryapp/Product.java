@@ -39,6 +39,10 @@ public class Product {
     }
 
     public void setName(String name) {
+        //Team Activity Error log - Ryan
+        if(name == "") {
+            Log.e("Product setName()", "Error: product must have a name!");
+        }
         this.name = name;
     }
 
@@ -61,7 +65,7 @@ public class Product {
     public float getCost() {
         //Team Activity Information log - Ryan
         if(this.getCost() >= 0) {
-            Log.i("Valid Input", "The cost is within valid range.");
+            Log.i("Valid product cost", "The cost is within valid range.");
         }
         return cost;
     }
