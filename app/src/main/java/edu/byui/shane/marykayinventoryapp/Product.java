@@ -32,6 +32,8 @@ public class Product {
 
     public void setGroup(String group) {
         this.group = group;
+        //Team Activity Information log - Ryan
+        Log.i("Product setGroup()", "Group was set sucessfully.");
     }
 
     public String getName() {
