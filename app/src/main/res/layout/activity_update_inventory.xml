@@ -14,7 +14,8 @@
         android:hint="Product Number"
         android:inputType="number"
         android:singleLine="true"
-        android:textSize="40dp"/>
+        android:textSize="40dp"
+        android:editable="true" />
 
     <Button
         android:id="@+id/ScanIn"

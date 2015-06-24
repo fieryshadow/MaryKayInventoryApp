@@ -7,9 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Hashtable;
+
 
 public class MainActivity extends ActionBarActivity {
-
+    private Hashtable<String, ProductEntry> inventory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,5 +62,15 @@ public class MainActivity extends ActionBarActivity {
     public void switchToReorderProduct(View view) {
         Intent switcheroo = new Intent(this, ReorderProductActivity.class);
         startActivity(switcheroo);
+    }
+
+    public void populateInventory(){
+        inventory = new Hashtable<>();
+
+        // testing values
+        //           Product#       Product Entry   Product  Product#   Category              Name                Section       Description/Color               Price    InStock OutOfStock HighestInInventory
+        inventory.put("072750", new ProductEntry(new Product("072750", "Skin Care",        "TimeWise Anti-Aging", "1", "Miracle Set: Normal/Dry",               95.00f), 1,      0,          1));
+        inventory.put("060794", new ProductEntry(new Product("060794", "Foundations",      "Other",               "1", "Makeup Finishing Spray by Skindinavia", 18.00f), 4,      1,          5));
+        inventory.put("023467", new ProductEntry(new Product("023467", "Concealer/Powder", "Concealer",           "2", "Ivory 1",                               12.00f), 1,      0,          2));
     }
 }

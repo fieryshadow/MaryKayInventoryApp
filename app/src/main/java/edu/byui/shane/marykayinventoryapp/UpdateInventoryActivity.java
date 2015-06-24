@@ -19,6 +19,8 @@ public class UpdateInventoryActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_inventory);
+        EditText t;
+        t = (EditText)findViewById(R.id.ProductNumber);
     }
 
     @Override
