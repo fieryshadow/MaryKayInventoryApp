@@ -1,5 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.util.Log;
+
 /**
  * Holds info pertaining to a MaryKay product
  */
@@ -57,6 +59,10 @@ public class Product {
     }
 
     public float getCost() {
+        //Team Activity Information log - Ryan
+        if(this.getCost() >= 0) {
+            Log.i("Valid Input", "The cost is within valid range.");
+        }
         return cost;
     }
 
