@@ -1,5 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
+    private static final String TAG_INVENTORY_MANAGER = "InventoryManager";
     private Hashtable<String, ProductEntry> inventory; // barcode: ProductEntry
 
     private static final InventoryManager manager = new InventoryManager();
@@ -41,10 +44,12 @@ public class InventoryManager {
     }
 
     public List<ProductInfo> getWebsiteListing() {
+        Log.v(TAG_INVENTORY_MANAGER, "Connecting to the MaryKay server...");
         List<ProductInfo> listing = new ArrayList<>();
         for (ProductEntry entry : inventory.values()) {
             listing.add(entry.getInfo());
         }
+        Log.i(TAG_INVENTORY_MANAGER, "Loaded data from MaryKay server.");
         return listing;
     }
 
