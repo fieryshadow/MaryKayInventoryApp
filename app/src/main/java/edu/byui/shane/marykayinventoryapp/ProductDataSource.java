@@ -14,6 +14,7 @@ import java.util.Hashtable;
  * Cleanly interfaces with the underlying database that stores everything
  */
 public class ProductDataSource {
+    private static final String TAG_DATA_SOURCE = "ProductDataSource";
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
@@ -40,6 +41,10 @@ public class ProductDataSource {
     }
 
     private ContentValues packValues(ProductEntry item) {
+        if (item == null) {
+            Log.wtf(TAG_DATA_SOURCE, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
+            return null;
+        }
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, info.getId());
@@ -55,6 +60,9 @@ public class ProductDataSource {
     }
 
     public void storeProduct(ProductEntry item) {
+        if (item == null) {
+            return;
+        }
         open();
         ContentValues values = packValues(item);
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
