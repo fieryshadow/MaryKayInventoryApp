@@ -3,6 +3,7 @@ package edu.byui.shane.marykayinventoryapp;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 
 public class UpdateInventoryActivity extends ActionBarActivity {
-
+    public final static String TAG_UPDATE_INVENTORY_ACTIVITY = "UpdateInventoryActivity";
     public final static String EXTRA_MESSAGE = "Product Number: ";
 
     @Override
@@ -58,10 +59,15 @@ public class UpdateInventoryActivity extends ActionBarActivity {
 
 
     public void updateProduct(View view) {
+        Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, "Button Clicked");
         //create intent
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
+        if (Product.getText().toString().equals("")){
+            Log.e(TAG_UPDATE_INVENTORY_ACTIVITY, "Empty String being passed");
+        }
+
         // create message to send
         String message = Product.getText().toString();
         // test print of the full message to be sent

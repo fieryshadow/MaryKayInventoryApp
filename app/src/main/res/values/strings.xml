@@ -13,4 +13,7 @@
     <string name="Scan">Scan</string>
     <string name="ScanIn">ScanIn</string>
     <string name="ScanOut">Scan Out</string>
+    <string name="ProductNumber">Product Number</string>
+    <string name="AddProduct">Add Product</string>
+    <string name="RemoveProduct">Remove Product</string>
 </resources>
