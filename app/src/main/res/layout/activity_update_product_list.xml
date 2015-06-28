@@ -47,6 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ProductSection"
         android:hint="How much Product" />
+    <EditText
+        android:id="@+id/ProductCost"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NumberofProduct"
+        android:hint="Price of Product"/>
 
 
     <Button

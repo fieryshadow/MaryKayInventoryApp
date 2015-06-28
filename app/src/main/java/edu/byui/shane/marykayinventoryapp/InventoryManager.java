@@ -70,8 +70,19 @@ public class InventoryManager {
 
     }
 
-    public void addProduct(String barcode, String group, String name, String color, float cost) {
-
+    public void addProduct(String barcode, String category, String name, String color, float cost, String section, int numOfProduct) {
+        // for every product in the inventory list that matches the product id and section, add number of in stock by number of products being added
+        for (ProductEntry entry : inventory.values()){
+            // if the barcode and section match then just adjust number in Stock
+            if(entry.getProduct().getId().equals(barcode) && entry.getProduct().getSection().equals(section)){
+                entry.setNumberInStock(entry.getNumberInStock()+numOfProduct);
+            }
+            // if it doesn't match both section and Product number then add a new product Entry to the inventory list
+            else {
+                inventory.put(barcode, new ProductEntry(new Product(barcode, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
+            }
+        }
+        Log.v(TAG_INVENTORY_MANAGER, "added " + numOfProduct + " products to the inventory");
     }
 
     public void removeProduct(String barcode) {

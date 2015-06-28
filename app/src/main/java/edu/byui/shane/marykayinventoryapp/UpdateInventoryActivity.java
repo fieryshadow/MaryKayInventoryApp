@@ -71,7 +71,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         // create message to send
         String message = Product.getText().toString();
         // test print of the full message to be sent
-        System.out.println(EXTRA_MESSAGE + message);
+        Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, EXTRA_MESSAGE + message);
         // add info from edit text box to the intent
         intent.putExtra(EXTRA_MESSAGE, message);
         // start the activity
