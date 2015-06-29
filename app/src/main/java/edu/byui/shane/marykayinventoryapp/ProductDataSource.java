@@ -15,7 +15,6 @@ import java.util.Hashtable;
  * Cleanly interfaces with the underlying database that stores everything
  */
 public class ProductDataSource {
-    private static final String TAG_DATA_SOURCE = "ProductDataSource";
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
@@ -44,7 +43,7 @@ public class ProductDataSource {
     @Nullable
     private ContentValues packValues(ProductEntry item) {
         if (item == null) {
-            Log.wtf(TAG_DATA_SOURCE, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
+            Log.wtf(MainActivity.TAG_FOR_APP, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
             return null;
         }
         ProductInfo info = item.getInfo();
