@@ -47,7 +47,6 @@ public class ReorderProductActivity extends ActionBarActivity {
     }
 
     public void cancel(View view) {
-            Intent switcheroo = new Intent(this, MainActivity.class);
-            startActivity(switcheroo);
+        finish();
     }
 }
