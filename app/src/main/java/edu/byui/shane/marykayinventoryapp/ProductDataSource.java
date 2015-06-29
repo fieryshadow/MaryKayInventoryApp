@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.Hashtable;
@@ -14,7 +15,6 @@ import java.util.Hashtable;
  * Cleanly interfaces with the underlying database that stores everything
  */
 public class ProductDataSource {
-    private static final String TAG_DATA_SOURCE = "ProductDataSource";
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
@@ -40,9 +40,10 @@ public class ProductDataSource {
         return new ProductEntry(product, cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
     }
 
+    @Nullable
     private ContentValues packValues(ProductEntry item) {
         if (item == null) {
-            Log.wtf(TAG_DATA_SOURCE, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
+            Log.wtf(MainActivity.TAG_FOR_APP, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
             return null;
         }
         ProductInfo info = item.getInfo();
@@ -60,9 +61,6 @@ public class ProductDataSource {
     }
 
     public void storeProduct(ProductEntry item) {
-        if (item == null) {
-            return;
-        }
         open();
         ContentValues values = packValues(item);
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,

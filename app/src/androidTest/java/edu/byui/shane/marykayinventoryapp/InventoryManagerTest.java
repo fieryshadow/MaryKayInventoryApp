@@ -13,13 +13,13 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testCheckIn() { // Greg
         // check to see if the product was correctly added to the list of products
         // add a new item to the list
-        InventoryManager m = new InventoryManager();
+        InventoryManager m = InventoryManager.getInstance();
         //check to make sure the Listing is at 0 on a new created object of InventoryManager
         assertEquals(0, m.getProductInfo("12345").getNumberInStock());
 
         // Check in a new item
         m.checkInItem("12345");
-        // set size to number of instock items
+        // set size to number of in stock items
         int size = m.getProductInfo("12345").getNumberInStock();
         // check in a new item
         m.checkInItem("12345");
@@ -29,7 +29,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
 
     public void testCheckOut() { // Greg
         // check to see if the product was correctly removed from the list of products.
-        InventoryManager m = new InventoryManager();
+        InventoryManager m = InventoryManager.getInstance();
         // check to make sure the listing is empty
         assertEquals(0, m.getProductInfo("12345").getNumberInStock());
         // add a couple of items to the list
@@ -55,10 +55,10 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     }
 
     public void testAddProduct() { // Shane
-        InventoryManager inventoryManager = new InventoryManager();
+        InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.addProduct("1234", "Eye Shadow", "liquid", "Orange", 12.34f, "A", 3);
-        Product product = new Product("1234", "Eye Shadow", "bestStuff", "Orange", "A", 12.34f);
+        inventoryManager.addProduct("1234123", "Eye Shadow", "liquid", "Orange", 12.34f, "A", 3);
+        Product product = new Product("1234123", "Eye Shadow", "bestStuff", "Orange", "A", 12.34f);
         ProductInfo info = inventoryManager.getProductInfo("1234");
         assertEquals(product.getId(), info.getId());
         assertEquals(product.getGroup(), info.getGroup());
@@ -68,7 +68,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     }
 
     public void testRemoveProduct() { // Shane
-        InventoryManager inventoryManager = new InventoryManager();
+        InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
         inventoryManager.addProduct("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, "A", 2);
         inventoryManager.removeProduct("1234");

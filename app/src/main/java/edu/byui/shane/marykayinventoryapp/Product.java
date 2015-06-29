@@ -33,7 +33,7 @@ public class Product {
     public void setGroup(String group) {
         this.group = group;
         //Team Activity Information log - Ryan
-        Log.i("Product setGroup()", "Group was set sucessfully.");
+        Log.i(MainActivity.TAG_FOR_APP, "Group was set sucessfully.");
     }
 
     public String getName() {
@@ -43,7 +43,7 @@ public class Product {
     public void setName(String name) {
         //Team Activity Error log - Ryan
         if(name.equals("")) {
-            Log.e("Product setName()", "Error: product must have a name!");
+            Log.e(MainActivity.TAG_FOR_APP, "Error: product must have a name!");
         }
         this.name = name;
     }
@@ -65,14 +65,14 @@ public class Product {
     }
 
     public float getCost() {
-        //Team Activity Information log - Ryan
-        if(this.getCost() >= 0) {
-            Log.i("Valid product cost", "The cost is within valid range.");
-        }
         return cost;
     }
 
     public void setCost(float cost) {
+        //Team Activity Information log - Ryan
+        if(cost >= 0) {
+            Log.i(MainActivity.TAG_FOR_APP, "The cost is within valid range.");
+        }
         this.cost = cost;
     }
 }

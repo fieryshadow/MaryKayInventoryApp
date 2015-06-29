@@ -14,15 +14,12 @@ import java.util.Scanner;
 
 
 public class UpdateInventoryActivity extends ActionBarActivity {
-    public final static String TAG_UPDATE_INVENTORY_ACTIVITY = "UpdateInventoryActivity";
     public final static String EXTRA_MESSAGE = "Product Number: ";
     private boolean removeProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_inventory);
-        EditText t;
-        t = (EditText)findViewById(R.id.ProductNumber);
     }
 
     @Override
@@ -60,7 +57,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
 
 
     public void updateProduct(View view) {
-        Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, "Button Clicked");
+        Log.i(MainActivity.TAG_FOR_APP, "Button Clicked");
         //create intent
 
         Button button = (Button) findViewById(R.id.ScanIn);
@@ -71,14 +68,14 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
         if (Product.getText().toString().equals("")){
-            Log.e(TAG_UPDATE_INVENTORY_ACTIVITY, "Empty String being passed");
+            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed");
         }
 
 
         // create message to send
         String message = Product.getText().toString();
         // test print of the full message to be sent
-        Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, EXTRA_MESSAGE + message);
+        Log.i(MainActivity.TAG_FOR_APP, EXTRA_MESSAGE + message);
         // add info from edit text box to the intent
         intent.putExtra(EXTRA_MESSAGE, message);
         intent.putExtra("removeProduct", removeProduct);

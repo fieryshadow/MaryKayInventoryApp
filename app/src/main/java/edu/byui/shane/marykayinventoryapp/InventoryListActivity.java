@@ -118,7 +118,7 @@ public class InventoryListActivity extends ActionBarActivity {
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
             List<ProductInfo> list = InventoryManager.getInstance().getListing();
-            ArrayAdapter<ProductInfo> products = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
+            ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
             listView.setAdapter(products);
 
             return view;
@@ -147,7 +147,7 @@ public class InventoryListActivity extends ActionBarActivity {
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
             List<ProductInfo> list = InventoryManager.getInstance().getWebsiteListing();
-            ArrayAdapter<ProductInfo> products = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
+            ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
             listView.setAdapter(products);
 
             return view;
