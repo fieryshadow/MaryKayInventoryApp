@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -46,8 +48,22 @@ public class UpdateProductListActivity extends ActionBarActivity {
     }
 
 
-    public void submit() {
+    public void submit(View view) {
 
+
+        EditText category = (EditText) findViewById(R.id.ProductCategory);
+        EditText name = (EditText) findViewById(R.id.ProductName);
+        EditText section = (EditText) findViewById(R.id.ProductSection);
+        EditText color = (EditText) findViewById(R.id.color);
+        EditText numProduct = (EditText) findViewById(R.id.NumberofProduct);
+        EditText cost = (EditText) findViewById(R.id.ProductCost);
+        TextView ID = (TextView) findViewById(R.id.ProductNumber);
+        InventoryManager inventoryManager = InventoryManager.getInstance();
+        for (int i = 0; i <= numProduct.getAlpha(); ++i){
+            inventoryManager.addProduct(ID.toString(), category.toString(), name.toString(), color.toString(), cost.getAlpha(), section.toString(), (int) numProduct.getAlpha());
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void getBarcode() {

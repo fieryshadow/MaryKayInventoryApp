@@ -57,8 +57,8 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testAddProduct() { // Shane
         InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.addProduct("1234", "Eye Shadow", "bestStuff", "B", "Orange", 12.34f);
-        Product product = new Product("1234", "Eye Shadow", "bestStuff", "B", "Orange", 12.34f);
+        inventoryManager.addProduct("1234", "Eye Shadow", "liquid", "Orange", 12.34f, "A", 3);
+        Product product = new Product("1234", "Eye Shadow", "bestStuff", "Orange", "A", 12.34f);
         ProductInfo info = inventoryManager.getProductInfo("1234");
         assertEquals(product.getId(), info.getId());
         assertEquals(product.getGroup(), info.getGroup());
@@ -70,7 +70,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testRemoveProduct() { // Shane
         InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.addProduct("1234", "Eye Shadow", "bestStuff", "A", "Orange", 12.34f);
+        inventoryManager.addProduct("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, "A", 2);
         inventoryManager.removeProduct("1234");
         assertEquals(inventoryManager.getProductInfo("1234"), null);
     }

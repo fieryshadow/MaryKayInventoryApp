@@ -5,6 +5,8 @@ package edu.byui.shane.marykayinventoryapp;
  */
 public class ProductEntry {
     private Product product;
+
+
     private int numberInStock, numberOnOrder, highestNumberInInventory;
 
     public ProductEntry(Product product, int numberInStock, int numberOnOrder, int highestNumberInInventory) {
@@ -57,19 +59,17 @@ public class ProductEntry {
                 calculateInventoryValue(), calculateTotalWorth());
     }
 
-    public Product getProduct() {
-        return product;
-    }
+    public Product getProduct() {return product;}
 
-    public int getHighestNumberInInventory() {
-        return highestNumberInInventory;
-    }
+    public int getHighestNumberInInventory() {return highestNumberInInventory;}
 
-    public int getNumberOnOrder() {
-        return numberOnOrder;
-    }
+    public int getNumberOnOrder() {return numberOnOrder;}
 
-    public int getNumberInStock() {
-        return numberInStock;
-    }
+    public int getNumberInStock() {return numberInStock;}
+
+    public void setNumberInStock(int numberInStock) {this.numberInStock = numberInStock;}
+
+    public void setNumberOnOrder(int numberOnOrder) {this.numberOnOrder = numberOnOrder;}
+
+    public void setHighestNumberInInventory(int highestNumberInInventory) {this.highestNumberInInventory = highestNumberInInventory;}
 }

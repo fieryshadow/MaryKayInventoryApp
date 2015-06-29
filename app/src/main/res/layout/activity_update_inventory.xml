@@ -11,19 +11,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:hint="Product Number"
-        android:inputType="number"
+        android:hint="@string/ProductNumber"
+        android:inputType="numberSigned"
         android:singleLine="true"
-        android:textSize="40dp"
-        android:editable="true" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/ScanIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:text="Add Product"
+        android:text="@string/AddProduct"
         android:onClick="updateProduct"/>
 
     <Button
@@ -31,8 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:id="@+id/ScanOut"
-        android:text="Remove Product"
+        android:text="@string/RemoveProduct"
         android:onClick="updateProduct"/>
 
 </RelativeLayout>
