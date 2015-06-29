@@ -3,22 +3,25 @@ package edu.byui.shane.marykayinventoryapp;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class UpdateProductListActivity extends ActionBarActivity {
-
+    private boolean removeProduct;
+    public static final String TAG_UPDATE = "TAG_UPDATE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_product_list);
         Intent intent = getIntent();
         String message = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
-
+        removeProduct = intent.getBooleanExtra("removeProduct", false);
         TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
         ProductID.setTextSize(20);
         ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + message);
@@ -48,8 +51,12 @@ public class UpdateProductListActivity extends ActionBarActivity {
     }
 
 
+    /**
+     * @param view
+     * Submit takes all the parameters from the edit text boxes in the Activity Update Product List page.
+     * and decides whether to add or remove the product based on what button was pushed in the previous activity.
+     */
     public void submit(View view) {
-
 
         EditText category = (EditText) findViewById(R.id.ProductCategory);
         EditText name = (EditText) findViewById(R.id.ProductName);
@@ -59,14 +66,21 @@ public class UpdateProductListActivity extends ActionBarActivity {
         EditText cost = (EditText) findViewById(R.id.ProductCost);
         TextView ID = (TextView) findViewById(R.id.ProductNumber);
         InventoryManager inventoryManager = InventoryManager.getInstance();
-        for (int i = 0; i <= numProduct.getAlpha(); ++i){
+        Log.i(TAG_UPDATE, "start loop through number of Products");
+
+        Log.i(TAG_UPDATE, "remove Product = " + removeProduct);
+        if (!removeProduct) {
+            Log.i(TAG_UPDATE, "adding Product");
             inventoryManager.addProduct(ID.toString(), category.toString(), name.toString(), color.toString(), cost.getAlpha(), section.toString(), (int) numProduct.getAlpha());
+            Log.i(TAG_UPDATE, "finished adding Product");
         }
+        else {
+            inventoryManager.removeProduct(ID.toString(), category.toString(), name.toString(), color.toString(), cost.getAlpha(), section.toString(), (int) numProduct.getAlpha());
+        }
+
+
+        Log.i(TAG_UPDATE, "exited loop through number of products");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    public void getBarcode() {
-
     }
 }

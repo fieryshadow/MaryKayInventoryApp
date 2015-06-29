@@ -46,7 +46,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ProductSection"
+        android:inputType="number"
         android:hint="How much Product" />
+
     <EditText
         android:id="@+id/ProductCost"
         android:layout_width="fill_parent"
@@ -60,5 +62,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Submit"/>
+        android:text="Submit"
+        android:onClick="submit"/>
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 public class UpdateInventoryActivity extends ActionBarActivity {
     public final static String TAG_UPDATE_INVENTORY_ACTIVITY = "UpdateInventoryActivity";
     public final static String EXTRA_MESSAGE = "Product Number: ";
-
+    private boolean removeProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,11 @@ public class UpdateInventoryActivity extends ActionBarActivity {
     public void updateProduct(View view) {
         Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, "Button Clicked");
         //create intent
+
+        Button button = (Button) findViewById(R.id.ScanIn);
+        if (button.isActivated()){
+            removeProduct = false;
+        }
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
@@ -68,13 +74,26 @@ public class UpdateInventoryActivity extends ActionBarActivity {
             Log.e(TAG_UPDATE_INVENTORY_ACTIVITY, "Empty String being passed");
         }
 
+
         // create message to send
         String message = Product.getText().toString();
         // test print of the full message to be sent
         Log.i(TAG_UPDATE_INVENTORY_ACTIVITY, EXTRA_MESSAGE + message);
         // add info from edit text box to the intent
         intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra("removeProduct", removeProduct);
         // start the activity
+        startActivity(intent);
+    }
+    public void removeProduct(View view) {
+        Button button = (Button) findViewById(R.id.ScanOut);
+        if (button.isActivated()){
+            removeProduct = true;
+        }
+        Intent intent = new Intent(this, UpdateProductListActivity.class);
+
+        intent.putExtra("removeProduct", removeProduct);
+
         startActivity(intent);
     }
 }
