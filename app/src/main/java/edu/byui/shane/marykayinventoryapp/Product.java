@@ -65,14 +65,14 @@ public class Product {
     }
 
     public float getCost() {
-        //Team Activity Information log - Ryan
-        if(this.getCost() >= 0) {
-            Log.i("Valid product cost", "The cost is within valid range.");
-        }
         return cost;
     }
 
     public void setCost(float cost) {
+        //Team Activity Information log - Ryan
+        if(cost >= 0) {
+            Log.i("Valid product cost", "The cost is within valid range.");
+        }
         this.cost = cost;
     }
 }

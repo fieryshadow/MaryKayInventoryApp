@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/anchor"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffa17c71"
+        android:adjustViewBounds="false"
+        android:elevation="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Category"
+        android:id="@+id/categoryView"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Name"
+        android:id="@+id/nameView"
+        android:layout_below="@+id/categoryView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignRight="@+id/categoryView"
+        android:layout_alignEnd="@+id/categoryView"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Amount"
+        android:id="@+id/amountView"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toLeftOf="@+id/anchor"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Worth"
+        android:id="@+id/worthView"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/anchor"
+        android:layout_toEndOf="@+id/anchor"
+        android:layout_alignRight="@+id/nameView"
+        android:layout_alignEnd="@+id/nameView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Price"
+        android:id="@+id/priceView"
+        android:layout_above="@+id/amountView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_alignRight="@+id/amountView"
+        android:layout_alignEnd="@+id/amountView"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Color"
+        android:id="@+id/colorView"
+        android:layout_above="@+id/worthView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/anchor"
+        android:layout_toEndOf="@+id/anchor" />
+</RelativeLayout>

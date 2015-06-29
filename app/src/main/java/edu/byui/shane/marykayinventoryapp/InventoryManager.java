@@ -17,7 +17,7 @@ public class InventoryManager {
     private static final InventoryManager manager = new InventoryManager();
     public static InventoryManager getInstance() { return manager; } // singleton for use in app
 
-    public InventoryManager() {
+    private InventoryManager() {
         inventory = new Hashtable<>();
 
         // testing values
@@ -70,7 +70,7 @@ public class InventoryManager {
 
     }
 
-    public void addProduct(String barcode, String group, String name, String color, float cost) {
+    public void addProduct(String barcode, String group, String name, String section, String color, float cost) {
 
     }
 
