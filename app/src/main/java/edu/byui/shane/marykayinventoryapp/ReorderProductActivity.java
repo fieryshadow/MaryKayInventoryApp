@@ -1,9 +1,11 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ReorderProductActivity extends ActionBarActivity {
@@ -38,10 +40,14 @@ public class ReorderProductActivity extends ActionBarActivity {
 
 
     public void submit() {
-
+        Product eyeshadow = new Product("123456", "Makeup", "EyeShadow", "Section1", "Blue/Black", (float) 10.99);
+        ProductEntry entry1 = new ProductEntry(eyeshadow, 3, 0, 6);
+        Product lipstick = new Product("3456", "Makeup", "LipStick", "Section2", "Red", (float) 8.99);
+        ProductEntry entry2 = new ProductEntry(lipstick, 2, 0, 8);
     }
 
-    public void cancel() {
-
+    public void cancel(View view) {
+            Intent switcheroo = new Intent(this, MainActivity.class);
+            startActivity(switcheroo);
     }
 }
