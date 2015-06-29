@@ -12,12 +12,17 @@ import java.util.Hashtable;
 
 
 public class MainActivity extends ActionBarActivity {
+    public static String TAG_FOR_APP = "MaryKayStuffAndThings";
     private Hashtable<String, ProductEntry> inventory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("MainActivity", "Startup of App successful");
+        Log.i(TAG_FOR_APP, "Startup of App successful");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.v(TAG_FOR_APP, "Starting to read database...");
+        InventoryManager.getInstance().readFromDatabase();
+        Log.i(TAG_FOR_APP, "Finished reading database.");
         // Comments are fun!!
         // No they're not.
     }
