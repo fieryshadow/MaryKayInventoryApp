@@ -23,8 +23,7 @@ public class MainActivity extends ActionBarActivity {
         Log.v(TAG_FOR_APP, "Starting to read database...");
         InventoryManager.getInstance().readFromDatabase();
         Log.i(TAG_FOR_APP, "Finished reading database.");
-        // Comments are fun!!
-        // No they're not.
+
     }
 
     @Override
@@ -49,22 +48,37 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * This function will take the user from the home page to the Update Product List Activity when the user clicks on the button.
+     * @param view
+     */
     public void switchToUpdateProductList(View view) {
         Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
         startActivity(switcheroo);
     }
 
+    /**
+     * This function will take the user from the home page to the Update Inventory Activity when the user clicks on the button.
+     * @param view
+     */
     public void switchToUpdateInventory(View view) {
         Intent switcheroo = new Intent(this, UpdateInventoryActivity.class);
         startActivity(switcheroo);
     }
 
+    /**
+     * This function will take the user from the home page to the Inventory List Activity when the user clicks on the button.
+     * @param view
+     */
     public void switchToInventoryList(View view) {
         Intent switcheroo = new Intent(this, InventoryListActivity.class);
         startActivity(switcheroo);
     }
 
+    /**
+     * This function will take the user from the home page to the Reorder Product Activity when the user clicks on the button.
+     * @param view
+     */
     public void switchToReorderProduct(View view) {
         Intent switcheroo = new Intent(this, ReorderProductActivity.class);
         startActivity(switcheroo);

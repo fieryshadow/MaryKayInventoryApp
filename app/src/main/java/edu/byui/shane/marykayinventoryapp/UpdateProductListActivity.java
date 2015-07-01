@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/**
+ * The Update Product List Activity allows the user to edit the items that will be available in the database.
+ */
 public class UpdateProductListActivity extends ActionBarActivity {
     private boolean removeProduct;
     public static final String TAG_UPDATE = "TAG_UPDATE";

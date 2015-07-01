@@ -12,7 +12,9 @@ import android.widget.EditText;
 
 import java.util.Scanner;
 
-
+/**
+ * The Update Inventory Activity allows the user to edit the items in the inventory.
+ */
 public class UpdateInventoryActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "Product Number: ";
     private boolean removeProduct;
