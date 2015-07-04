@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * The Update Product List Activity allows the user to edit the items that will be available in the database.
+ * UpdateProductListActivity will either remove a product, add a product, or simply update information about the product.
  */
 public class UpdateProductListActivity extends ActionBarActivity {
     private boolean removeProduct;
@@ -77,7 +77,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
             Log.i(TAG_UPDATE, "finished adding Product");
         }
         else {
-            inventoryManager.removeProduct(ID.toString(), category.toString(), name.toString(), color.toString(), cost.getAlpha(), section.toString(), (int) numProduct.getAlpha());
+            inventoryManager.removeProduct(ID.toString() + section.toString());
         }
 
 

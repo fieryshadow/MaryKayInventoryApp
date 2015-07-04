@@ -20,17 +20,6 @@ public class InventoryManager {
     public InventoryManager() {
         inventory = new Hashtable<>();
 
-    /*    // testing values
-        inventory.put("1234", new ProductEntry(new Product("1234", "foundation", "liquid", "A", "peach", 12.34f), 0, 0, 0));
-        inventory.put("5678", new ProductEntry(new Product("5678", "foundation", "liquid", "A", "dark", 34.34f), 4, 5, 6));
-        inventory.put("2345", new ProductEntry(new Product("2435", "eyeliner", "lash enhancing", "B", "deep black", 56.34f), 7, 8, 9));
-        inventory.put("3456", new ProductEntry(new Product("3456", "lipstick", "liquid", "A", "bright red", 78.34f), 0, 0, 0));
-        inventory.put("6789", new ProductEntry(new Product("6789", "lipstick", "twist up", "A", "natural", 96.57f), 3, 5, 7));
-        inventory.put("0987", new ProductEntry(new Product("0987", "foundation", "liquid", "A", "green", 12.34f), 0, 0, 0));
-        inventory.put("9876", new ProductEntry(new Product("9876", "foundation", "liquid", "A", "light", 34.34f), 4, 5, 6));
-        inventory.put("8765", new ProductEntry(new Product("8765", "eyeliner", "lash enhancing", "B", "pale sparkles", 56.34f), 7, 8, 9));
-        inventory.put("7654", new ProductEntry(new Product("7654", "lipstick", "liquid", "A", "leafy", 78.34f), 0, 0, 0));
-        inventory.put("6543", new ProductEntry(new Product("6543", "blush", "gnarly", "B", "soft", 96.57f), 3, 5, 7));*/
     }
 
     public List<ProductInfo> getListing() {
@@ -53,14 +42,6 @@ public class InventoryManager {
         return listing;
     }
 
-    public void checkInItem(String barcode) { // make return boolean of whether it's successful?
-
-
-    }
-
-    public void checkOutItem(String barcode) {
-
-    }
 
     public void orderItem(String barcode, int amount) {
 
@@ -70,18 +51,30 @@ public class InventoryManager {
 
     }
 
-    public void addProduct(String barcode, String category, String name, String color, float cost, String section, int numOfProduct) {
+    /**
+     * addProduct will take all the info for a product and put it into the inventory list based on
+     * a product key.
+     * @author GREGORY HARSTON
+     * @param productNumber  The id on the product
+     * @param category Category of the product
+     * @param name Name of the product
+     * @param color Color of the product
+     * @param cost Total retail price of the product
+     * @param section Sales Inventory or Sample Inventory
+     * @param numOfProduct Total number of products being added
+     */
+    public void addProduct(String productNumber, String category, String name, String color, float cost, String section, int numOfProduct) {
         // for every product in the inventory list that matches the product id and section, add number of in stock by number of products being added
         for (ProductEntry entry : inventory.values()){
-            // if the barcode and section match then just adjust number in Stock
-            if(entry.getProduct().getId().equals(barcode) && entry.getProduct().getSection().equals(section)){
+            // if the productNumber and section match then just adjust number in Stock
+            if(entry.getProduct().getId().equals(productNumber) && entry.getProduct().getSection().equals(section)){
                 Log.i(TAG_INVENTORY_MANAGER, "adding " + numOfProduct + " to " + entry.getInfo().getId());
                 entry.setNumberInStock(entry.getNumberInStock()+numOfProduct);
             }
             // if it doesn't match both section and Product number then add a new product Entry to the inventory list
             else {
                 Log.i(TAG_INVENTORY_MANAGER, "Adding a new product");
-                inventory.put(barcode, new ProductEntry(new Product(barcode, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
+                inventory.put(createProductKey(productNumber, section), new ProductEntry(new Product(productNumber, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
                 Log.i(TAG_INVENTORY_MANAGER, "Done adding new Product");
             }
             Log.i(TAG_INVENTORY_MANAGER, "loop");
@@ -91,28 +84,54 @@ public class InventoryManager {
 
     }
 
-    public void removeProduct(String barcode, String category, String name, String color, float cost, String section, int numOfProduct) {
-
+    /**
+     * Removes the product from the inventory list based off of the productKey
+     * @author GREGORY HARSTON
+     * @param productKey
+     */
+    public void removeProduct(String productKey) {
+        inventory.remove(productKey);
     }
 
-    public ProductInfo getProductInfo(String barcode) {
-        ProductEntry productEntry = inventory.get(barcode);
+    /**
+     * createProductKey will concat the sectioin onto the product number to give each key a unique
+     * number.
+     * @author GREGORY HARSTON
+     * @param productNumber
+     * @param section
+     * @return
+     */
+    private String createProductKey(String productNumber, String section) {
+        return productNumber + section;
+    }
+
+    /**
+     * Each product has a unique key that will return all the information associated with that
+     * product
+     * @param productKey
+     * @return
+     */
+    public ProductInfo getProductInfo(String productKey) {
+        ProductEntry productEntry = inventory.get(productKey);
         if (productEntry == null) {
             return null;
         }
         return productEntry.getInfo();
     }
 
+    /**
+     * create the local inventory list from the database that has the inventory list stored.
+     */
     public void readFromDatabase() {
-        inventory.put("1234", new ProductEntry(new Product("1234", "foundation", "liquid", "A", "peach", 12.34f), 0, 0, 0));
-        inventory.put("5678", new ProductEntry(new Product("5678", "foundation", "liquid", "A", "dark", 34.34f), 4, 5, 6));
-        inventory.put("2345", new ProductEntry(new Product("2435", "eyeliner", "lash enhancing", "B", "deep black", 56.34f), 7, 8, 9));
-        inventory.put("3456", new ProductEntry(new Product("3456", "lipstick", "liquid", "A", "bright red", 78.34f), 0, 0, 0));
-        inventory.put("6789", new ProductEntry(new Product("6789", "lipstick", "twist up", "A", "natural", 96.57f), 3, 5, 7));
-        inventory.put("0987", new ProductEntry(new Product("0987", "foundation", "liquid", "A", "green", 12.34f), 0, 0, 0));
-        inventory.put("9876", new ProductEntry(new Product("9876", "foundation", "liquid", "A", "light", 34.34f), 4, 5, 6));
-        inventory.put("8765", new ProductEntry(new Product("8765", "eyeliner", "lash enhancing", "B", "pale sparkles", 56.34f), 7, 8, 9));
-        inventory.put("7654", new ProductEntry(new Product("7654", "lipstick", "liquid", "A", "leafy", 78.34f), 0, 0, 0));
-        inventory.put("6543", new ProductEntry(new Product("6543", "blush", "gnarly", "B", "soft", 96.57f), 3, 5, 7));
+        inventory.put(createProductKey("1234", "A"), new ProductEntry(new Product("1234", "foundation", "liquid", "A", "peach", 12.34f), 0, 0, 0));
+        inventory.put(createProductKey("5678", "A"), new ProductEntry(new Product("5678", "foundation", "liquid", "A", "dark", 34.34f), 4, 5, 6));
+        inventory.put(createProductKey("2345", "B"), new ProductEntry(new Product("2435", "eyeliner", "lash enhancing", "B", "deep black", 56.34f), 7, 8, 9));
+        inventory.put(createProductKey("3456", "A"), new ProductEntry(new Product("3456", "lipstick", "liquid", "A", "bright red", 78.34f), 0, 0, 0));
+        inventory.put(createProductKey("6789", "A"), new ProductEntry(new Product("6789", "lipstick", "twist up", "A", "natural", 96.57f), 3, 5, 7));
+        inventory.put(createProductKey("0987", "A"), new ProductEntry(new Product("0987", "foundation", "liquid", "A", "green", 12.34f), 0, 0, 0));
+        inventory.put(createProductKey("9876", "A"), new ProductEntry(new Product("9876", "foundation", "liquid", "A", "light", 34.34f), 4, 5, 6));
+        inventory.put(createProductKey("8765", "B"), new ProductEntry(new Product("8765", "eyeliner", "lash enhancing", "B", "pale sparkles", 56.34f), 7, 8, 9));
+        inventory.put(createProductKey("7654", "A"), new ProductEntry(new Product("7654", "lipstick", "liquid", "A", "leafy", 78.34f), 0, 0, 0));
+        inventory.put(createProductKey("6543", "B"), new ProductEntry(new Product("6543", "blush", "gnarly", "B", "soft", 96.57f), 3, 5, 7));
     }
 }
