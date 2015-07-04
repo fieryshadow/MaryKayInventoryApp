@@ -15,6 +15,15 @@
         android:inputType="numberSigned"
         android:singleLine="true"
         android:textSize="30sp" />
+    <EditText
+        android:id="@+id/ProductSection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ProductNumber"
+        android:hint="@string/ProductSection"
+        android:inputType="textCapCharacters"
+        android:singleLine="true"
+        android:textSize="30sp"/>
 
     <Button
         android:id="@+id/ScanIn"

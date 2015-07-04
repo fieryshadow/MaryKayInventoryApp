@@ -90,7 +90,12 @@ public class UpdateInventoryActivity extends ActionBarActivity {
             removeProduct = true;
         }
         Intent intent = new Intent(this, UpdateProductListActivity.class);
-
+        EditText product = (EditText) findViewById(R.id.ProductNumber);
+        if (product.getText().toString().equals("")) {
+            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed");
+        }
+        String message = product.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
         intent.putExtra("removeProduct", removeProduct);
 
         startActivity(intent);

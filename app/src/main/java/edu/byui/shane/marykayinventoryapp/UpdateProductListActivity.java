@@ -27,7 +27,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
         TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
         ProductID.setTextSize(20);
         ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + message);
-
+        InventoryManager inventoryManager = InventoryManager.getInstance();
     }
 
     @Override

@@ -12,6 +12,11 @@ import java.util.List;
  */
 public class InventoryManager {
     private static final String TAG_INVENTORY_MANAGER = "InventoryManager";
+
+    public Hashtable<String, ProductEntry> getInventory() {
+        return inventory;
+    }
+
     private Hashtable<String, ProductEntry> inventory; // barcode: ProductEntry
 
     private static final InventoryManager manager = new InventoryManager();
@@ -65,22 +70,17 @@ public class InventoryManager {
      */
     public void addProduct(String productNumber, String category, String name, String color, float cost, String section, int numOfProduct) {
         // for every product in the inventory list that matches the product id and section, add number of in stock by number of products being added
-        for (ProductEntry entry : inventory.values()){
-            // if the productNumber and section match then just adjust number in Stock
-            if(entry.getProduct().getId().equals(productNumber) && entry.getProduct().getSection().equals(section)){
-                Log.i(TAG_INVENTORY_MANAGER, "adding " + numOfProduct + " to " + entry.getInfo().getId());
-                entry.setNumberInStock(entry.getNumberInStock()+numOfProduct);
-            }
-            // if it doesn't match both section and Product number then add a new product Entry to the inventory list
-            else {
-                Log.i(TAG_INVENTORY_MANAGER, "Adding a new product");
-                inventory.put(createProductKey(productNumber, section), new ProductEntry(new Product(productNumber, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
-                Log.i(TAG_INVENTORY_MANAGER, "Done adding new Product");
-            }
-            Log.i(TAG_INVENTORY_MANAGER, "loop");
+        String productKey = createProductKey(productNumber, section);
+        if (inventory.containsKey(productKey)) {
+            Log.i(TAG_INVENTORY_MANAGER, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId());
+            inventory.get(productKey).setNumberInStock(inventory.get(productKey).getNumberInStock() + numOfProduct);
+            Log.i(TAG_INVENTORY_MANAGER, "total in stock = " + inventory.get(productKey).getNumberInStock()+numOfProduct);
         }
-        Log.v(MainActivity.TAG_FOR_APP, "added " + numOfProduct + " products to the inventory");
-        Log.i(TAG_INVENTORY_MANAGER, "added " + numOfProduct + " products to the inventory");
+        else {
+            Log.i(TAG_INVENTORY_MANAGER, "Adding a new product");
+            inventory.put(createProductKey(productNumber, section), new ProductEntry(new Product(productNumber, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
+            Log.i(TAG_INVENTORY_MANAGER, "Done adding new Product");
+        }
 
     }
 

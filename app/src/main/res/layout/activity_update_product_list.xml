@@ -18,28 +18,32 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ProductNumber"
-        android:hint="Product Category"/>
+        android:hint="Product Category"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/ProductName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ProductCategory"
-        android:hint="Product Name"/>
+        android:hint="Product Name"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/ProductSection"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/color"
-        android:hint="Product Section" />
+        android:hint="Product Section"
+        android:inputType="textCapCharacters"/>
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/color"
         android:hint="Product Color"
-        android:layout_below="@+id/ProductName"/>
+        android:layout_below="@+id/ProductName"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/NumberofProduct"
@@ -54,7 +58,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/NumberofProduct"
-        android:hint="Price of Product"/>
+        android:hint="Price of Product"
+        android:inputType="numberDecimal"/>
 
 
     <Button
