@@ -73,7 +73,9 @@ public class UpdateProductListActivity extends ActionBarActivity {
         Log.i(TAG_UPDATE, "remove Product = " + removeProduct);
         if (!removeProduct) {
             Log.i(TAG_UPDATE, "adding Product");
-            inventoryManager.addProduct(ID.toString(), category.toString(), name.toString(), color.toString(), cost.getAlpha(), section.toString(), (int) numProduct.getAlpha());
+            inventoryManager.addProduct(ID.getText().toString(), category.getText().toString(), name.getText().toString(),
+                                        color.getText().toString(), cost.getAlpha(), section.getText().toString(), (int) numProduct.getAlpha());
+
             Log.i(TAG_UPDATE, "finished adding Product");
         }
         else {

@@ -25,7 +25,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Scan Product"
+        android:text="Update Product"
         android:id="@+id/scanProductButton"
         android:onClick="switchToUpdateInventory"
         android:layout_above="@+id/anchor"
