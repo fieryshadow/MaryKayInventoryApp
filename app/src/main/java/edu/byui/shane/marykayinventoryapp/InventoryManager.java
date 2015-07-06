@@ -11,20 +11,13 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
-    private static final String TAG_INVENTORY_MANAGER = "InventoryManager";
-
-    public Hashtable<String, ProductEntry> getInventory() {
-        return inventory;
-    }
-
     private Hashtable<String, ProductEntry> inventory; // barcode: ProductEntry
 
     private static final InventoryManager manager = new InventoryManager();
     public static InventoryManager getInstance() { return manager; } // singleton for use in app
 
-    public InventoryManager() {
+    private InventoryManager() {
         inventory = new Hashtable<>();
-
     }
 
     public List<ProductInfo> getListing() {
@@ -47,6 +40,9 @@ public class InventoryManager {
         return listing;
     }
 
+    public void checkInItem(String barcode) { // make return boolean of whether it's successful?
+
+    }
 
     public void orderItem(String barcode, int amount) {
 
@@ -59,7 +55,6 @@ public class InventoryManager {
     /**
      * addProduct will take all the info for a product and put it into the inventory list based on
      * a product key.
-     * @author GREGORY HARSTON
      * @param productNumber  The id on the product
      * @param category Category of the product
      * @param name Name of the product
@@ -72,22 +67,21 @@ public class InventoryManager {
         // for every product in the inventory list that matches the product id and section, add number of in stock by number of products being added
         String productKey = createProductKey(productNumber, section);
         if (inventory.containsKey(productKey)) {
-            Log.i(TAG_INVENTORY_MANAGER, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId());
+            Log.i(MainActivity.TAG_FOR_APP, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId());
             inventory.get(productKey).setNumberInStock(inventory.get(productKey).getNumberInStock() + numOfProduct);
-            Log.i(TAG_INVENTORY_MANAGER, "total in stock = " + inventory.get(productKey).getNumberInStock()+numOfProduct);
+            Log.i(MainActivity.TAG_FOR_APP, "total in stock = " + inventory.get(productKey).getNumberInStock()+numOfProduct);
         }
         else {
-            Log.i(TAG_INVENTORY_MANAGER, "Adding a new product");
+            Log.i(MainActivity.TAG_FOR_APP, "Adding a new product");
             inventory.put(createProductKey(productNumber, section), new ProductEntry(new Product(productNumber, category, name, section, color, cost), numOfProduct, 0, numOfProduct));
-            Log.i(TAG_INVENTORY_MANAGER, "Done adding new Product");
+            Log.i(MainActivity.TAG_FOR_APP, "Done adding new Product");
         }
 
     }
 
     /**
      * Removes the product from the inventory list based off of the productKey
-     * @author GREGORY HARSTON
-     * @param productKey
+     * @param productKey The product identifier
      */
     public void removeProduct(String productKey) {
         inventory.remove(productKey);
@@ -96,10 +90,9 @@ public class InventoryManager {
     /**
      * createProductKey will concat the sectioin onto the product number to give each key a unique
      * number.
-     * @author GREGORY HARSTON
-     * @param productNumber
-     * @param section
-     * @return
+     * @param productNumber How many of the product are you adding?
+     * @param section Is it a sample product or actual retail
+     * @return Returns a unique identifier taking into account the product section
      */
     private String createProductKey(String productNumber, String section) {
         return productNumber + section;
@@ -108,8 +101,8 @@ public class InventoryManager {
     /**
      * Each product has a unique key that will return all the information associated with that
      * product
-     * @param productKey
-     * @return
+     * @param productKey The product identifier
+     * @return Returns product info gathered into one object
      */
     public ProductInfo getProductInfo(String productKey) {
         ProductEntry productEntry = inventory.get(productKey);

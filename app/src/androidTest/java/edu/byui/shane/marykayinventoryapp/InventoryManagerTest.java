@@ -40,7 +40,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         int size = m.getProductInfo("12345").getNumberInStock();
 
         // remove 1 item from the list
-        m.checkOutItem("12345");
+        m.removeProduct("12345");
 
         // check to see if the number of items in the list is 1 less than before.
         assertEquals(size - 1, m.getListing().size());
