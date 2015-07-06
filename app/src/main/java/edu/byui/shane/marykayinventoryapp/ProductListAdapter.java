@@ -45,11 +45,11 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         ProductInfo info = data.get(position);
         //((ImageView) row.findViewById(R.id.imageView)).setImageResource(info.getImage());
         ((TextView) row.findViewById(R.id.categoryView)).setText(info.getGroup());
-        ((TextView) row.findViewById(R.id.nameView)).setText(info.getName());
-        ((TextView) row.findViewById(R.id.priceView)).setText(Float.toString(info.getCost()));
+        ((TextView) row.findViewById(R.id.nameView)).setText(" - " + info.getName());
+        ((TextView) row.findViewById(R.id.priceView)).setText("Price: $" + Float.toString(info.getCost()));
         ((TextView) row.findViewById(R.id.colorView)).setText(info.getColor());
-        ((TextView) row.findViewById(R.id.amountView)).setText(Integer.toString(info.getNumberInStock()));
-        ((TextView) row.findViewById(R.id.worthView)).setText(Float.toString(info.getInventoryValue()));
+        ((TextView) row.findViewById(R.id.amountView)).setText("# in Stock: " + Integer.toString(info.getNumberInStock()));
+        ((TextView) row.findViewById(R.id.worthView)).setText("Asset Worth: " + Float.toString(info.getInventoryValue()));
         return row;
     }
 }
