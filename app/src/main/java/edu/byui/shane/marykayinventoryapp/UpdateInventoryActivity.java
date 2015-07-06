@@ -69,17 +69,21 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
+        EditText Section = (EditText) findViewById(R.id.ProductSection);
+
         if (Product.getText().toString().equals("")){
             Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed");
         }
 
 
         // create message to send
-        String message = Product.getText().toString();
+        String productNumber = Product.getText().toString();
+        String productSection = Section.getText().toString();
         // test print of the full message to be sent
-        Log.i(MainActivity.TAG_FOR_APP, EXTRA_MESSAGE + message);
+        Log.i(MainActivity.TAG_FOR_APP, EXTRA_MESSAGE + productNumber);
         // add info from edit text box to the intent
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra("Product Section", productSection);
+        intent.putExtra(EXTRA_MESSAGE, productNumber);
         intent.putExtra("removeProduct", removeProduct);
         // start the activity
         startActivity(intent);

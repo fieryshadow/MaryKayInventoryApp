@@ -22,11 +22,14 @@ public class UpdateProductListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_product_list);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
+        String productNumber = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
+        String productSection = intent.getStringExtra("Product Section");
         removeProduct = intent.getBooleanExtra("removeProduct", false);
         TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
+        EditText ProductSection = (EditText) findViewById(R.id.ProductSection);
+        ProductSection.setText(productSection);
         ProductID.setTextSize(20);
-        ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + message);
+        ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + productNumber);
         InventoryManager inventoryManager = InventoryManager.getInstance();
     }
 
@@ -79,7 +82,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
             Log.i(TAG_UPDATE, "finished adding Product");
         }
         else {
-            inventoryManager.removeProduct(ID.toString() + section.toString());
+            inventoryManager.removeProduct(ID.toString() + section.toString(), (int) numProduct.getAlpha());
         }
 
 

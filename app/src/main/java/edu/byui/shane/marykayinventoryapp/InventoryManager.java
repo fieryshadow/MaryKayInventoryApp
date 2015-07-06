@@ -89,8 +89,8 @@ public class InventoryManager {
      * @author GREGORY HARSTON
      * @param productKey
      */
-    public void removeProduct(String productKey) {
-        inventory.remove(productKey);
+    public void removeProduct(String productKey, int numProduct) {
+        inventory.get(productKey).setNumberInStock(inventory.get(productKey).getNumberInStock()-numProduct);
     }
 
     /**
