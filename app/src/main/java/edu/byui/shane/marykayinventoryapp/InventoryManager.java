@@ -83,8 +83,8 @@ public class InventoryManager {
      * Removes the product from the inventory list based off of the productKey
      * @param productKey The product identifier
      */
-    public void removeProduct(String productKey) {
-        inventory.remove(productKey);
+    public void removeProduct(String productKey, int numProduct) {
+        inventory.get(productKey).setNumberInStock(inventory.get(productKey).getNumberInStock()-numProduct);
     }
 
     /**

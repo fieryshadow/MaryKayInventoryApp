@@ -5,9 +5,17 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/anchor"
+        android:id="@+id/middleman"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/anchor"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/middleman" />
 
     <ImageView
         android:layout_width="80dp"
@@ -28,9 +36,9 @@
         android:id="@+id/categoryView"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_alignRight="@+id/priceView"
+        android:layout_alignEnd="@+id/priceView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,11 +46,11 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Name"
         android:id="@+id/nameView"
-        android:layout_below="@+id/categoryView"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_alignRight="@+id/categoryView"
-        android:layout_alignEnd="@+id/categoryView"
-        android:layout_marginLeft="5dp" />
+        android:layout_alignLeft="@+id/anchor"
+        android:layout_alignStart="@+id/anchor"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
