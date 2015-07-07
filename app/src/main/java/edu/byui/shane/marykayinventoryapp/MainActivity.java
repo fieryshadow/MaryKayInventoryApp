@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.content.Context;
 
 import java.util.Hashtable;
 
@@ -20,10 +21,12 @@ public class MainActivity extends ActionBarActivity {
         Log.i(TAG_FOR_APP, "Startup of App successful");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ProductDataSource.createSingleton(getApplicationContext());
+        InventoryManager.createSingleton(getApplicationContext());
         Log.v(TAG_FOR_APP, "Starting to read database...");
         InventoryManager.getInstance().readFromDatabase();
         Log.i(TAG_FOR_APP, "Finished reading database.");
-
     }
 
     @Override

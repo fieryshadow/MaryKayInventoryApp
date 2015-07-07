@@ -88,6 +88,11 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         // start the activity
         startActivity(intent);
     }
+
+    /**
+     * moves to the next activity and passes the Product number and section with it.
+     * @param view
+     */
     public void removeProduct(View view) {
         Button button = (Button) findViewById(R.id.ScanOut);
         if (button.isActivated()){

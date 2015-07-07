@@ -71,6 +71,15 @@ public class UpdateProductListActivity extends ActionBarActivity {
         EditText cost = (EditText) findViewById(R.id.ProductCost);
         TextView ID = (TextView) findViewById(R.id.ProductNumber);
         InventoryManager inventoryManager = InventoryManager.getInstance();
+
+        // testing code...
+        category.setText("Foundation");
+        name.setText("Liquid");
+        section.setText("A");
+        color.setText("Peach");
+        numProduct.setText("4");
+        cost.setText("12.34");
+
         Log.i(TAG_UPDATE, "start loop through number of Products");
 
         Log.i(TAG_UPDATE, "remove Product = " + removeProduct);

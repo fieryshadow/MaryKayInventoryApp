@@ -21,9 +21,22 @@ public class ProductDataSource {
         MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_SECTION,
         MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST, MySQLiteHelper.COLUMN_NUMBER_IN_STOCK,
         MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK };
+    private static ProductDataSource dataSource;
+    private static Context appContext;
 
-    public ProductDataSource(Context context) {
+    private ProductDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
+    }
+
+    public static void createSingleton(Context context) {
+        if (dataSource == null) {
+            appContext = context;
+            dataSource = new ProductDataSource(appContext);
+        }
+    }
+
+    public static ProductDataSource getInstance() {
+        return dataSource;
     }
 
     private void open() throws SQLException {
@@ -63,9 +76,12 @@ public class ProductDataSource {
     public void storeProduct(ProductEntry item) {
         open();
         ContentValues values = packValues(item);
+        Log.i(MainActivity.TAG_FOR_APP, "deleting...");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
-                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + item.getInfo().getId(), null);
+                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + item.getInfo().getId() + '"', null);
+        Log.i(MainActivity.TAG_FOR_APP, "adding...");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
+        Log.i(MainActivity.TAG_FOR_APP, "closing...");
         close();
     }
 
@@ -81,19 +97,25 @@ public class ProductDataSource {
     }
 
     public Hashtable<String, ProductEntry> readAllProducts() {
+        open();
+        Log.i(MainActivity.TAG_FOR_APP, "prepre");
         Hashtable<String, ProductEntry> products = new Hashtable<>();
+        Log.i(MainActivity.TAG_FOR_APP, "prepare to die");
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
                 allColumns, null, null, null, null, null);
 
+        Log.i(MainActivity.TAG_FOR_APP, "beginning...");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
+            Log.i(MainActivity.TAG_FOR_APP, "lopp");
             productEntry = cursor2ProductEntry(cursor);
             products.put(productEntry.getInfo().getId(), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
+        Log.i(MainActivity.TAG_FOR_APP, "ending");
         close();
         return products;
     }
