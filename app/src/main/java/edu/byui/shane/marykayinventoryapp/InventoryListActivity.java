@@ -26,8 +26,7 @@ public class InventoryListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_list);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        // Create the adapter that will return a fragment for each of the two primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -58,9 +57,10 @@ public class InventoryListActivity extends ActionBarActivity {
     }
 
 
-    /** Manager of the different list of products */
+    /** Manager of the different lists of products */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        /** Adhering to the fragment API */
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -68,16 +68,12 @@ public class InventoryListActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            if (position == 1) {
-                return SectionTwoFragment.newInstance(position + 1);
-            }
-            return SectionOneFragment.newInstance(position + 1);
+            return SectionFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            return 2; // Show 2 total pages.
         }
 
         @Override
@@ -93,66 +89,43 @@ public class InventoryListActivity extends ActionBarActivity {
         }
     }
 
-    /** A fragment showing the inventory contents */
-    public static class SectionOneFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    /** A fragment showing a section of the inventory contents */
+    public static class SectionFragment extends Fragment {
+        private static final String ARG_SECTION = "section_identifier";
 
-        public static SectionOneFragment newInstance(int sectionNumber) {
-            SectionOneFragment fragment = new SectionOneFragment();
+        /**
+         * Creates the appropriate fragment based on which page the user is looking at
+         * @param sectionNumber The page number
+         * @return Returns the fragment
+         */
+        public static SectionFragment newInstance(int sectionNumber) {
+            SectionFragment fragment = new SectionFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            if (sectionNumber == 1) {
+                args.putString(ARG_SECTION, InventoryManager.section1);
+            } else {
+                args.putString(ARG_SECTION, InventoryManager.section2);
+            }
             fragment.setArguments(args);
             return fragment;
         }
 
-        public SectionOneFragment() {
+        /** Adhering to the fragment API */
+        public SectionFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
+            String section = savedInstanceState.getString(ARG_SECTION);
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
-            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(InventoryManager.section2);
+            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(section);
             ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
             listView.setAdapter(products);
 
             return view;
         }
-    }
-
-    /** A fragment showing the MaryKay stock */
-    public static class SectionTwoFragment extends Fragment {
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public static SectionTwoFragment newInstance(int sectionNumber) {
-            SectionTwoFragment fragment = new SectionTwoFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public SectionTwoFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
-
-            ListView listView = (ListView) view.findViewById(R.id.listView);
-            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(InventoryManager.section2);
-            ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
-            listView.setAdapter(products);
-
-            return view;
-        }
-    }
-
-
-    public void sortList(int sortKind) {
-
     }
 }

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * UpdateProductListActivity will either remove a product, add a product, or simply update information about the product.
@@ -85,8 +84,8 @@ public class UpdateProductListActivity extends ActionBarActivity {
         Log.i(TAG_UPDATE, "remove Product = " + removeProduct);
         if (!removeProduct) {
             Log.i(TAG_UPDATE, "adding Product");
-            inventoryManager.addProduct(ID.getText().toString(), category.getText().toString(), name.getText().toString(),
-                                        color.getText().toString(), cost.getAlpha(), section.getText().toString(), (int) numProduct.getAlpha());
+            inventoryManager.processCheckIn(ID.getText().toString(), category.getText().toString(), name.getText().toString(),
+                    color.getText().toString(), cost.getAlpha(), section.getText().toString(), (int) numProduct.getAlpha());
 
             Log.i(TAG_UPDATE, "finished adding Product");
         }

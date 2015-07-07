@@ -28,6 +28,11 @@ public class ProductDataSource {
         dbHelper = new MySQLiteHelper(context);
     }
 
+    /**
+     * A workaround for needing the activity context for parts of the code to work correctly. Must be
+     * called at the very beginning of the program startup, or else a NullPointerException will occur!
+     * @param context Needs to be the MainActivity! Not for calling anywhere else!
+     */
     public static void createSingleton(Context context) {
         if (dataSource == null) {
             appContext = context;
@@ -35,6 +40,7 @@ public class ProductDataSource {
         }
     }
 
+    /** This Is Singleton!! */
     public static ProductDataSource getInstance() {
         return dataSource;
     }
@@ -47,12 +53,14 @@ public class ProductDataSource {
         dbHelper.close();
     }
 
+    /** Converts a database cursor into a product entry */
     private ProductEntry cursor2ProductEntry(Cursor cursor) {
         Product product = new Product(cursor.getString(1), cursor.getString(2), cursor.getString(3),
                 cursor.getString(4), cursor.getString(5), cursor.getFloat(6));
         return new ProductEntry(product, cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
     }
 
+    /** Takes a product entry and packs it into a database readable format */
     @Nullable
     private ContentValues packValues(ProductEntry item) {
         if (item == null) {
@@ -73,18 +81,27 @@ public class ProductDataSource {
         return values;
     }
 
+    /**
+     * Takes a product entry and stores it into the database
+     * @param item The product entry you need to store
+     */
     public void storeProduct(ProductEntry item) {
         open();
         ContentValues values = packValues(item);
-        Log.i(MainActivity.TAG_FOR_APP, "deleting...");
+        Log.v(MainActivity.TAG_FOR_APP, "Deleting database entry...");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + item.getInfo().getId() + '"', null);
-        Log.i(MainActivity.TAG_FOR_APP, "adding...");
+        Log.v(MainActivity.TAG_FOR_APP, "Adding database entry...");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
-        Log.i(MainActivity.TAG_FOR_APP, "closing...");
+        Log.v(MainActivity.TAG_FOR_APP, "Closing database...");
         close();
     }
 
+    /**
+     * Retrieves the product entry associated with the product ID from the database
+     * @param barcode The product ID
+     * @return Returns the product entry
+     */
     public ProductEntry getProduct(String barcode) {
         open();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
@@ -96,32 +113,35 @@ public class ProductDataSource {
         return productEntry;
     }
 
+    /**
+     * Reads all product entries from the database and returns them
+     * @return Returns a table of product entries
+     */
     public Hashtable<String, ProductEntry> readAllProducts() {
         open();
-        Log.i(MainActivity.TAG_FOR_APP, "prepre");
         Hashtable<String, ProductEntry> products = new Hashtable<>();
-        Log.i(MainActivity.TAG_FOR_APP, "prepare to die");
+        Log.v(MainActivity.TAG_FOR_APP, "Prepare to die, we're making a cursor!");
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
                 allColumns, null, null, null, null, null);
 
-        Log.i(MainActivity.TAG_FOR_APP, "beginning...");
+        Log.i(MainActivity.TAG_FOR_APP, "Beginning database read...");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
-            Log.i(MainActivity.TAG_FOR_APP, "lopp");
             productEntry = cursor2ProductEntry(cursor);
             products.put(productEntry.getInfo().getId(), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
-        Log.i(MainActivity.TAG_FOR_APP, "ending");
+        Log.i(MainActivity.TAG_FOR_APP, "Finished reading the database.");
         close();
         return products;
     }
 
+    /** Is this even needed?? */
     public void storeAllProducts(Hashtable<String, ProductEntry> data) {
-        // is this needed?
+
     }
 }
 
@@ -156,6 +176,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
             COLUMN_NUMBER_ON_ORDER + " integer not null, " +
             COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null);";
 
+    /** Makes the proper database */
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, TABLE_VERSION);
     }
