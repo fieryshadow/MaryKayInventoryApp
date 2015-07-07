@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Scanner;
-
 /**
  * The Update Inventory Activity allows the user to edit the items in the inventory.
  */
 public class UpdateInventoryActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "Product Number: ";
+    public final static String EXTRA_REMOVED = "processCheckOut";
     private boolean removeProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +45,10 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private int barcode;
-
-    public int getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(int barcode) {
-        this.barcode = barcode;
-    }
-
-
-
+    /**
+     * Moves to the update product list activity, passing along necessary info
+     * @param view The view the user is looking at
+     */
     public void updateProduct(View view) {
         Log.i(MainActivity.TAG_FOR_APP, "Button Clicked");
         //create intent
@@ -84,14 +75,14 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         // add info from edit text box to the intent
         intent.putExtra("Product Section", productSection);
         intent.putExtra(EXTRA_MESSAGE, productNumber);
-        intent.putExtra("removeProduct", removeProduct);
+        intent.putExtra("processCheckOut", removeProduct);
         // start the activity
         startActivity(intent);
     }
 
     /**
-     * moves to the next activity and passes the Product number and section with it.
-     * @param view
+     * Moves to the next activity and passes the Product number and section with it.
+     * @param view The view the user is looking at
      */
     public void removeProduct(View view) {
         Button button = (Button) findViewById(R.id.ScanOut);
@@ -101,11 +92,11 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         EditText product = (EditText) findViewById(R.id.ProductNumber);
         if (product.getText().toString().equals("")) {
-            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed");
+            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed.");
         }
         String message = product.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
-        intent.putExtra("removeProduct", removeProduct);
+        intent.putExtra(EXTRA_REMOVED, removeProduct);
 
         startActivity(intent);
     }

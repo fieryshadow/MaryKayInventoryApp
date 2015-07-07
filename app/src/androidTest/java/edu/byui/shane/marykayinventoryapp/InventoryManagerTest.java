@@ -43,7 +43,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         int size = m.getProductInfo("12345").getNumberInStock();
 
         // remove 1 item from the list
-        m.removeProduct("12345", 1);
+        m.processCheckOut("12345", 1);
 
         // check to see if the number of items in the list is 1 less than before.
         assertEquals(size - 1, m.getSectionListing(InventoryManager.section1).size());
@@ -71,7 +71,7 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
         inventoryManager.processCheckIn("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, "A", 2);
-        inventoryManager.removeProduct("1234", 1);
+        inventoryManager.processCheckOut("1234", 1);
         assertEquals(inventoryManager.getProductInfo("1234"), null);
     }
 

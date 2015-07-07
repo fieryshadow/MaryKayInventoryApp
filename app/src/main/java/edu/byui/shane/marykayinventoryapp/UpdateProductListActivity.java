@@ -15,7 +15,7 @@ import android.widget.TextView;
  */
 public class UpdateProductListActivity extends ActionBarActivity {
     private boolean removeProduct;
-    public static final String TAG_UPDATE = "TAG_UPDATE";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
         Intent intent = getIntent();
         String productNumber = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
         String productSection = intent.getStringExtra("Product Section");
-        removeProduct = intent.getBooleanExtra("removeProduct", false);
+        removeProduct = intent.getBooleanExtra("processCheckOut", false);
         TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
         EditText ProductSection = (EditText) findViewById(R.id.ProductSection);
         ProductSection.setText(productSection);
@@ -79,22 +79,22 @@ public class UpdateProductListActivity extends ActionBarActivity {
         numProduct.setText("4");
         cost.setText("12.34");
 
-        Log.i(TAG_UPDATE, "start loop through number of Products");
+        Log.i(MainActivity.TAG_FOR_APP, "start loop through number of Products");
 
-        Log.i(TAG_UPDATE, "remove Product = " + removeProduct);
+        Log.i(MainActivity.TAG_FOR_APP, "remove Product = " + removeProduct);
         if (!removeProduct) {
-            Log.i(TAG_UPDATE, "adding Product");
+            Log.i(MainActivity.TAG_FOR_APP, "adding Product");
             inventoryManager.processCheckIn(ID.getText().toString(), category.getText().toString(), name.getText().toString(),
                     color.getText().toString(), cost.getAlpha(), section.getText().toString(), (int) numProduct.getAlpha());
 
-            Log.i(TAG_UPDATE, "finished adding Product");
+            Log.i(MainActivity.TAG_FOR_APP, "finished adding Product");
         }
         else {
-            inventoryManager.removeProduct(ID.toString() + section.toString(), (int) numProduct.getAlpha());
+            inventoryManager.processCheckOut(ID.toString() + section.toString(), (int) numProduct.getAlpha());
         }
 
 
-        Log.i(TAG_UPDATE, "exited loop through number of products");
+        Log.i(MainActivity.TAG_FOR_APP, "exited loop through number of products");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
