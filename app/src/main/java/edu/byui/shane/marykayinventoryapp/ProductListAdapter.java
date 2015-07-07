@@ -33,23 +33,28 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView;
-
-        // has it been recycled?
-        if (row == null) {
+    public View getView(int position, View row, ViewGroup parent) {
+        if (row == null) { // has it been recycled?
             //row = LayoutInflater.from(context).inflate(layoutResourceId, parent, false);
             row = ((Activity) context).getLayoutInflater().inflate(layoutResourceId, parent, false);
         }
 
         ProductInfo info = data.get(position);
-        //((ImageView) row.findViewById(R.id.imageView)).setImageResource(info.getImage());
-        ((TextView) row.findViewById(R.id.categoryView)).setText(info.getGroup());
-        ((TextView) row.findViewById(R.id.nameView)).setText(" - " + info.getName());
-        ((TextView) row.findViewById(R.id.priceView)).setText("Price: $" + Float.toString(info.getCost()));
-        ((TextView) row.findViewById(R.id.colorView)).setText(info.getColor());
-        ((TextView) row.findViewById(R.id.amountView)).setText("# in Stock: " + Integer.toString(info.getNumberInStock()));
-        ((TextView) row.findViewById(R.id.worthView)).setText("Asset Worth: " + Float.toString(info.getInventoryValue()));
+        //ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
+        TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
+        TextView nameView = (TextView) row.findViewById(R.id.nameView);
+        TextView priceView = (TextView) row.findViewById(R.id.priceView);
+        TextView colorView = (TextView) row.findViewById(R.id.colorView);
+        TextView amountView = (TextView) row.findViewById(R.id.amountView);
+        TextView worthView = (TextView) row.findViewById(R.id.worthView);
+
+        //imageView.setImageResource(info.getImage());
+        categoryView.setText(info.getGroup());
+        nameView.setText(" - " + info.getName());
+        priceView.setText("Price: $" + Float.toString(info.getCost()));
+        colorView.setText(info.getColor());
+        amountView.setText("# in Stock: " + Integer.toString(info.getNumberInStock()));
+        worthView.setText("Asset Worth: " + Float.toString(info.getInventoryValue()));
         return row;
     }
 }
