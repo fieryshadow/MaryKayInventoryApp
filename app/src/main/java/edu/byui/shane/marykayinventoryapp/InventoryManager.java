@@ -12,6 +12,8 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
+    public static String section1 = "A";
+    public static String section2 = "B";
     private static Context appContext;
     private Hashtable<String, ProductEntry> inventory; // barcode: ProductEntry
 
@@ -32,10 +34,10 @@ public class InventoryManager {
         }
     }
 
-    public List<ProductInfo> getListing() {
+    public List<ProductInfo> getSectionListing(String section) {
         List<ProductInfo> listing = new ArrayList<>();
         for (ProductEntry entry : inventory.values()) {
-            if (entry.getHighestNumberInInventory() != 0) {
+            if (entry.getProduct().getSection().equals(section)) {
                 listing.add(entry.getInfo());
             }
         }
@@ -44,12 +46,9 @@ public class InventoryManager {
 
     public List<ProductInfo> getWebsiteListing() {
         Log.v(MainActivity.TAG_FOR_APP, "Connecting to the MaryKay server...");
-        List<ProductInfo> listing = new ArrayList<>();
-        for (ProductEntry entry : inventory.values()) {
-            listing.add(entry.getInfo());
-        }
+        // tbd...
         Log.i(MainActivity.TAG_FOR_APP, "Loaded data from MaryKay server.");
-        return listing;
+        return null;
     }
 
     public void checkInItem(String barcode) { // make return boolean of whether it's successful?
@@ -92,7 +91,6 @@ public class InventoryManager {
             ProductDataSource.getInstance().storeProduct(productEntry);
             Log.i(MainActivity.TAG_FOR_APP, "Done adding new Product");
         }
-
     }
 
     /**

@@ -14,9 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
 public class InventoryListActivity extends ActionBarActivity {
@@ -70,11 +68,10 @@ public class InventoryListActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a InventoryFragment (defined as a static inner class below).
             if (position == 1) {
-                return WebsiteListFragment.newInstance(position + 1);
+                return SectionTwoFragment.newInstance(position + 1);
             }
-            return InventoryFragment.newInstance(position + 1);
+            return SectionOneFragment.newInstance(position + 1);
         }
 
         @Override
@@ -97,18 +94,18 @@ public class InventoryListActivity extends ActionBarActivity {
     }
 
     /** A fragment showing the inventory contents */
-    public static class InventoryFragment extends Fragment {
+    public static class SectionOneFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public static InventoryFragment newInstance(int sectionNumber) {
-            InventoryFragment fragment = new InventoryFragment();
+        public static SectionOneFragment newInstance(int sectionNumber) {
+            SectionOneFragment fragment = new SectionOneFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public InventoryFragment() {
+        public SectionOneFragment() {
         }
 
         @Override
@@ -117,7 +114,7 @@ public class InventoryListActivity extends ActionBarActivity {
             View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
-            List<ProductInfo> list = InventoryManager.getInstance().getListing();
+            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(InventoryManager.section2);
             ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
             listView.setAdapter(products);
 
@@ -126,18 +123,18 @@ public class InventoryListActivity extends ActionBarActivity {
     }
 
     /** A fragment showing the MaryKay stock */
-    public static class WebsiteListFragment extends Fragment {
+    public static class SectionTwoFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public static WebsiteListFragment newInstance(int sectionNumber) {
-            WebsiteListFragment fragment = new WebsiteListFragment();
+        public static SectionTwoFragment newInstance(int sectionNumber) {
+            SectionTwoFragment fragment = new SectionTwoFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public WebsiteListFragment() {
+        public SectionTwoFragment() {
         }
 
         @Override
@@ -146,7 +143,7 @@ public class InventoryListActivity extends ActionBarActivity {
             View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
-            List<ProductInfo> list = InventoryManager.getInstance().getWebsiteListing();
+            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(InventoryManager.section2);
             ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
             listView.setAdapter(products);
 
