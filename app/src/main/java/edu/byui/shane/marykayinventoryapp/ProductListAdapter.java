@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         }
 
         ProductInfo info = data.get(position);
-        //ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
         TextView priceView = (TextView) row.findViewById(R.id.priceView);
@@ -48,7 +49,9 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         TextView amountView = (TextView) row.findViewById(R.id.amountView);
         TextView worthView = (TextView) row.findViewById(R.id.worthView);
 
-        //imageView.setImageResource(info.getImage());
+        if (info.getImage() != null) {
+            imageView.setImageBitmap(info.getImage());
+        }
         categoryView.setText(info.getGroup());
         nameView.setText(" - " + info.getName());
         priceView.setText("Price: $" + Float.toString(info.getCost()));

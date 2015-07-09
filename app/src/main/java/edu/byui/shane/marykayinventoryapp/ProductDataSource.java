@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
 
 /**
@@ -20,7 +23,8 @@ public class ProductDataSource {
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
         MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_SECTION,
         MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST, MySQLiteHelper.COLUMN_NUMBER_IN_STOCK,
-        MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK };
+        MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK,
+        MySQLiteHelper.COLUMN_IMAGE };
     private static ProductDataSource dataSource;
     private static Context appContext;
 
@@ -55,8 +59,11 @@ public class ProductDataSource {
 
     /** Converts a database cursor into a product entry */
     private ProductEntry cursor2ProductEntry(Cursor cursor) {
+        byte[] imageBytes = cursor.getBlob(10);
+        Bitmap bitMapImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         Product product = new Product(cursor.getString(1), cursor.getString(2), cursor.getString(3),
                 cursor.getString(4), cursor.getString(5), cursor.getFloat(6));
+        product.setImage(bitMapImage);
         return new ProductEntry(product, cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
     }
 
@@ -69,6 +76,7 @@ public class ProductDataSource {
         }
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
+
         values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, info.getId());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getGroup());
         values.put(MySQLiteHelper.COLUMN_NAME, info.getName());
@@ -78,6 +86,12 @@ public class ProductDataSource {
         values.put(MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, info.getNumberInStock());
         values.put(MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, info.getNumberOnOrder());
         values.put(MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, info.getHighestNumberInInventory());
+
+        Bitmap image = info.getImage();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
+
         return values;
     }
 
@@ -158,10 +172,11 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NUMBER_IN_STOCK = "inStockNum";
     public static final String COLUMN_NUMBER_ON_ORDER = "onOrderNum";
     public static final String COLUMN_HIGHEST_NUMBER_IN_STOCK = "greatestNum";
+    public static final String COLUMN_IMAGE = "image";
 
     // increment table version whenever database columns change, but also,
     // make the onUpgrade method convert the old database to the new one.
-    public static final int TABLE_VERSION = 1;
+    public static final int TABLE_VERSION = 2;
     public static final String DATABASE_NAME = "products.db";
 
     private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +

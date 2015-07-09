@@ -1,5 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.graphics.Bitmap;
+
 /**
  * A container for important values needing to be sent to the View (MVC)
  */
@@ -8,10 +10,11 @@ public class ProductInfo {
     private float cost;
     private int numberInStock, numberOnOrder, highestNumberInInventory;
     private float inventoryValue, totalWorth;
+    private Bitmap image;
 
     public ProductInfo(String id, String group, String name, String section, String color, float cost,
                        int numberInStock, int numberOnOrder, int highestNumberInInventory,
-                       float inventoryValue, float totalWorth) {
+                       float inventoryValue, float totalWorth, Bitmap image) {
         this.id = id;
         this.group = group;
         this.name = name;
@@ -23,6 +26,7 @@ public class ProductInfo {
         this.highestNumberInInventory = highestNumberInInventory;
         this.inventoryValue = inventoryValue;
         this.totalWorth = totalWorth;
+        this.image = image;
     }
 
     public String getId() {
@@ -67,6 +71,10 @@ public class ProductInfo {
 
     public float getTotalWorth() {
         return totalWorth;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 
     @Override

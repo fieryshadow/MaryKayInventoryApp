@@ -1,5 +1,6 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -8,6 +9,7 @@ import android.util.Log;
 public class Product {
     private String id, group, name, section, color;
     private float cost;
+    private Bitmap image;
 
     public Product(String id) {
         this.id = id;
@@ -74,5 +76,13 @@ public class Product {
             Log.i(MainActivity.TAG_FOR_APP, "The cost is within valid range.");
         }
         this.cost = cost;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap newImage) {
+        image = newImage;
     }
 }
