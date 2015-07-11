@@ -82,10 +82,11 @@ public class InventoryManager {
 
             productEntry.setNumberInStock(productEntry.getNumberInStock() + changeInProduct);
             productEntry.setNumberOnOrder(productEntry.getNumberOnOrder() + changeInOrder);
-            Log.i(MainActivity.TAG_FOR_APP, "total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
+            Log.i(MainActivity.TAG_FOR_APP, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
         } else { // add new product to inventory
             Log.i(MainActivity.TAG_FOR_APP, "Adding a new product in InventoryManager.updateProduct");
             product = new Product(productNumber, category, name, section, color, cost);
+            Log.i(MainActivity.TAG_FOR_APP, "Checking product delta in InventoryManager.updateProduct");
             if (changeInProduct < 0) {
                 Log.w(MainActivity.TAG_FOR_APP, "You can't remove products that don't exist in the inventory! Adding product to the list... in InventoryManager.updateProduct");
                 changeInProduct = 0;
@@ -93,12 +94,15 @@ public class InventoryManager {
                 Log.w(MainActivity.TAG_FOR_APP, "You don't have any items ordered for nonexistent products. Adding product to the list... in InventoryManager.updateProduct");
                 changeInOrder = 0;
             }
+            Log.i(MainActivity.TAG_FOR_APP, "Adding product to inventory in InventoryManager.updateProduct");
             productEntry = new ProductEntry(product, changeInProduct, changeInOrder, changeInProduct);
             String key = ProductCode.makeProductKey(productNumber, section);
             inventory.put(key, productEntry);
         }
 
+        Log.i(MainActivity.TAG_FOR_APP, "Checking for product image in InventoryManager.updateProduct");
         if (imageFile != null && !imageFile.equals("")) {
+            Log.i(MainActivity.TAG_FOR_APP, "Updating product image in InventoryManager.updateProduct");
             product.setImageByFile(imageFile);
         }
 
@@ -122,7 +126,7 @@ public class InventoryManager {
                                float cost, String section, int numOfProduct, String imageFile) {
         int changeInOrder = 0;
         String productKey = ProductCode.makeProductKey(productNumber, section);
-        Log.i(MainActivity.TAG_FOR_APP, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId() + " in InventoryManager.processCheckIn"); // will error!! :O (when there are no products in inventory to match)
+        Log.i(MainActivity.TAG_FOR_APP, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
         if (inventory.containsKey(productKey)) {
             int orders = inventory.get(productKey).getNumberOnOrder();
             changeInOrder = Math.min(orders, numOfProduct);

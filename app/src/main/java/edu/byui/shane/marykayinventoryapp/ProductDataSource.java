@@ -20,11 +20,11 @@ import java.util.Hashtable;
 public class ProductDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_ID,
-        MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_SECTION,
-        MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST, MySQLiteHelper.COLUMN_NUMBER_IN_STOCK,
-        MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK,
-        MySQLiteHelper.COLUMN_IMAGE };
+    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
+        MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
+        MySQLiteHelper.COLUMN_SECTION, MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST,
+        MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_NUMBER_ON_ORDER,
+        MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_IMAGE };
     private static ProductDataSource dataSource;
     private static Context appContext;
 
@@ -59,12 +59,16 @@ public class ProductDataSource {
 
     /** Converts a database cursor into a product entry */
     private ProductEntry cursor2ProductEntry(Cursor cursor) {
-        byte[] imageBytes = cursor.getBlob(10);
+        Log.v(MainActivity.TAG_FOR_APP, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
+        byte[] imageBytes = cursor.getBlob(11);
         Bitmap bitMapImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        Product product = new Product(cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                cursor.getString(4), cursor.getString(5), cursor.getFloat(6));
+        Log.v(MainActivity.TAG_FOR_APP, "Making product to bitmap in ProductDataSource.cursor2ProductEntry");
+        Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                cursor.getString(5), cursor.getString(6), cursor.getFloat(7));
+        Log.v(MainActivity.TAG_FOR_APP, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");
         product.setImage(bitMapImage);
-        return new ProductEntry(product, cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
+        Log.v(MainActivity.TAG_FOR_APP, "Creating product image in ProductDataSource.cursor2ProductEntry");
+        return new ProductEntry(product, cursor.getInt(8), cursor.getInt(9), cursor.getInt(10));
     }
 
     /** Takes a product entry and packs it into a database readable format */
@@ -77,7 +81,9 @@ public class ProductDataSource {
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
 
-        values.put(MySQLiteHelper.COLUMN_PRODUCT_ID, info.getId());
+        Log.v(MainActivity.TAG_FOR_APP, "Packing it up in ProductDataSource.packValues");
+        values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, ProductCode.makeProductKey(item));
+        values.put(MySQLiteHelper.COLUMN_PRODUCT_NUMBER, info.getId());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getGroup());
         values.put(MySQLiteHelper.COLUMN_NAME, info.getName());
         values.put(MySQLiteHelper.COLUMN_SECTION, info.getSection());
@@ -87,11 +93,15 @@ public class ProductDataSource {
         values.put(MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, info.getNumberOnOrder());
         values.put(MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, info.getHighestNumberInInventory());
 
+        Log.v(MainActivity.TAG_FOR_APP, "Packing up the image in ProductDataSource.packValues");
         Bitmap image = info.getImage();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
-
+        if (image != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            Log.v(MainActivity.TAG_FOR_APP, "Compressing image in ProductDataSource.packValues");
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            Log.v(MainActivity.TAG_FOR_APP, "Storing image in ProductDataSource.packValues");
+            values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
+        }
         return values;
     }
 
@@ -101,10 +111,11 @@ public class ProductDataSource {
      */
     public void storeProduct(ProductEntry item) {
         open();
+        Log.v(MainActivity.TAG_FOR_APP, "Packing product entry for database in ProductDataSource.storeProduct");
         ContentValues values = packValues(item);
         Log.v(MainActivity.TAG_FOR_APP, "Deleting database entry... in ProductDataSource.storeProduct");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
-                MySQLiteHelper.COLUMN_PRODUCT_ID + " = \"" + item.getInfo().getId() + "\"", null);
+                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + ProductCode.makeProductKey(item) + "\"", null);
         Log.v(MainActivity.TAG_FOR_APP, "Adding database entry... in ProductDataSource.storeProduct");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
         Log.v(MainActivity.TAG_FOR_APP, "Closing database... in ProductDataSource.storeProduct");
@@ -118,11 +129,8 @@ public class ProductDataSource {
      */
     public ProductEntry getProduct(String productCode) {
         open();
-        String id = ProductCode.getId(productCode);
-        String section = ProductCode.getSection(productCode);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
-                MySQLiteHelper.COLUMN_PRODUCT_ID + " = " + id + " and " +
-                        MySQLiteHelper.COLUMN_SECTION + " = " + section, null, null, null, null);
+                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + productCode, null, null, null, null);
         cursor.moveToFirst();
         ProductEntry productEntry = cursor2ProductEntry(cursor);
         cursor.close();
@@ -145,6 +153,7 @@ public class ProductDataSource {
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
+            Log.v(MainActivity.TAG_FOR_APP, "Converting cursor in ProductDataSource.readAllProducts");
             productEntry = cursor2ProductEntry(cursor);
             products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
@@ -159,9 +168,10 @@ public class ProductDataSource {
 
 
 class MySQLiteHelper extends SQLiteOpenHelper {
-    public static final String TABLE_PRODUCTS = "products";
-    public static final String COLUMN_ID = "_id"; // database row, not product id!
-    public static final String COLUMN_PRODUCT_ID = "productCode";
+    public static final String TABLE_PRODUCTS = "productEntries";
+    public static final String COLUMN_ID = "_id"; // this is a database row, not product id!!
+    public static final String COLUMN_PRODUCT_CODE = "productCode";
+    public static final String COLUMN_PRODUCT_NUMBER = "productNumber";
     public static final String COLUMN_CATEGORY = "category";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_COLOR = "color";
@@ -172,14 +182,15 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_HIGHEST_NUMBER_IN_STOCK = "greatestNum";
     public static final String COLUMN_IMAGE = "image";
 
-    // increment table version whenever database columns change, but also,
+    // Increment table version whenever database columns change, but also,
     // make the onUpgrade method convert the old database to the new one.
     public static final int TABLE_VERSION = 2;
     public static final String DATABASE_NAME = "products.db";
 
     private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +
             COLUMN_ID + " integer primary key autoincrement, " +
-            COLUMN_PRODUCT_ID + " text not null, " +
+            COLUMN_PRODUCT_CODE + " text not null, " +
+            COLUMN_PRODUCT_NUMBER + " text not null, " +
             COLUMN_CATEGORY + " text not null, " +
             COLUMN_NAME + " text not null, " +
             COLUMN_COLOR + " text not null, " +
@@ -188,7 +199,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
             COLUMN_NUMBER_IN_STOCK + " integer not null, " +
             COLUMN_NUMBER_ON_ORDER + " integer not null, " +
             COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null, " +
-            COLUMN_IMAGE + " blob);";
+            COLUMN_IMAGE + " blob not null);";
 
     /** Makes the proper database */
     public MySQLiteHelper(Context context) {
@@ -204,7 +215,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MySQLiteHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", destroying all old data");
+                        + newVersion + ", destroying all old data.");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         onCreate(db);
     }

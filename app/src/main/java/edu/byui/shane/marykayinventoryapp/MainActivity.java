@@ -1,6 +1,8 @@
 package edu.byui.shane.marykayinventoryapp;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +16,20 @@ import java.util.Hashtable;
 
 public class MainActivity extends ActionBarActivity {
     public static String TAG_FOR_APP = "MaryKayStuffAndThings";
+    private static Resources mainResources;
     private Hashtable<String, ProductEntry> inventory;
+
+    /** Make sure onCreate is called first to initialize! */
+    public static Resources getMainResources() {
+        return mainResources;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG_FOR_APP, "Startup of App successful in MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainResources = getResources();
 
         ProductDataSource.createSingleton(getApplicationContext());
         InventoryManager.createSingleton(getApplicationContext());

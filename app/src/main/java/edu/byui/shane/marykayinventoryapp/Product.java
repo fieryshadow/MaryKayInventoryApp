@@ -1,7 +1,12 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
+
+import java.io.File;
 
 /**
  * Holds info pertaining to a MaryKay product
@@ -22,6 +27,9 @@ public class Product {
         this.section = section;
         this.color = color;
         this.cost = cost;
+
+        // load a default icon
+        this.image = BitmapFactory.decodeResource(MainActivity.getMainResources(), R.mipmap.default_product_icon);
     }
 
     public String getId() {
@@ -87,6 +95,12 @@ public class Product {
     }
 
     public void setImageByFile(String filename) {
-
+        String path = Environment.getDataDirectory().getAbsolutePath();
+        String filepath = path + "/MaryKayIconUpdate/" + filename;
+        Log.i(MainActivity.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
+        Bitmap image = BitmapFactory.decodeFile(filepath);
+        Log.i(MainActivity.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
+        this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
+        Log.i(MainActivity.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
     }
 }

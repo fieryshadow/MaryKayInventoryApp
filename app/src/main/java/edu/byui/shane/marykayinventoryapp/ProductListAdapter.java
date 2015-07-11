@@ -53,11 +53,11 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
             imageView.setImageBitmap(info.getImage());
         }
         categoryView.setText(info.getGroup());
-        nameView.setText(" - " + info.getName());
-        priceView.setText("Price: $" + Float.toString(info.getCost()));
+        nameView.setText(info.getName());
+        priceView.setText("$" + Float.toString(info.getCost()));
         colorView.setText(info.getColor());
-        amountView.setText("# in Stock: " + Integer.toString(info.getNumberInStock()));
-        worthView.setText("Asset Worth: " + Float.toString(info.getInventoryValue()));
+        amountView.setText(Integer.toString(info.getNumberInStock()) + " at");
+        worthView.setText("Asset Worth: $" + Float.toString(info.getInventoryValue()));
         return row;
     }
 }
