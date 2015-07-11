@@ -61,6 +61,16 @@
         android:hint="Price of Product"
         android:inputType="numberDecimal"/>
 
+    <EditText
+        android:id="@+id/ProductImageUpdater"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Update Icon (file name)"
+        android:inputType="text"
+        android:layout_below="@+id/ProductCost"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
+
 
     <Button
         android:id="@+id/submit"

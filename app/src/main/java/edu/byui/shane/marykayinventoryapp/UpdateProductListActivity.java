@@ -61,40 +61,41 @@ public class UpdateProductListActivity extends ActionBarActivity {
      * and decides whether to add or remove the product based on what button was pushed in the previous activity.
      */
     public void submit(View view) {
+        Log.i(MainActivity.TAG_FOR_APP, "Load user input from text boxes in UpdateProductListActivity.submit");
+        String id = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
+        String category = ((EditText) findViewById(R.id.ProductCategory)).getText().toString();
+        String name = ((EditText) findViewById(R.id.ProductName)).getText().toString();
+        String sectionId = ((EditText) findViewById(R.id.ProductSection)).getText().toString();
+        String color = ((EditText) findViewById(R.id.color)).getText().toString();
+        int numProduct = (int) findViewById(R.id.NumberofProduct).getAlpha();
+        float cost = findViewById(R.id.ProductCost).getAlpha();
+        String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
 
-        EditText category = (EditText) findViewById(R.id.ProductCategory);
-        EditText name = (EditText) findViewById(R.id.ProductName);
-        EditText section = (EditText) findViewById(R.id.ProductSection);
-        EditText color = (EditText) findViewById(R.id.color);
-        EditText numProduct = (EditText) findViewById(R.id.NumberofProduct);
-        EditText cost = (EditText) findViewById(R.id.ProductCost);
-        TextView ID = (TextView) findViewById(R.id.ProductNumber);
-        InventoryManager inventoryManager = InventoryManager.getInstance();
+        Log.i(MainActivity.TAG_FOR_APP, "Parse which section was selected in UpdateProductListActivity.submit");
+        String section = InventoryManager.section1;
+        if (sectionId.equals("2")) {
+            section = InventoryManager.section2;
+        }
 
         // testing code...
-        category.setText("Foundation");
-        name.setText("Liquid");
-        section.setText("A");
-        color.setText("Peach");
-        numProduct.setText("4");
-        cost.setText("12.34");
+//        category.setText("Foundation");
+//        name.setText("Liquid");
+//        section.setText("A");
+//        color.setText("Peach");
+//        numProduct.setText("4");
+//        cost.setText("12.34");
 
-        Log.i(MainActivity.TAG_FOR_APP, "start loop through number of Products");
-
-        Log.i(MainActivity.TAG_FOR_APP, "remove Product = " + removeProduct);
+        Log.i(MainActivity.TAG_FOR_APP, "Remove Product == " + removeProduct + " in UpdateProductListActivity.submit");
+        InventoryManager inventoryManager = InventoryManager.getInstance();
         if (!removeProduct) {
-            Log.i(MainActivity.TAG_FOR_APP, "adding Product");
-            inventoryManager.processCheckIn(ID.getText().toString(), category.getText().toString(), name.getText().toString(),
-                    color.getText().toString(), cost.getAlpha(), section.getText().toString(), (int) numProduct.getAlpha());
-
-            Log.i(MainActivity.TAG_FOR_APP, "finished adding Product");
-        }
-        else {
-            inventoryManager.processCheckOut(ID.toString() + section.toString(), (int) numProduct.getAlpha());
+            Log.i(MainActivity.TAG_FOR_APP, "Adding Product in UpdateProductListActivity.submit");
+            inventoryManager.processCheckIn(id, category, name, color, cost, section, numProduct, imageFile);
+            Log.i(MainActivity.TAG_FOR_APP, "Finished adding Product in UpdateProductListActivity.submit");
+        } else {
+            inventoryManager.processCheckOut(id, category, name, color, cost, section, numProduct, imageFile);
         }
 
-
-        Log.i(MainActivity.TAG_FOR_APP, "exited loop through number of products");
+        Log.i(MainActivity.TAG_FOR_APP, "Sending you back to the home page in UpdateProductListActivity.submit");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,12 +27,15 @@ public class InventoryListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_list);
 
+        Log.i(MainActivity.TAG_FOR_APP, "Loading fragments in InventoryListActivity.onCreate");
+
         // Create the adapter that will return a fragment for each of the two primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        Log.i(MainActivity.TAG_FOR_APP, "Finished loading page in InventoryListActivity.onCreate");
     }
 
     @Override
@@ -91,7 +95,7 @@ public class InventoryListActivity extends ActionBarActivity {
 
     /** A fragment showing a section of the inventory contents */
     public static class SectionFragment extends Fragment {
-        private static final String ARG_SECTION = "section_identifier";
+        private static final String ARG_SECTION = "which section";
 
         /**
          * Creates the appropriate fragment based on which page the user is looking at
@@ -117,15 +121,20 @@ public class InventoryListActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
-            String section = savedInstanceState.getString(ARG_SECTION);
+            Log.v(MainActivity.TAG_FOR_APP, "Inflating layout in SectionFragment.onCreateView");
+            View fragmentView = inflater.inflate(R.layout.fragment_inventory_list, container, false);
+            Log.v(MainActivity.TAG_FOR_APP, "Retrieving section in SectionFragment.onCreateView");
+            String section = getArguments().getString(ARG_SECTION);
 
-            ListView listView = (ListView) view.findViewById(R.id.listView);
+            Log.v(MainActivity.TAG_FOR_APP, "Finding the list in SectionFragment.onCreateView");
+            ListView listView = (ListView) fragmentView.findViewById(R.id.fragmentListView);
             List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(section);
-            ProductListAdapter products = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
-            listView.setAdapter(products);
+            Log.v(MainActivity.TAG_FOR_APP, "Displaying the list view in SectionFragment.onCreateView");
+            ProductListAdapter productsView = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
+            listView.setAdapter(productsView);
 
-            return view;
+            Log.v(MainActivity.TAG_FOR_APP, "Finished creation in SectionFragment.onCreateView");
+            return fragmentView;
         }
     }
 }

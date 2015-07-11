@@ -20,7 +20,7 @@ import java.util.Hashtable;
 public class ProductDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
+    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_ID,
         MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_SECTION,
         MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST, MySQLiteHelper.COLUMN_NUMBER_IN_STOCK,
         MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK,
@@ -77,7 +77,7 @@ public class ProductDataSource {
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
 
-        values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, info.getId());
+        values.put(MySQLiteHelper.COLUMN_PRODUCT_ID, info.getId());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getGroup());
         values.put(MySQLiteHelper.COLUMN_NAME, info.getName());
         values.put(MySQLiteHelper.COLUMN_SECTION, info.getSection());
@@ -102,24 +102,27 @@ public class ProductDataSource {
     public void storeProduct(ProductEntry item) {
         open();
         ContentValues values = packValues(item);
-        Log.v(MainActivity.TAG_FOR_APP, "Deleting database entry...");
+        Log.v(MainActivity.TAG_FOR_APP, "Deleting database entry... in ProductDataSource.storeProduct");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
-                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + item.getInfo().getId() + '"', null);
-        Log.v(MainActivity.TAG_FOR_APP, "Adding database entry...");
+                MySQLiteHelper.COLUMN_PRODUCT_ID + " = \"" + item.getInfo().getId() + "\"", null);
+        Log.v(MainActivity.TAG_FOR_APP, "Adding database entry... in ProductDataSource.storeProduct");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
-        Log.v(MainActivity.TAG_FOR_APP, "Closing database...");
+        Log.v(MainActivity.TAG_FOR_APP, "Closing database... in ProductDataSource.storeProduct");
         close();
     }
 
     /**
      * Retrieves the product entry associated with the product ID from the database
-     * @param barcode The product ID
+     * @param productCode A compiled product code
      * @return Returns the product entry
      */
-    public ProductEntry getProduct(String barcode) {
+    public ProductEntry getProduct(String productCode) {
         open();
+        String id = ProductCode.getId(productCode);
+        String section = ProductCode.getSection(productCode);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
-                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + barcode, null, null, null, null);
+                MySQLiteHelper.COLUMN_PRODUCT_ID + " = " + id + " and " +
+                        MySQLiteHelper.COLUMN_SECTION + " = " + section, null, null, null, null);
         cursor.moveToFirst();
         ProductEntry productEntry = cursor2ProductEntry(cursor);
         cursor.close();
@@ -134,28 +137,23 @@ public class ProductDataSource {
     public Hashtable<String, ProductEntry> readAllProducts() {
         open();
         Hashtable<String, ProductEntry> products = new Hashtable<>();
-        Log.v(MainActivity.TAG_FOR_APP, "Prepare to die, we're making a cursor!");
+        Log.v(MainActivity.TAG_FOR_APP, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
                 allColumns, null, null, null, null, null);
 
-        Log.i(MainActivity.TAG_FOR_APP, "Beginning database read...");
+        Log.v(MainActivity.TAG_FOR_APP, "Beginning database read... in ProductDataSource.readAllProducts");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
             productEntry = cursor2ProductEntry(cursor);
-            products.put(productEntry.getInfo().getId(), productEntry);
+            products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
-        Log.i(MainActivity.TAG_FOR_APP, "Finished reading the database.");
+        Log.i(MainActivity.TAG_FOR_APP, "Finished reading the database. in ProductDataSource.readAllProducts");
         close();
         return products;
-    }
-
-    /** Is this even needed?? */
-    public void storeAllProducts(Hashtable<String, ProductEntry> data) {
-
     }
 }
 
@@ -163,7 +161,7 @@ public class ProductDataSource {
 class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PRODUCTS = "products";
     public static final String COLUMN_ID = "_id"; // database row, not product id!
-    public static final String COLUMN_PRODUCT_CODE = "productCode";
+    public static final String COLUMN_PRODUCT_ID = "productCode";
     public static final String COLUMN_CATEGORY = "category";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_COLOR = "color";
@@ -181,7 +179,7 @@ class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +
             COLUMN_ID + " integer primary key autoincrement, " +
-            COLUMN_PRODUCT_CODE + " text not null, " +
+            COLUMN_PRODUCT_ID + " text not null, " +
             COLUMN_CATEGORY + " text not null, " +
             COLUMN_NAME + " text not null, " +
             COLUMN_COLOR + " text not null, " +
@@ -189,7 +187,8 @@ class MySQLiteHelper extends SQLiteOpenHelper {
             COLUMN_COST + " real not null, " +
             COLUMN_NUMBER_IN_STOCK + " integer not null, " +
             COLUMN_NUMBER_ON_ORDER + " integer not null, " +
-            COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null);";
+            COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null, " +
+            COLUMN_IMAGE + " blob);";
 
     /** Makes the proper database */
     public MySQLiteHelper(Context context) {

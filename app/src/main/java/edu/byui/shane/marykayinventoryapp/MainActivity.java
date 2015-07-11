@@ -18,15 +18,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG_FOR_APP, "Startup of App successful");
+        Log.i(TAG_FOR_APP, "Startup of App successful in MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ProductDataSource.createSingleton(getApplicationContext());
         InventoryManager.createSingleton(getApplicationContext());
-        Log.v(TAG_FOR_APP, "Starting to read database...");
+        Log.v(TAG_FOR_APP, "Starting to read database in MainActivity.onCreate ...");
         InventoryManager.getInstance().readFromDatabase();
-        Log.i(TAG_FOR_APP, "Finished reading database.");
+        Log.i(TAG_FOR_APP, "Finished reading database in MainActivity.onCreate");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * This function will take the user from the home page to the Update Product List Activity when the user clicks on the button.
-     * @param view
+     * @param view The current view the user is looking at
      */
     public void switchToUpdateProductList(View view) {
         Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * This function will take the user from the home page to the Update Inventory Activity when the user clicks on the button.
-     * @param view
+     * @param view The current view the user is looking at
      */
     public void switchToUpdateInventory(View view) {
         Intent switcheroo = new Intent(this, UpdateInventoryActivity.class);
@@ -71,16 +71,17 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * This function will take the user from the home page to the Inventory List Activity when the user clicks on the button.
-     * @param view
+     * @param view The current view the user is looking at
      */
     public void switchToInventoryList(View view) {
+        Log.v(TAG_FOR_APP, "Switching to inventory list view... in MainActivity.switchToInventoryList");
         Intent switcheroo = new Intent(this, InventoryListActivity.class);
         startActivity(switcheroo);
     }
 
     /**
      * This function will take the user from the home page to the Reorder Product Activity when the user clicks on the button.
-     * @param view
+     * @param view The current view the user is looking at
      */
     public void switchToReorderProduct(View view) {
         Intent switcheroo = new Intent(this, ReorderProductActivity.class);

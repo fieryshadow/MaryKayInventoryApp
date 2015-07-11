@@ -73,7 +73,7 @@ public class Product {
     public void setCost(float cost) {
         //Team Activity Information log - Ryan
         if(cost >= 0) {
-            Log.i(MainActivity.TAG_FOR_APP, "The cost is within valid range.");
+            Log.i(MainActivity.TAG_FOR_APP, "The cost is within valid range. in Product.setCost");
         }
         this.cost = cost;
     }
@@ -84,5 +84,9 @@ public class Product {
 
     public void setImage(Bitmap newImage) {
         image = newImage;
+    }
+
+    public void setImageByFile(String filename) {
+
     }
 }

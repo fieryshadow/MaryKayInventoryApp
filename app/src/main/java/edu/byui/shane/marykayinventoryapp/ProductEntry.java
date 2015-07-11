@@ -52,7 +52,7 @@ public class ProductEntry {
     }
 
     public ProductInfo getInfo() {
-        return new ProductInfo(ProductCode.getProductKey(product.getId(), product.getSection()), product.getGroup(), product.getName(),
+        return new ProductInfo(ProductCode.makeProductKey(product.getId(), product.getSection()), product.getGroup(), product.getName(),
                 product.getSection(), product.getColor(), product.getCost(),
                 numberInStock, numberOnOrder, highestNumberInInventory,
                 calculateInventoryValue(), calculateTotalWorth(), product.getImage());
