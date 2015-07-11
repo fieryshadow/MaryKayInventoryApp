@@ -122,7 +122,7 @@ public class InventoryManager {
                                float cost, String section, int numOfProduct, String imageFile) {
         int changeInOrder = 0;
         String productKey = ProductCode.makeProductKey(productNumber, section);
-        Log.i(MainActivity.TAG_FOR_APP, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId() + " in InventoryManager.processCheckIn"); // could error! :O
+        Log.i(MainActivity.TAG_FOR_APP, "adding " + numOfProduct + " to " + inventory.get(productKey).getInfo().getId() + " in InventoryManager.processCheckIn"); // will error!! :O (when there are no products in inventory to match)
         if (inventory.containsKey(productKey)) {
             int orders = inventory.get(productKey).getNumberOnOrder();
             changeInOrder = Math.min(orders, numOfProduct);
