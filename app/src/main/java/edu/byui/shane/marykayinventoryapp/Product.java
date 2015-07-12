@@ -6,7 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Holds info pertaining to a MaryKay product
@@ -95,12 +100,33 @@ public class Product {
     }
 
     public void setImageByFile(String filename) {
+        Log.i(MainActivity.TAG_FOR_APP, "Loading product image in Product.setImageByFile");
         String path = Environment.getDataDirectory().getAbsolutePath();
         String filepath = path + "/MaryKayIconUpdate/" + filename;
-        Log.i(MainActivity.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
-        Bitmap image = BitmapFactory.decodeFile(filepath);
-        Log.i(MainActivity.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
-        this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
-        Log.i(MainActivity.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
+        if (new File(filepath).exists()) {
+            Log.i(MainActivity.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
+            Bitmap image = BitmapFactory.decodeFile(filepath);
+            Log.i(MainActivity.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
+            this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
+            Log.i(MainActivity.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
+        } else {
+            Log.w(MainActivity.TAG_FOR_APP, "The filename specified doesn't exist! in Product.setImageByFile");
+        }
+    }
+
+    public void setImageByURL(String url) {
+        Log.i(MainActivity.TAG_FOR_APP, "Downloading product image from specified URL in Product.setImageByURL");
+        try {
+            URL u = new URL(url);
+            Log.w(MainActivity.TAG_FOR_APP, "Decoding image in Product.setImageByURL");
+            Bitmap image = BitmapFactory.decodeStream(u.openStream());
+            Log.w(MainActivity.TAG_FOR_APP, "Resizing image in Product.setImageByURL");
+            this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
+            Log.w(MainActivity.TAG_FOR_APP, "Image has been set in Product.setImageByURL");
+        } catch (MalformedURLException ex) {
+            Log.w(MainActivity.TAG_FOR_APP, "Couldn't download image from specified URL in Product.setImageByURL");
+        } catch (IOException e) {
+            Log.w(MainActivity.TAG_FOR_APP, "Couldn't decode image from specified URL in Product.setImageByURL");
+        }
     }
 }

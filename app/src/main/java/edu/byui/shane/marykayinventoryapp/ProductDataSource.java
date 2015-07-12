@@ -62,7 +62,7 @@ public class ProductDataSource {
         Log.v(MainActivity.TAG_FOR_APP, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
         byte[] imageBytes = cursor.getBlob(11);
         Bitmap bitMapImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        Log.v(MainActivity.TAG_FOR_APP, "Making product to bitmap in ProductDataSource.cursor2ProductEntry");
+        Log.v(MainActivity.TAG_FOR_APP, "Making product in ProductDataSource.cursor2ProductEntry");
         Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getFloat(7));
         Log.v(MainActivity.TAG_FOR_APP, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");

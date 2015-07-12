@@ -73,7 +73,7 @@ public class InventoryManager {
         String productKey = ProductCode.makeProductKey(productNumber, section);
         if (inventory.containsKey(productKey)) { // update existing product in inventory
             productEntry = inventory.get(productKey);
-            Log.i(MainActivity.TAG_FOR_APP, "setting " + changeInProduct + " to " + productEntry.getInfo().getId() + " in InventoryManager.updateProduct");
+            Log.v(MainActivity.TAG_FOR_APP, "setting " + changeInProduct + " to " + productKey + " in InventoryManager.updateProduct");
             product = productEntry.getProduct();
             product.setGroup(category);
             product.setName(name);
@@ -82,11 +82,11 @@ public class InventoryManager {
 
             productEntry.setNumberInStock(productEntry.getNumberInStock() + changeInProduct);
             productEntry.setNumberOnOrder(productEntry.getNumberOnOrder() + changeInOrder);
-            Log.i(MainActivity.TAG_FOR_APP, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
+            Log.v(MainActivity.TAG_FOR_APP, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
         } else { // add new product to inventory
             Log.i(MainActivity.TAG_FOR_APP, "Adding a new product in InventoryManager.updateProduct");
             product = new Product(productNumber, category, name, section, color, cost);
-            Log.i(MainActivity.TAG_FOR_APP, "Checking product delta in InventoryManager.updateProduct");
+            Log.v(MainActivity.TAG_FOR_APP, "Checking product delta in InventoryManager.updateProduct");
             if (changeInProduct < 0) {
                 Log.w(MainActivity.TAG_FOR_APP, "You can't remove products that don't exist in the inventory! Adding product to the list... in InventoryManager.updateProduct");
                 changeInProduct = 0;
@@ -102,13 +102,18 @@ public class InventoryManager {
 
         Log.i(MainActivity.TAG_FOR_APP, "Checking for product image in InventoryManager.updateProduct");
         if (imageFile != null && !imageFile.equals("")) {
-            Log.i(MainActivity.TAG_FOR_APP, "Updating product image in InventoryManager.updateProduct");
-            product.setImageByFile(imageFile);
+            Log.v(MainActivity.TAG_FOR_APP, "Updating product image in InventoryManager.updateProduct");
+            if (imageFile.contains("http")) {
+                product.setImageByURL(imageFile);
+            } else {
+                product.setImageByFile(imageFile);
+            }
+            Log.i(MainActivity.TAG_FOR_APP, "Updated product image in InventoryManager.updateProduct");
         }
 
         Log.v(MainActivity.TAG_FOR_APP, "Database time! in InventoryManager.updateProduct");
         ProductDataSource.getInstance().storeProduct(productEntry);
-        Log.i(MainActivity.TAG_FOR_APP, "Stored info in database in InventoryManager.updateProduct");
+        Log.i(MainActivity.TAG_FOR_APP, "Stored info to database in InventoryManager.updateProduct");
     }
 
     /**
