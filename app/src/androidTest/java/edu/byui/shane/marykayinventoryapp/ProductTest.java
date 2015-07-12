@@ -11,16 +11,16 @@ public class ProductTest extends InstrumentationTestCase {
         //create new product
         Product p = new Product("1234", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         // check to make sure the id is correct.
-        assertEquals("1234", p.getId());
+        assertEquals("1234", p.getProductNumber());
     }
 
     public void testGroup() { //Ryan
         // test to make sure that a product is added to the correct group.
         Product p = new Product("123", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         //Set the newly created product's group to lipstick
-        p.setGroup("lipstick");
+        p.setCategory("lipstick");
         //Ensure the group was successfully saved to the item.
-        assertEquals("lipstick", p.getGroup());
+        assertEquals("lipstick", p.getCategory());
     }
 
 
@@ -37,7 +37,7 @@ public class ProductTest extends InstrumentationTestCase {
         //create new product with id 12345
         Product p = new Product("12345", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         // check to make sure the id is correct.
-        assertEquals("12345", p.getId());
+        assertEquals("12345", p.getProductNumber());
     }
 
     public void testColor(){ // Ryan

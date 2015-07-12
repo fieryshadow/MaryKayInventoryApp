@@ -7,8 +7,8 @@ import android.test.InstrumentationTestCase;
  */
 public class ProductEntryTest extends InstrumentationTestCase {
     public void testConstructionAndGetters() { // Shane
-        Product product1 = new Product("1234");
-        Product product2 = new Product("5678");
+        Product product1 = new Product("1234", 1);
+        Product product2 = new Product("5678", 1);
         // should we throw some exceptions for passing negative values?
 
         ProductEntry entry = new ProductEntry(product1, 0, 0, 0);
@@ -25,7 +25,7 @@ public class ProductEntryTest extends InstrumentationTestCase {
     }
 
     public void testIsOutOfStock() { // Shane
-        Product product = new Product("1234");
+        Product product = new Product("1234", 1);
         ProductEntry productEntry = new ProductEntry(product, 0, 0, 0);
         assertEquals(productEntry.isOutOfStock(), true);
         productEntry = new ProductEntry(product, 1, 0, 0);

@@ -26,21 +26,7 @@
         android:layout_alignParentStart="true"
         android:background="#ffa17c71"
         android:adjustViewBounds="false"
-        android:elevation="5dp"
-        android:layout_marginBottom="3dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Category"
-        android:id="@+id/categoryView"
-        android:layout_below="@+id/nameView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_alignLeft="@+id/nameView"
-        android:layout_alignStart="@+id/nameView" />
+        android:elevation="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,21 +45,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        android:text="Category"
+        android:id="@+id/categoryView"
+        android:layout_below="@+id/nameView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignLeft="@+id/nameView"
+        android:layout_alignStart="@+id/nameView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:text="Stock Status"
         android:id="@+id/stockStatusView"
-        android:gravity="end"
+        android:gravity="start"
         android:layout_below="@+id/colorView"
         android:layout_alignLeft="@+id/colorView"
         android:layout_alignStart="@+id/colorView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textColor="#ff8b8b8b" />
-    <!--android:textAlignment="gravity"-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:text="Color"
         android:id="@+id/colorView"
         android:layout_below="@+id/categoryView"
@@ -81,6 +79,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/categoryView"
         android:layout_alignStart="@+id/categoryView"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:textColor="#ff8b8b8b" />
 </RelativeLayout>

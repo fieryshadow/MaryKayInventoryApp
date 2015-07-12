@@ -47,7 +47,7 @@ public class InventoryManager {
         List<ProductInfo> listing = new ArrayList<>();
         Log.v(MyApp.LOGGING_TAG, "Finding products under section " + section + " in InventoryManager.getSectionListing");
         for (ProductEntry entry : inventory.values()) {
-            Log.v(MyApp.LOGGING_TAG, "Current product section == " + entry.getProduct().getSection() + " in InventoryManager.getSectionListing");
+            Log.v(MyApp.LOGGING_TAG, "Current product (" + ProductCode.makeProductKey(entry) + ") section is " + entry.getProduct().getSection() + " in InventoryManager.getSectionListing");
             if (entry.getProduct().getSection() == section) {
                 Log.v(MyApp.LOGGING_TAG, "Adding product to list in InventoryManager.getSectionListing");
                 listing.add(entry.getInfo());
@@ -77,7 +77,7 @@ public class InventoryManager {
             productEntry = inventory.get(productKey);
             Log.v(MyApp.LOGGING_TAG, "Setting " + changeInProduct + " to " + productKey + " in InventoryManager.updateProduct");
             product = productEntry.getProduct();
-            product.setGroup(category);
+            product.setCategory(category);
             product.setName(name);
             product.setColor(color);
             product.setCost(cost);

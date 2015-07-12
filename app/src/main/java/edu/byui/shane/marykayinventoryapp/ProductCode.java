@@ -21,7 +21,7 @@ public class ProductCode {
      */
     public static String makeProductKey(ProductEntry productEntry) {
         ProductInfo productInfo = productEntry.getInfo();
-        return makeProductKey(productInfo.getId(), productInfo.getSection());
+        return makeProductKey(productInfo.getProductNumber(), productInfo.getSection());
     }
 
     /**

@@ -6,18 +6,16 @@ import android.graphics.Bitmap;
  * A container for important values needing to be sent to the View (MVC)
  */
 public class ProductInfo {
-    private String id, group, name, color;
-    private int section;
-    private float cost;
-    private int numberInStock, numberOnOrder, highestNumberInInventory;
-    private float inventoryValue, totalWorth;
+    private String productNumber, category, name, color;
+    private int section, numberInStock, numberOnOrder, highestNumberInInventory;
+    private float cost, inventoryValue, totalWorth;
     private Bitmap image;
 
-    public ProductInfo(String id, String group, String name, int section, String color, float cost,
+    public ProductInfo(String productNumber, String category, String name, int section, String color, float cost,
                        int numberInStock, int numberOnOrder, int highestNumberInInventory,
                        float inventoryValue, float totalWorth, Bitmap image) {
-        this.id = id;
-        this.group = group;
+        this.productNumber = productNumber;
+        this.category = category;
         this.name = name;
         this.section = section;
         this.color = color;
@@ -30,12 +28,12 @@ public class ProductInfo {
         this.image = image;
     }
 
-    public String getId() {
-        return id;
+    public String getProductNumber() {
+        return productNumber;
     }
 
-    public String getGroup() {
-        return group;
+    public String getCategory() {
+        return category;
     }
 
     public String getName() {
@@ -80,6 +78,6 @@ public class ProductInfo {
 
     @Override
     public String toString() {
-        return "$" + getInventoryValue() + " of " + getColor() + " " + getName() + " " + getGroup();
+        return "$" + getInventoryValue() + " of " + getColor() + " " + getName() + " " + getCategory();
     }
 }

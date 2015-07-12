@@ -32,19 +32,27 @@ public class ProductEntry {
     }
 
     public ProductInfo getInfo() {
-        return new ProductInfo(ProductCode.makeProductKey(product.getId(), product.getSection()), product.getGroup(), product.getName(),
+        return new ProductInfo(product.getProductNumber(), product.getCategory(), product.getName(),
                 product.getSection(), product.getColor(), product.getCost(),
                 numberInStock, numberOnOrder, highestNumberInInventory,
                 getInventoryValue(), getTotalWorth(), product.getImage());
     }
 
-    public Product getProduct() {return product;}
+    public Product getProduct() {
+        return product;
+    }
 
-    public int getHighestNumberInInventory() {return highestNumberInInventory;}
+    public int getHighestNumberInInventory() {
+        return highestNumberInInventory;
+    }
 
-    public int getNumberOnOrder() {return numberOnOrder;}
+    public int getNumberOnOrder() {
+        return numberOnOrder;
+    }
 
-    public int getNumberInStock() {return numberInStock;}
+    public int getNumberInStock() {
+        return numberInStock;
+    }
 
     public void setNumberInStock(int newNumberInStock) {
         numberInStock = newNumberInStock;
@@ -53,5 +61,7 @@ public class ProductEntry {
         }
     }
 
-    public void setNumberOnOrder(int numberOnOrder) {this.numberOnOrder = numberOnOrder;}
+    public void setNumberOnOrder(int numberOnOrder) {
+        this.numberOnOrder = numberOnOrder;
+    }
 }

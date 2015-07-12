@@ -63,22 +63,17 @@ public class UpdateProductListActivity extends ActionBarActivity {
         Log.i(MyApp.LOGGING_TAG, "Submitting user input in UpdateProductListActivity.submit");
         Log.v(MyApp.LOGGING_TAG, "Load user input from text boxes in UpdateProductListActivity.submit");
         // these variables need to be final for them to be sent to threads properly
-        final String id = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
+        final String productNumber = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
         final String category = ((EditText) findViewById(R.id.ProductCategory)).getText().toString();
         final String name = ((EditText) findViewById(R.id.ProductName)).getText().toString();
-        final int section = (int) findViewById(R.id.ProductSection).getAlpha();
+        final int section = Integer.parseInt(((EditText) findViewById(R.id.ProductSection)).getText().toString());
         final String color = ((EditText) findViewById(R.id.color)).getText().toString();
-        final int numProduct = (int) findViewById(R.id.NumberofProduct).getAlpha();
-        final float cost = findViewById(R.id.ProductCost).getAlpha();
+        final int numProduct = Integer.parseInt(((EditText) findViewById(R.id.NumberOfProduct)).getText().toString());
+        final float cost = Float.parseFloat(((EditText) findViewById(R.id.ProductCost)).getText().toString());
         final String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
-
-        // testing code...
-//        category.setText("Foundation");
-//        name.setText("Liquid");
-//        //section.setText("A");
-//        color.setText("Peach");
-//        numProduct.setText("4");
-//        cost.setText("12.34");
+        Log.v(MyApp.LOGGING_TAG, "Values: prod#->" + productNumber + ", cat->" + category +
+                        ", name->" + name + ", sec->" + section + ", col->" + color + ", #prod->" +
+                        numProduct + ", cost->" + cost + ", iFile->" + imageFile + "... in UpdateProductListActivity.submit");
 
         Log.v(MyApp.LOGGING_TAG, "Remove Product == " + removeProduct + " in UpdateProductListActivity.submit");
         new Thread(new Runnable() {
@@ -87,10 +82,10 @@ public class UpdateProductListActivity extends ActionBarActivity {
                 InventoryManager inventoryManager = InventoryManager.getInstance();
                 if (!removeProduct) {
                     Log.v(MyApp.LOGGING_TAG, "Adding Product in UpdateProductListActivity.submit.thread");
-                    inventoryManager.processCheckIn(id, category, name, color, cost, section, numProduct, imageFile);
+                    inventoryManager.processCheckIn(productNumber, category, name, color, cost, section, numProduct, imageFile);
                     Log.i(MyApp.LOGGING_TAG, "Finished adding Product in UpdateProductListActivity.submit.thread");
                 } else {
-                    inventoryManager.processCheckOut(id, category, name, color, cost, section, numProduct, imageFile);
+                    inventoryManager.processCheckOut(productNumber, category, name, color, cost, section, numProduct, imageFile);
                 }
             }
         }).start();

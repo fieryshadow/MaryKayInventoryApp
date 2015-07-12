@@ -46,7 +46,7 @@
         android:inputType="text"/>
 
     <EditText
-        android:id="@+id/NumberofProduct"
+        android:id="@+id/NumberOfProduct"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ProductSection"
@@ -57,7 +57,7 @@
         android:id="@+id/ProductCost"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/NumberofProduct"
+        android:layout_below="@+id/NumberOfProduct"
         android:hint="Price of Product"
         android:inputType="numberDecimal"/>
 

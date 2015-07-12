@@ -17,18 +17,19 @@ import java.net.URL;
  * Holds info pertaining to a MaryKay product
  */
 public class Product {
-    private String id, group, name, color;
+    private String productNumber, category, name, color;
     private int section;
     private float cost;
     private Bitmap image;
 
-    public Product(String id) {
-        this.id = id;
+    public Product(String productNumber, int section) {
+        this.productNumber = productNumber;
+        this.section = section;
     }
 
-    public Product(String id, String group, String name, int section, String color, float cost) {
-        this.id = id;
-        this.group = group;
+    public Product(String productNumber, String group, String name, int section, String color, float cost) {
+        this.productNumber = productNumber;
+        this.category = group;
         this.name = name;
         this.section = section;
         this.color = color;
@@ -38,18 +39,17 @@ public class Product {
         this.image = BitmapFactory.decodeResource(MainActivity.getMainResources(), R.mipmap.default_product_icon);
     }
 
-    public String getId() {
-        return id;
+    public String getProductNumber() {
+        return productNumber;
     }
 
-    public String getGroup() {
-        return group;
+    public String getCategory() {
+        return category;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
-        //Team Activity Information log - Ryan
-        Log.i(MyApp.LOGGING_TAG, "Group was set sucessfully.");
+    public void setCategory(String category) {
+        this.category = category;
+        Log.i(MyApp.LOGGING_TAG, "Category was set successfully in Product.setCategory");
     }
 
     public String getName() {
@@ -57,19 +57,14 @@ public class Product {
     }
 
     public void setName(String name) {
-        //Team Activity Error log - Ryan
         if(name.equals("")) {
-            Log.e(MyApp.LOGGING_TAG, "Error: product must have a name!");
+            Log.e(MyApp.LOGGING_TAG, "Error: product must have a name! in Product.setName");
         }
         this.name = name;
     }
 
     public int getSection() {
         return section;
-    }
-
-    public void setSection(int section) {
-        this.section = section;
     }
 
     public String getColor() {
@@ -85,7 +80,6 @@ public class Product {
     }
 
     public void setCost(float cost) {
-        //Team Activity Information log - Ryan
         if(cost >= 0) {
             Log.i(MyApp.LOGGING_TAG, "The cost is within valid range. in Product.setCost");
         }

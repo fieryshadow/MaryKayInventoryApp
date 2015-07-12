@@ -47,11 +47,11 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         if (info.getImage() != null) {
             imageView.setImageBitmap(info.getImage());
         }
-        categoryView.setText(info.getGroup());
+        categoryView.setText(info.getCategory());
         nameView.setText(info.getName());
         colorView.setText(info.getColor());
 
-        String stockStatus = "You have " + Integer.toString(info.getNumberInStock()) + " at $" +
+        String stockStatus = "Stocking " + Integer.toString(info.getNumberInStock()) + " at $" +
                 Float.toString(info.getCost()) + " each ($" + Float.toString(info.getInventoryValue()) + ")";
         stockStatusView.setText(stockStatus);
         return row;

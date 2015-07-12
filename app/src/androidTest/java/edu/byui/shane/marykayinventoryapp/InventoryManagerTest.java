@@ -60,8 +60,8 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         inventoryManager.processCheckIn("1234123", "Eye Shadow", "liquid", "Orange", 12.34f, 1, 3, null);
         Product product = new Product("1234123", "Eye Shadow", "bestStuff", 1, "Orange", 12.34f);
         ProductInfo info = inventoryManager.getProductInfo("1234");
-        assertEquals(product.getId(), info.getId());
-        assertEquals(product.getGroup(), info.getGroup());
+        assertEquals(product.getProductNumber(), info.getProductNumber());
+        assertEquals(product.getCategory(), info.getCategory());
         assertEquals(product.getName(), info.getName());
         assertEquals(product.getColor(), info.getColor());
         assertEquals(product.getCost(), info.getCost());
