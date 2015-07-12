@@ -41,16 +41,11 @@ public class ReorderProductActivity extends ActionBarActivity {
 
     public void submit(View view) {
         finish();
-        //Products for testing purposes only.
-        Product eyeshadow = new Product("123456", "Makeup", "EyeShadow", "Section1", "Blue/Black", (float) 10.99);
-        ProductEntry entry1 = new ProductEntry(eyeshadow, 3, 0, 6);
-        Product lipstick = new Product("3456", "Makeup", "LipStick", "Section1", "Red", (float) 8.99);
-        ProductEntry entry2 = new ProductEntry(lipstick, 2, 0, 8);
     }
 
     /**
      * This function doesn't store any of the information that was entered on the page and it will return the user to the home page.
-     * @param view
+     * @param view The current user view
      */
     public void cancel(View view) {
         finish();

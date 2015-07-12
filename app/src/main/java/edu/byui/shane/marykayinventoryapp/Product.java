@@ -17,7 +17,8 @@ import java.net.URL;
  * Holds info pertaining to a MaryKay product
  */
 public class Product {
-    private String id, group, name, section, color;
+    private String id, group, name, color;
+    private int section;
     private float cost;
     private Bitmap image;
 
@@ -25,7 +26,7 @@ public class Product {
         this.id = id;
     }
 
-    public Product(String id, String group, String name, String section, String color, float cost) {
+    public Product(String id, String group, String name, int section, String color, float cost) {
         this.id = id;
         this.group = group;
         this.name = name;
@@ -48,7 +49,7 @@ public class Product {
     public void setGroup(String group) {
         this.group = group;
         //Team Activity Information log - Ryan
-        Log.i(MyApp.TAG_FOR_APP, "Group was set sucessfully.");
+        Log.i(MyApp.LOGGING_TAG, "Group was set sucessfully.");
     }
 
     public String getName() {
@@ -58,16 +59,16 @@ public class Product {
     public void setName(String name) {
         //Team Activity Error log - Ryan
         if(name.equals("")) {
-            Log.e(MyApp.TAG_FOR_APP, "Error: product must have a name!");
+            Log.e(MyApp.LOGGING_TAG, "Error: product must have a name!");
         }
         this.name = name;
     }
 
-    public String getSection() {
+    public int getSection() {
         return section;
     }
 
-    public void setSection(String section) {
+    public void setSection(int section) {
         this.section = section;
     }
 
@@ -86,7 +87,7 @@ public class Product {
     public void setCost(float cost) {
         //Team Activity Information log - Ryan
         if(cost >= 0) {
-            Log.i(MyApp.TAG_FOR_APP, "The cost is within valid range. in Product.setCost");
+            Log.i(MyApp.LOGGING_TAG, "The cost is within valid range. in Product.setCost");
         }
         this.cost = cost;
     }
@@ -100,33 +101,33 @@ public class Product {
     }
 
     public void setImageByFile(String filename) {
-        Log.i(MyApp.TAG_FOR_APP, "Loading product image in Product.setImageByFile");
+        Log.i(MyApp.LOGGING_TAG, "Loading product image in Product.setImageByFile");
         String path = Environment.getDataDirectory().getAbsolutePath();
         String filepath = path + "/MaryKayIconUpdate/" + filename;
         if (new File(filepath).exists()) {
-            Log.i(MyApp.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
+            Log.i(MyApp.LOGGING_TAG, "Decoding image at '" + path + "' in Product.setImageByFile");
             Bitmap image = BitmapFactory.decodeFile(filepath);
-            Log.i(MyApp.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
+            Log.i(MyApp.LOGGING_TAG, "Scaling image in Product.setImageByFile");
             this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
-            Log.i(MyApp.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
+            Log.i(MyApp.LOGGING_TAG, "Image has been updated in Product.setImageByFile");
         } else {
-            Log.w(MyApp.TAG_FOR_APP, "The filename specified doesn't exist! in Product.setImageByFile");
+            Log.w(MyApp.LOGGING_TAG, "The filename specified doesn't exist! in Product.setImageByFile");
         }
     }
 
     public void setImageByURL(String url) {
-        Log.i(MyApp.TAG_FOR_APP, "Downloading product image from specified URL in Product.setImageByURL");
+        Log.i(MyApp.LOGGING_TAG, "Downloading product image from specified URL in Product.setImageByURL");
         try {
             URL u = new URL(url);
-            Log.v(MyApp.TAG_FOR_APP, "Decoding image in Product.setImageByURL");
+            Log.v(MyApp.LOGGING_TAG, "Decoding image in Product.setImageByURL");
             Bitmap image = BitmapFactory.decodeStream(u.openStream());
-            Log.v(MyApp.TAG_FOR_APP, "Resizing image in Product.setImageByURL");
+            Log.v(MyApp.LOGGING_TAG, "Resizing image in Product.setImageByURL");
             this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
-            Log.i(MyApp.TAG_FOR_APP, "Image has been set in Product.setImageByURL");
+            Log.i(MyApp.LOGGING_TAG, "Image has been set in Product.setImageByURL");
         } catch (MalformedURLException ex) {
-            Log.w(MyApp.TAG_FOR_APP, "Couldn't download image from specified URL in Product.setImageByURL");
+            Log.w(MyApp.LOGGING_TAG, "Couldn't download image from specified URL in Product.setImageByURL");
         } catch (IOException e) {
-            Log.w(MyApp.TAG_FOR_APP, "Couldn't decode image from specified URL in Product.setImageByURL");
+            Log.w(MyApp.LOGGING_TAG, "Couldn't decode image from specified URL in Product.setImageByURL");
         }
     }
 }

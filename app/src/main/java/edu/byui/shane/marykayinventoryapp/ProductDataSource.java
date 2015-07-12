@@ -20,11 +20,6 @@ import java.util.Hashtable;
 public class ProductDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
-        MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
-        MySQLiteHelper.COLUMN_SECTION, MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST,
-        MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_NUMBER_ON_ORDER,
-        MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_IMAGE };
     private static ProductDataSource dataSource;
     private static Context appContext;
 
@@ -59,15 +54,15 @@ public class ProductDataSource {
 
     /** Converts a database cursor into a product entry */
     private ProductEntry cursor2ProductEntry(Cursor cursor) {
-        Log.v(MyApp.TAG_FOR_APP, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.LOGGING_TAG, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
         byte[] imageBytes = cursor.getBlob(11);
         Bitmap bitMapImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        Log.v(MyApp.TAG_FOR_APP, "Making product in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.LOGGING_TAG, "Making product in ProductDataSource.cursor2ProductEntry");
         Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6), cursor.getFloat(7));
-        Log.v(MyApp.TAG_FOR_APP, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");
+                cursor.getInt(5), cursor.getString(6), cursor.getFloat(7));
+        Log.v(MyApp.LOGGING_TAG, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");
         product.setImage(bitMapImage);
-        Log.v(MyApp.TAG_FOR_APP, "Creating product image in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.LOGGING_TAG, "Creating product image in ProductDataSource.cursor2ProductEntry");
         return new ProductEntry(product, cursor.getInt(8), cursor.getInt(9), cursor.getInt(10));
     }
 
@@ -75,13 +70,13 @@ public class ProductDataSource {
     @Nullable
     private ContentValues packValues(ProductEntry item) {
         if (item == null) {
-            Log.wtf(MyApp.TAG_FOR_APP, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
+            Log.wtf(MyApp.LOGGING_TAG, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
             return null;
         }
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
 
-        Log.v(MyApp.TAG_FOR_APP, "Packing it up in ProductDataSource.packValues");
+        Log.v(MyApp.LOGGING_TAG, "Packing it up in ProductDataSource.packValues");
         values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, ProductCode.makeProductKey(item));
         values.put(MySQLiteHelper.COLUMN_PRODUCT_NUMBER, info.getId());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getGroup());
@@ -93,13 +88,13 @@ public class ProductDataSource {
         values.put(MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, info.getNumberOnOrder());
         values.put(MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, info.getHighestNumberInInventory());
 
-        Log.v(MyApp.TAG_FOR_APP, "Packing up the image in ProductDataSource.packValues");
+        Log.v(MyApp.LOGGING_TAG, "Packing up the image in ProductDataSource.packValues");
         Bitmap image = info.getImage();
         if (image != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            Log.v(MyApp.TAG_FOR_APP, "Compressing image in ProductDataSource.packValues");
+            Log.v(MyApp.LOGGING_TAG, "Compressing image in ProductDataSource.packValues");
             image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            Log.v(MyApp.TAG_FOR_APP, "Storing image in ProductDataSource.packValues");
+            Log.v(MyApp.LOGGING_TAG, "Storing image in ProductDataSource.packValues");
             values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
         }
         return values;
@@ -111,14 +106,14 @@ public class ProductDataSource {
      */
     public void storeProduct(ProductEntry item) {
         open();
-        Log.v(MyApp.TAG_FOR_APP, "Packing product entry for database in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Packing product entry for database in ProductDataSource.storeProduct");
         ContentValues values = packValues(item);
-        Log.v(MyApp.TAG_FOR_APP, "Deleting database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Deleting database entry... in ProductDataSource.storeProduct");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + ProductCode.makeProductKey(item) + "\"", null);
-        Log.v(MyApp.TAG_FOR_APP, "Adding database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Adding database entry... in ProductDataSource.storeProduct");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
-        Log.v(MyApp.TAG_FOR_APP, "Closing database... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Closing database... in ProductDataSource.storeProduct");
         close();
     }
 
@@ -129,7 +124,7 @@ public class ProductDataSource {
      */
     public ProductEntry getProduct(String productCode) {
         open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, MySQLiteHelper.allColumns,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + productCode, null, null, null, null);
         cursor.moveToFirst();
         ProductEntry productEntry = cursor2ProductEntry(cursor);
@@ -145,22 +140,22 @@ public class ProductDataSource {
     public Hashtable<String, ProductEntry> readAllProducts() {
         open();
         Hashtable<String, ProductEntry> products = new Hashtable<>();
-        Log.v(MyApp.TAG_FOR_APP, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
+        Log.v(MyApp.LOGGING_TAG, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
-                allColumns, null, null, null, null, null);
+                MySQLiteHelper.allColumns, null, null, null, null, null);
 
-        Log.v(MyApp.TAG_FOR_APP, "Beginning database read... in ProductDataSource.readAllProducts");
+        Log.v(MyApp.LOGGING_TAG, "Beginning database read... in ProductDataSource.readAllProducts");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
-            Log.v(MyApp.TAG_FOR_APP, "Converting cursor in ProductDataSource.readAllProducts");
+            Log.v(MyApp.LOGGING_TAG, "Converting cursor in ProductDataSource.readAllProducts");
             productEntry = cursor2ProductEntry(cursor);
             products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
-        Log.i(MyApp.TAG_FOR_APP, "Finished reading the database. in ProductDataSource.readAllProducts");
+        Log.i(MyApp.LOGGING_TAG, "Finished reading the database. in ProductDataSource.readAllProducts");
         close();
         return products;
     }
@@ -168,7 +163,13 @@ public class ProductDataSource {
 
 
 class MySQLiteHelper extends SQLiteOpenHelper {
-    public static final String TABLE_PRODUCTS = "productEntries";
+    // Increment table version whenever database columns change, but also,
+    // make the onUpgrade method convert the old database to the new one.
+    public static final int TABLE_VERSION = 3;
+    public static final String DATABASE_NAME = "products.db";
+
+    public static final String BASE_TABLE_NAME = "productEntries";
+    public static final String TABLE_PRODUCTS = BASE_TABLE_NAME + TABLE_VERSION ;
     public static final String COLUMN_ID = "_id"; // this is a database row, not product id!!
     public static final String COLUMN_PRODUCT_CODE = "productCode";
     public static final String COLUMN_PRODUCT_NUMBER = "productNumber";
@@ -182,11 +183,6 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_HIGHEST_NUMBER_IN_STOCK = "greatestNum";
     public static final String COLUMN_IMAGE = "image";
 
-    // Increment table version whenever database columns change, but also,
-    // make the onUpgrade method convert the old database to the new one.
-    public static final int TABLE_VERSION = 2;
-    public static final String DATABASE_NAME = "products.db";
-
     private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +
             COLUMN_ID + " integer primary key autoincrement, " +
             COLUMN_PRODUCT_CODE + " text not null, " +
@@ -194,12 +190,18 @@ class MySQLiteHelper extends SQLiteOpenHelper {
             COLUMN_CATEGORY + " text not null, " +
             COLUMN_NAME + " text not null, " +
             COLUMN_COLOR + " text not null, " +
-            COLUMN_SECTION + " text not null, " +
+            COLUMN_SECTION + " integer not null, " +
             COLUMN_COST + " real not null, " +
             COLUMN_NUMBER_IN_STOCK + " integer not null, " +
             COLUMN_NUMBER_ON_ORDER + " integer not null, " +
             COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null, " +
             COLUMN_IMAGE + " blob not null);";
+
+    public static String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
+            MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
+            MySQLiteHelper.COLUMN_SECTION, MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST,
+            MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_NUMBER_ON_ORDER,
+            MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_IMAGE };
 
     /** Makes the proper database */
     public MySQLiteHelper(Context context) {
@@ -213,10 +215,43 @@ class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MySQLiteHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", destroying all old data.");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
-        onCreate(db);
+        Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> "
+                        + newVersion + "). Converting old data to new stuff... in MySQLiteHelper.onUpgrade");
+        db.execSQL(DATABASE_CREATE);
+        switch (oldVersion) {
+            case 1:
+            case 2:
+                Cursor cursor = db.query(BASE_TABLE_NAME, allColumns, null, null, null, null, null);
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    int newSection;
+                    String oldSection = cursor.getString(5);
+                    if (oldSection.equals("A")) {
+                        newSection = 1;
+                    } else {
+                        newSection = 2;
+                    }
+                    ContentValues values = new ContentValues();
+                    values.put(COLUMN_PRODUCT_CODE, cursor.getString(1));
+                    values.put(COLUMN_PRODUCT_NUMBER, cursor.getString(2));
+                    values.put(COLUMN_CATEGORY, cursor.getString(3));
+                    values.put(COLUMN_NAME, cursor.getString(4));
+                    values.put(COLUMN_SECTION, cursor.getString(newSection));
+                    values.put(COLUMN_COLOR, cursor.getString(6));
+                    values.put(COLUMN_COST, cursor.getFloat(7));
+                    values.put(COLUMN_NUMBER_IN_STOCK, cursor.getInt(8));
+                    values.put(COLUMN_NUMBER_ON_ORDER, cursor.getInt(9));
+                    values.put(COLUMN_HIGHEST_NUMBER_IN_STOCK, cursor.getInt(10));
+                    values.put(COLUMN_IMAGE, cursor.getBlob(11));
+                    db.insert(TABLE_PRODUCTS, null, values);
+                    cursor.moveToNext();
+                }
+                cursor.close();
+                db.execSQL("DROP TABLE " + BASE_TABLE_NAME);
+                break;
+            default:
+                Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade.");
+        }
+        Log.i(MyApp.LOGGING_TAG, "Done with database upgrade in MySQLiteHelper.onUpgrade");
     }
 }

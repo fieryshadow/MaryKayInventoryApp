@@ -26,79 +26,61 @@
         android:layout_alignParentStart="true"
         android:background="#ffa17c71"
         android:adjustViewBounds="false"
-        android:elevation="5dp" />
+        android:elevation="5dp"
+        android:layout_marginBottom="3dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="14sp"
         android:text="Category"
         android:id="@+id/categoryView"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_marginLeft="5dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:text="Name"
-        android:id="@+id/nameView"
-        android:layout_below="@+id/categoryView"
-        android:layout_alignLeft="@+id/categoryView"
-        android:layout_alignStart="@+id/categoryView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="Amount"
-        android:id="@+id/amountView"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:layout_marginTop="5dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="Worth"
-        android:id="@+id/worthView"
-        android:layout_alignTop="@+id/priceView"
+        android:layout_below="@+id/nameView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/anchor"
-        android:layout_toEndOf="@+id/anchor" />
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_alignLeft="@+id/nameView"
+        android:layout_alignStart="@+id/nameView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="Price"
-        android:id="@+id/priceView"
-        android:layout_alignTop="@+id/amountView"
-        android:layout_toLeftOf="@+id/worthView"
-        android:layout_alignBottom="@+id/amountView"
+        android:textSize="18sp"
+        android:text="Name"
+        android:id="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Stock Status"
+        android:id="@+id/stockStatusView"
+        android:gravity="end"
+        android:layout_below="@+id/colorView"
         android:layout_alignLeft="@+id/colorView"
-        android:layout_alignStart="@+id/colorView" />
+        android:layout_alignStart="@+id/colorView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ff8b8b8b" />
+    <!--android:textAlignment="gravity"-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:text="Color"
         android:id="@+id/colorView"
-        android:layout_above="@+id/amountView"
-        android:layout_alignLeft="@+id/nameView"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignRight="@+id/worthView"
-        android:layout_alignEnd="@+id/worthView"
-        android:layout_marginBottom="5dp" />
+        android:layout_below="@+id/categoryView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/categoryView"
+        android:layout_alignStart="@+id/categoryView"
+        android:layout_marginTop="5dp"
+        android:textColor="#ff8b8b8b" />
 </RelativeLayout>

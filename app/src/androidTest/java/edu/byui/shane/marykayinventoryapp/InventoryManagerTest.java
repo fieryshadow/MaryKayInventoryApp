@@ -57,8 +57,8 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testAddProduct() { // probably needs moving to testProcessCheckIn...
         InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.processCheckIn("1234123", "Eye Shadow", "liquid", "Orange", 12.34f, "A", 3, null);
-        Product product = new Product("1234123", "Eye Shadow", "bestStuff", "Orange", "A", 12.34f);
+        inventoryManager.processCheckIn("1234123", "Eye Shadow", "liquid", "Orange", 12.34f, 1, 3, null);
+        Product product = new Product("1234123", "Eye Shadow", "bestStuff", 1, "Orange", 12.34f);
         ProductInfo info = inventoryManager.getProductInfo("1234");
         assertEquals(product.getId(), info.getId());
         assertEquals(product.getGroup(), info.getGroup());
@@ -70,8 +70,8 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testRemoveProduct() { // probably needs moving to testProcessCheckOut
         InventoryManager inventoryManager = InventoryManager.getInstance();
         assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.processCheckIn("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, "A", 2, null);
-        inventoryManager.processCheckOut("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, "A", 1, null);
+        inventoryManager.processCheckIn("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, 1, 2, null);
+        inventoryManager.processCheckOut("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, 1, 1, null);
         assertEquals(inventoryManager.getProductInfo("1234"), null);
     }
 

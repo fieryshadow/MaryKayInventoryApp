@@ -10,7 +10,7 @@ public class ProductCode {
      * @param section Is it a sample product or actual retail
      * @return Returns a unique identifier taking into account the product section
      */
-    public static String makeProductKey(String productNumber, String section) { // a signature change is eminent
+    public static String makeProductKey(String productNumber, int section) { // a signature change is eminent
         return productNumber + "_" + section;
     }
 

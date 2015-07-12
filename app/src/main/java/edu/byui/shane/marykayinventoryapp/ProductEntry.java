@@ -5,8 +5,6 @@ package edu.byui.shane.marykayinventoryapp;
  */
 public class ProductEntry {
     private Product product;
-
-
     private int numberInStock, numberOnOrder, highestNumberInInventory;
 
     public ProductEntry(Product product, int numberInStock, int numberOnOrder, int highestNumberInInventory) {
@@ -17,45 +15,27 @@ public class ProductEntry {
         this.highestNumberInInventory = highestNumberInInventory;
     }
 
-    public float calculateInventoryValue() {
+    public float getInventoryValue() {
         return calculateCostOf(numberInStock);
     }
 
-    public float calculateTotalWorth() {
+    public float getTotalWorth() {
         return calculateCostOf(numberInStock + numberOnOrder);
     }
 
-    public float calculateCostOf(int amount) {
+    private float calculateCostOf(int amount) {
         return amount * product.getCost();
     }
 
-    public boolean isOutOfStock() {
+    public boolean isOutOfStock() { // are we going to use this??
         return numberInStock == 0;
-    }
-
-    public void receivedItem() {
-        if (numberOnOrder > 0) {
-            numberOnOrder--;
-        }
-        numberInStock++;
-        if (numberInStock > highestNumberInInventory) {
-            highestNumberInInventory = numberInStock;
-        }
-    }
-
-    public void soldItem() {
-
-    }
-
-    public void orderedItem() {
-
     }
 
     public ProductInfo getInfo() {
         return new ProductInfo(ProductCode.makeProductKey(product.getId(), product.getSection()), product.getGroup(), product.getName(),
                 product.getSection(), product.getColor(), product.getCost(),
                 numberInStock, numberOnOrder, highestNumberInInventory,
-                calculateInventoryValue(), calculateTotalWorth(), product.getImage());
+                getInventoryValue(), getTotalWorth(), product.getImage());
     }
 
     public Product getProduct() {return product;}
@@ -66,9 +46,12 @@ public class ProductEntry {
 
     public int getNumberInStock() {return numberInStock;}
 
-    public void setNumberInStock(int numberInStock) {this.numberInStock = numberInStock;}
+    public void setNumberInStock(int newNumberInStock) {
+        numberInStock = newNumberInStock;
+        if (numberInStock > highestNumberInInventory) {
+            highestNumberInInventory = numberInStock;
+        }
+    }
 
     public void setNumberOnOrder(int numberOnOrder) {this.numberOnOrder = numberOnOrder;}
-
-    public void setHighestNumberInInventory(int highestNumberInInventory) {this.highestNumberInInventory = highestNumberInInventory;}
 }

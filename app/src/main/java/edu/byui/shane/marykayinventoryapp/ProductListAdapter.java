@@ -2,8 +2,6 @@ package edu.byui.shane.marykayinventoryapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,7 +34,6 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
     @Override
     public View getView(int position, View row, ViewGroup parent) {
         if (row == null) { // has it been recycled?
-            //row = LayoutInflater.from(context).inflate(layoutResourceId, parent, false);
             row = ((Activity) context).getLayoutInflater().inflate(layoutResourceId, parent, false);
         }
 
@@ -44,20 +41,19 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
-        TextView priceView = (TextView) row.findViewById(R.id.priceView);
         TextView colorView = (TextView) row.findViewById(R.id.colorView);
-        TextView amountView = (TextView) row.findViewById(R.id.amountView);
-        TextView worthView = (TextView) row.findViewById(R.id.worthView);
+        TextView stockStatusView = (TextView) row.findViewById(R.id.stockStatusView);
 
         if (info.getImage() != null) {
             imageView.setImageBitmap(info.getImage());
         }
         categoryView.setText(info.getGroup());
         nameView.setText(info.getName());
-        priceView.setText("$" + Float.toString(info.getCost()));
         colorView.setText(info.getColor());
-        amountView.setText(Integer.toString(info.getNumberInStock()) + " at");
-        worthView.setText("Asset Worth: $" + Float.toString(info.getInventoryValue()));
+
+        String stockStatus = "You have " + Integer.toString(info.getNumberInStock()) + " at $" +
+                Float.toString(info.getCost()) + " each ($" + Float.toString(info.getInventoryValue()) + ")";
+        stockStatusView.setText(stockStatus);
         return row;
     }
 }

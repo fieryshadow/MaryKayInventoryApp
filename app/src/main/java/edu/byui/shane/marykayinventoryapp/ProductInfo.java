@@ -6,13 +6,14 @@ import android.graphics.Bitmap;
  * A container for important values needing to be sent to the View (MVC)
  */
 public class ProductInfo {
-    private String id, group, name, section, color;
+    private String id, group, name, color;
+    private int section;
     private float cost;
     private int numberInStock, numberOnOrder, highestNumberInInventory;
     private float inventoryValue, totalWorth;
     private Bitmap image;
 
-    public ProductInfo(String id, String group, String name, String section, String color, float cost,
+    public ProductInfo(String id, String group, String name, int section, String color, float cost,
                        int numberInStock, int numberOnOrder, int highestNumberInInventory,
                        float inventoryValue, float totalWorth, Bitmap image) {
         this.id = id;
@@ -41,7 +42,7 @@ public class ProductInfo {
         return name;
     }
 
-    public String getSection() {
+    public int getSection() {
         return section;
     }
 

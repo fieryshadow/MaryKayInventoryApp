@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(MyApp.TAG_FOR_APP, "Startup of App successful in MainActivity.onCreate");
+        Log.i(MyApp.LOGGING_TAG, "Startup of App successful in MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainResources = getResources();
@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
      * @param view The current view the user is looking at
      */
     public void switchToInventoryList(View view) {
-        Log.v(MyApp.TAG_FOR_APP, "Switching to inventory list view... in MainActivity.switchToInventoryList");
+        Log.v(MyApp.LOGGING_TAG, "Switching to inventory list view... in MainActivity.switchToInventoryList");
         Intent switcheroo = new Intent(this, InventoryListActivity.class);
         startActivity(switcheroo);
     }

@@ -7,7 +7,7 @@ import android.util.Log;
  * A place where code can be executed only once.
  */
 public class MyApp extends Application {
-    public static String TAG_FOR_APP = "MaryKayStuffAndThings";
+    public static String LOGGING_TAG = "MaryKayStuffAndThings";
 
     @Override
     public void onCreate() {
@@ -15,8 +15,8 @@ public class MyApp extends Application {
 
         ProductDataSource.createSingleton(getApplicationContext());
         InventoryManager.createSingleton(getApplicationContext());
-        Log.v(MyApp.TAG_FOR_APP, "Starting to read database in MainActivity.onCreate ...");
+        Log.v(MyApp.LOGGING_TAG, "Starting to read database in MainActivity.onCreate ...");
         InventoryManager.getInstance().readFromDatabase();
-        Log.i(MyApp.TAG_FOR_APP, "Finished reading database in MainActivity.onCreate");
+        Log.i(MyApp.LOGGING_TAG, "Finished reading database in MainActivity.onCreate");
     }
 }
