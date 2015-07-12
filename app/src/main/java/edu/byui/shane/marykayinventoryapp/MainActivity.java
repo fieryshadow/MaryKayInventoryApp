@@ -15,7 +15,6 @@ import java.util.Hashtable;
 
 
 public class MainActivity extends ActionBarActivity {
-    public static String TAG_FOR_APP = "MaryKayStuffAndThings";
     private static Resources mainResources;
     private Hashtable<String, ProductEntry> inventory;
 
@@ -26,16 +25,10 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG_FOR_APP, "Startup of App successful in MainActivity.onCreate");
+        Log.i(MyApp.TAG_FOR_APP, "Startup of App successful in MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainResources = getResources();
-
-        ProductDataSource.createSingleton(getApplicationContext());
-        InventoryManager.createSingleton(getApplicationContext());
-        Log.v(TAG_FOR_APP, "Starting to read database in MainActivity.onCreate ...");
-        InventoryManager.getInstance().readFromDatabase();
-        Log.i(TAG_FOR_APP, "Finished reading database in MainActivity.onCreate");
     }
 
     @Override
@@ -83,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
      * @param view The current view the user is looking at
      */
     public void switchToInventoryList(View view) {
-        Log.v(TAG_FOR_APP, "Switching to inventory list view... in MainActivity.switchToInventoryList");
+        Log.v(MyApp.TAG_FOR_APP, "Switching to inventory list view... in MainActivity.switchToInventoryList");
         Intent switcheroo = new Intent(this, InventoryListActivity.class);
         startActivity(switcheroo);
     }

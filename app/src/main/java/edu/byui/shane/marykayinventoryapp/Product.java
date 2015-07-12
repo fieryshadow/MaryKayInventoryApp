@@ -48,7 +48,7 @@ public class Product {
     public void setGroup(String group) {
         this.group = group;
         //Team Activity Information log - Ryan
-        Log.i(MainActivity.TAG_FOR_APP, "Group was set sucessfully.");
+        Log.i(MyApp.TAG_FOR_APP, "Group was set sucessfully.");
     }
 
     public String getName() {
@@ -58,7 +58,7 @@ public class Product {
     public void setName(String name) {
         //Team Activity Error log - Ryan
         if(name.equals("")) {
-            Log.e(MainActivity.TAG_FOR_APP, "Error: product must have a name!");
+            Log.e(MyApp.TAG_FOR_APP, "Error: product must have a name!");
         }
         this.name = name;
     }
@@ -86,7 +86,7 @@ public class Product {
     public void setCost(float cost) {
         //Team Activity Information log - Ryan
         if(cost >= 0) {
-            Log.i(MainActivity.TAG_FOR_APP, "The cost is within valid range. in Product.setCost");
+            Log.i(MyApp.TAG_FOR_APP, "The cost is within valid range. in Product.setCost");
         }
         this.cost = cost;
     }
@@ -100,33 +100,33 @@ public class Product {
     }
 
     public void setImageByFile(String filename) {
-        Log.i(MainActivity.TAG_FOR_APP, "Loading product image in Product.setImageByFile");
+        Log.i(MyApp.TAG_FOR_APP, "Loading product image in Product.setImageByFile");
         String path = Environment.getDataDirectory().getAbsolutePath();
         String filepath = path + "/MaryKayIconUpdate/" + filename;
         if (new File(filepath).exists()) {
-            Log.i(MainActivity.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
+            Log.i(MyApp.TAG_FOR_APP, "Decoding image at '" + path + "' in Product.setImageByFile");
             Bitmap image = BitmapFactory.decodeFile(filepath);
-            Log.i(MainActivity.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
+            Log.i(MyApp.TAG_FOR_APP, "Scaling image in Product.setImageByFile");
             this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
-            Log.i(MainActivity.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
+            Log.i(MyApp.TAG_FOR_APP, "Image has been updated in Product.setImageByFile");
         } else {
-            Log.w(MainActivity.TAG_FOR_APP, "The filename specified doesn't exist! in Product.setImageByFile");
+            Log.w(MyApp.TAG_FOR_APP, "The filename specified doesn't exist! in Product.setImageByFile");
         }
     }
 
     public void setImageByURL(String url) {
-        Log.i(MainActivity.TAG_FOR_APP, "Downloading product image from specified URL in Product.setImageByURL");
+        Log.i(MyApp.TAG_FOR_APP, "Downloading product image from specified URL in Product.setImageByURL");
         try {
             URL u = new URL(url);
-            Log.w(MainActivity.TAG_FOR_APP, "Decoding image in Product.setImageByURL");
+            Log.v(MyApp.TAG_FOR_APP, "Decoding image in Product.setImageByURL");
             Bitmap image = BitmapFactory.decodeStream(u.openStream());
-            Log.w(MainActivity.TAG_FOR_APP, "Resizing image in Product.setImageByURL");
+            Log.v(MyApp.TAG_FOR_APP, "Resizing image in Product.setImageByURL");
             this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
-            Log.w(MainActivity.TAG_FOR_APP, "Image has been set in Product.setImageByURL");
+            Log.i(MyApp.TAG_FOR_APP, "Image has been set in Product.setImageByURL");
         } catch (MalformedURLException ex) {
-            Log.w(MainActivity.TAG_FOR_APP, "Couldn't download image from specified URL in Product.setImageByURL");
+            Log.w(MyApp.TAG_FOR_APP, "Couldn't download image from specified URL in Product.setImageByURL");
         } catch (IOException e) {
-            Log.w(MainActivity.TAG_FOR_APP, "Couldn't decode image from specified URL in Product.setImageByURL");
+            Log.w(MyApp.TAG_FOR_APP, "Couldn't decode image from specified URL in Product.setImageByURL");
         }
     }
 }

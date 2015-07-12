@@ -59,15 +59,15 @@ public class ProductDataSource {
 
     /** Converts a database cursor into a product entry */
     private ProductEntry cursor2ProductEntry(Cursor cursor) {
-        Log.v(MainActivity.TAG_FOR_APP, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.TAG_FOR_APP, "Converting image to bitmap in ProductDataSource.cursor2ProductEntry");
         byte[] imageBytes = cursor.getBlob(11);
         Bitmap bitMapImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        Log.v(MainActivity.TAG_FOR_APP, "Making product in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.TAG_FOR_APP, "Making product in ProductDataSource.cursor2ProductEntry");
         Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getFloat(7));
-        Log.v(MainActivity.TAG_FOR_APP, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.TAG_FOR_APP, "Setting up the product icon in ProductDataSource.cursor2ProductEntry");
         product.setImage(bitMapImage);
-        Log.v(MainActivity.TAG_FOR_APP, "Creating product image in ProductDataSource.cursor2ProductEntry");
+        Log.v(MyApp.TAG_FOR_APP, "Creating product image in ProductDataSource.cursor2ProductEntry");
         return new ProductEntry(product, cursor.getInt(8), cursor.getInt(9), cursor.getInt(10));
     }
 
@@ -75,13 +75,13 @@ public class ProductDataSource {
     @Nullable
     private ContentValues packValues(ProductEntry item) {
         if (item == null) {
-            Log.wtf(MainActivity.TAG_FOR_APP, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
+            Log.wtf(MyApp.TAG_FOR_APP, "How are you storing nothing to the database!?", new Throwable("You Suck!"));
             return null;
         }
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
 
-        Log.v(MainActivity.TAG_FOR_APP, "Packing it up in ProductDataSource.packValues");
+        Log.v(MyApp.TAG_FOR_APP, "Packing it up in ProductDataSource.packValues");
         values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, ProductCode.makeProductKey(item));
         values.put(MySQLiteHelper.COLUMN_PRODUCT_NUMBER, info.getId());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getGroup());
@@ -93,13 +93,13 @@ public class ProductDataSource {
         values.put(MySQLiteHelper.COLUMN_NUMBER_ON_ORDER, info.getNumberOnOrder());
         values.put(MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, info.getHighestNumberInInventory());
 
-        Log.v(MainActivity.TAG_FOR_APP, "Packing up the image in ProductDataSource.packValues");
+        Log.v(MyApp.TAG_FOR_APP, "Packing up the image in ProductDataSource.packValues");
         Bitmap image = info.getImage();
         if (image != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            Log.v(MainActivity.TAG_FOR_APP, "Compressing image in ProductDataSource.packValues");
+            Log.v(MyApp.TAG_FOR_APP, "Compressing image in ProductDataSource.packValues");
             image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            Log.v(MainActivity.TAG_FOR_APP, "Storing image in ProductDataSource.packValues");
+            Log.v(MyApp.TAG_FOR_APP, "Storing image in ProductDataSource.packValues");
             values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
         }
         return values;
@@ -111,14 +111,14 @@ public class ProductDataSource {
      */
     public void storeProduct(ProductEntry item) {
         open();
-        Log.v(MainActivity.TAG_FOR_APP, "Packing product entry for database in ProductDataSource.storeProduct");
+        Log.v(MyApp.TAG_FOR_APP, "Packing product entry for database in ProductDataSource.storeProduct");
         ContentValues values = packValues(item);
-        Log.v(MainActivity.TAG_FOR_APP, "Deleting database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.TAG_FOR_APP, "Deleting database entry... in ProductDataSource.storeProduct");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + ProductCode.makeProductKey(item) + "\"", null);
-        Log.v(MainActivity.TAG_FOR_APP, "Adding database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.TAG_FOR_APP, "Adding database entry... in ProductDataSource.storeProduct");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
-        Log.v(MainActivity.TAG_FOR_APP, "Closing database... in ProductDataSource.storeProduct");
+        Log.v(MyApp.TAG_FOR_APP, "Closing database... in ProductDataSource.storeProduct");
         close();
     }
 
@@ -145,22 +145,22 @@ public class ProductDataSource {
     public Hashtable<String, ProductEntry> readAllProducts() {
         open();
         Hashtable<String, ProductEntry> products = new Hashtable<>();
-        Log.v(MainActivity.TAG_FOR_APP, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
+        Log.v(MyApp.TAG_FOR_APP, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
                 allColumns, null, null, null, null, null);
 
-        Log.v(MainActivity.TAG_FOR_APP, "Beginning database read... in ProductDataSource.readAllProducts");
+        Log.v(MyApp.TAG_FOR_APP, "Beginning database read... in ProductDataSource.readAllProducts");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
-            Log.v(MainActivity.TAG_FOR_APP, "Converting cursor in ProductDataSource.readAllProducts");
+            Log.v(MyApp.TAG_FOR_APP, "Converting cursor in ProductDataSource.readAllProducts");
             productEntry = cursor2ProductEntry(cursor);
             products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
-        Log.i(MainActivity.TAG_FOR_APP, "Finished reading the database. in ProductDataSource.readAllProducts");
+        Log.i(MyApp.TAG_FOR_APP, "Finished reading the database. in ProductDataSource.readAllProducts");
         close();
         return products;
     }

@@ -60,9 +60,9 @@ public class InventoryManager {
      * @return Returns the whole MaryKay product list
      */
     public List<ProductInfo> getWebsiteListing() {
-        Log.v(MainActivity.TAG_FOR_APP, "Connecting to the MaryKay server... in InventoryManager.getWebsiteListing");
+        Log.v(MyApp.TAG_FOR_APP, "Connecting to the MaryKay server... in InventoryManager.getWebsiteListing");
         // tbd...
-        Log.i(MainActivity.TAG_FOR_APP, "Loaded data from MaryKay server.");
+        Log.i(MyApp.TAG_FOR_APP, "Loaded data from MaryKay server.");
         return null;
     }
 
@@ -73,7 +73,7 @@ public class InventoryManager {
         String productKey = ProductCode.makeProductKey(productNumber, section);
         if (inventory.containsKey(productKey)) { // update existing product in inventory
             productEntry = inventory.get(productKey);
-            Log.v(MainActivity.TAG_FOR_APP, "setting " + changeInProduct + " to " + productKey + " in InventoryManager.updateProduct");
+            Log.v(MyApp.TAG_FOR_APP, "setting " + changeInProduct + " to " + productKey + " in InventoryManager.updateProduct");
             product = productEntry.getProduct();
             product.setGroup(category);
             product.setName(name);
@@ -82,38 +82,38 @@ public class InventoryManager {
 
             productEntry.setNumberInStock(productEntry.getNumberInStock() + changeInProduct);
             productEntry.setNumberOnOrder(productEntry.getNumberOnOrder() + changeInOrder);
-            Log.v(MainActivity.TAG_FOR_APP, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
+            Log.v(MyApp.TAG_FOR_APP, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
         } else { // add new product to inventory
-            Log.i(MainActivity.TAG_FOR_APP, "Adding a new product in InventoryManager.updateProduct");
+            Log.i(MyApp.TAG_FOR_APP, "Adding a new product in InventoryManager.updateProduct");
             product = new Product(productNumber, category, name, section, color, cost);
-            Log.v(MainActivity.TAG_FOR_APP, "Checking product delta in InventoryManager.updateProduct");
+            Log.v(MyApp.TAG_FOR_APP, "Checking product delta in InventoryManager.updateProduct");
             if (changeInProduct < 0) {
-                Log.w(MainActivity.TAG_FOR_APP, "You can't remove products that don't exist in the inventory! Adding product to the list... in InventoryManager.updateProduct");
+                Log.w(MyApp.TAG_FOR_APP, "You can't remove products that don't exist in the inventory! Adding product to the list... in InventoryManager.updateProduct");
                 changeInProduct = 0;
             } else if (changeInOrder < 0) {
-                Log.w(MainActivity.TAG_FOR_APP, "You don't have any items ordered for nonexistent products. Adding product to the list... in InventoryManager.updateProduct");
+                Log.w(MyApp.TAG_FOR_APP, "You don't have any items ordered for nonexistent products. Adding product to the list... in InventoryManager.updateProduct");
                 changeInOrder = 0;
             }
-            Log.i(MainActivity.TAG_FOR_APP, "Adding product to inventory in InventoryManager.updateProduct");
+            Log.i(MyApp.TAG_FOR_APP, "Adding product to inventory in InventoryManager.updateProduct");
             productEntry = new ProductEntry(product, changeInProduct, changeInOrder, changeInProduct);
             String key = ProductCode.makeProductKey(productNumber, section);
             inventory.put(key, productEntry);
         }
 
-        Log.i(MainActivity.TAG_FOR_APP, "Checking for product image in InventoryManager.updateProduct");
+        Log.i(MyApp.TAG_FOR_APP, "Checking for product image in InventoryManager.updateProduct");
         if (imageFile != null && !imageFile.equals("")) {
-            Log.v(MainActivity.TAG_FOR_APP, "Updating product image in InventoryManager.updateProduct");
+            Log.v(MyApp.TAG_FOR_APP, "Updating product image in InventoryManager.updateProduct");
             if (imageFile.contains("http")) {
                 product.setImageByURL(imageFile);
             } else {
                 product.setImageByFile(imageFile);
             }
-            Log.i(MainActivity.TAG_FOR_APP, "Updated product image in InventoryManager.updateProduct");
+            Log.i(MyApp.TAG_FOR_APP, "Updated product image in InventoryManager.updateProduct");
         }
 
-        Log.v(MainActivity.TAG_FOR_APP, "Database time! in InventoryManager.updateProduct");
+        Log.v(MyApp.TAG_FOR_APP, "Database time! in InventoryManager.updateProduct");
         ProductDataSource.getInstance().storeProduct(productEntry);
-        Log.i(MainActivity.TAG_FOR_APP, "Stored info to database in InventoryManager.updateProduct");
+        Log.i(MyApp.TAG_FOR_APP, "Stored info to database in InventoryManager.updateProduct");
     }
 
     /**
@@ -131,7 +131,7 @@ public class InventoryManager {
                                float cost, String section, int numOfProduct, String imageFile) {
         int changeInOrder = 0;
         String productKey = ProductCode.makeProductKey(productNumber, section);
-        Log.i(MainActivity.TAG_FOR_APP, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
+        Log.i(MyApp.TAG_FOR_APP, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
         if (inventory.containsKey(productKey)) {
             int orders = inventory.get(productKey).getNumberOnOrder();
             changeInOrder = Math.min(orders, numOfProduct);
@@ -188,9 +188,9 @@ public class InventoryManager {
      * Create the local inventory list from the database that has the inventory list stored.
      */
     public void readFromDatabase() {
-        Log.v(MainActivity.TAG_FOR_APP, "Starting to read from database in InventoryManager.readFromDatabase ...");
+        Log.v(MyApp.TAG_FOR_APP, "Starting to read from database in InventoryManager.readFromDatabase ...");
         inventory.putAll(ProductDataSource.getInstance().readAllProducts());
-        Log.i(MainActivity.TAG_FOR_APP, "Finished reading database in InventoryManager.readFromDatabase");
+        Log.i(MyApp.TAG_FOR_APP, "Finished reading database in InventoryManager.readFromDatabase");
 
         /* can test with hard coded products
         inventory.put(ProductCode.makeProductKey("1234", "A"), new ProductEntry(new Product("1234", "foundation", "liquid", "A", "peach", 12.34f), 0, 0, 0));

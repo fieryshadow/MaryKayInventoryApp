@@ -50,7 +50,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
      * @param view The view the user is looking at
      */
     public void updateProduct(View view) {
-        Log.i(MainActivity.TAG_FOR_APP, "Button Clicked");
+        Log.i(MyApp.TAG_FOR_APP, "Button Clicked");
         //create intent
 
         Button button = (Button) findViewById(R.id.ScanIn);
@@ -63,7 +63,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         EditText Section = (EditText) findViewById(R.id.ProductSection);
 
         if (Product.getText().toString().equals("")){
-            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed");
+            Log.e(MyApp.TAG_FOR_APP, "Empty String being passed");
         }
 
 
@@ -71,7 +71,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         String productNumber = Product.getText().toString();
         String productSection = Section.getText().toString();
         // test print of the full message to be sent
-        Log.i(MainActivity.TAG_FOR_APP, EXTRA_MESSAGE + productNumber);
+        Log.i(MyApp.TAG_FOR_APP, EXTRA_MESSAGE + productNumber);
         // add info from edit text box to the intent
         intent.putExtra("Product Section", productSection);
         intent.putExtra(EXTRA_MESSAGE, productNumber);
@@ -92,7 +92,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         EditText product = (EditText) findViewById(R.id.ProductNumber);
         if (product.getText().toString().equals("")) {
-            Log.e(MainActivity.TAG_FOR_APP, "Empty String being passed.");
+            Log.e(MyApp.TAG_FOR_APP, "Empty String being passed.");
         }
         String message = product.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);

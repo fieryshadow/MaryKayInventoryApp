@@ -61,7 +61,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
      * and decides whether to add or remove the product based on what button was pushed in the previous activity.
      */
     public void submit(View view) {
-        Log.i(MainActivity.TAG_FOR_APP, "Load user input from text boxes in UpdateProductListActivity.submit");
+        Log.i(MyApp.TAG_FOR_APP, "Load user input from text boxes in UpdateProductListActivity.submit");
         // these need to be final for them to be sent to threads
         final String id = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
         final String category = ((EditText) findViewById(R.id.ProductCategory)).getText().toString();
@@ -72,7 +72,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
         final float cost = findViewById(R.id.ProductCost).getAlpha();
         final String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
 
-        Log.i(MainActivity.TAG_FOR_APP, "Parse which section was selected in UpdateProductListActivity.submit");
+        Log.i(MyApp.TAG_FOR_APP, "Parse which section was selected in UpdateProductListActivity.submit");
         final String section;
         if (sectionId == 1) {
             section = InventoryManager.section1;
@@ -88,22 +88,22 @@ public class UpdateProductListActivity extends ActionBarActivity {
 //        numProduct.setText("4");
 //        cost.setText("12.34");
 
-        Log.i(MainActivity.TAG_FOR_APP, "Remove Product == " + removeProduct + " in UpdateProductListActivity.submit");
+        Log.i(MyApp.TAG_FOR_APP, "Remove Product == " + removeProduct + " in UpdateProductListActivity.submit");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 InventoryManager inventoryManager = InventoryManager.getInstance();
                 if (!removeProduct) {
-                    Log.i(MainActivity.TAG_FOR_APP, "Adding Product in UpdateProductListActivity.submit");
+                    Log.i(MyApp.TAG_FOR_APP, "Adding Product in UpdateProductListActivity.submit");
                     inventoryManager.processCheckIn(id, category, name, color, cost, section, numProduct, imageFile);
-                    Log.i(MainActivity.TAG_FOR_APP, "Finished adding Product in UpdateProductListActivity.submit");
+                    Log.i(MyApp.TAG_FOR_APP, "Finished adding Product in UpdateProductListActivity.submit");
                 } else {
                     inventoryManager.processCheckOut(id, category, name, color, cost, section, numProduct, imageFile);
                 }
             }
         }).start();
 
-        Log.i(MainActivity.TAG_FOR_APP, "Sending you back to the home page in UpdateProductListActivity.submit");
+        Log.i(MyApp.TAG_FOR_APP, "Sending you back to the home page in UpdateProductListActivity.submit");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
