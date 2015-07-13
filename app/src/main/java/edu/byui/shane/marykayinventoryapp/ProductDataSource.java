@@ -165,7 +165,7 @@ public class ProductDataSource {
 class MySQLiteHelper extends SQLiteOpenHelper {
     // Increment table version whenever database columns change, but also,
     // make the onUpgrade method convert the old database to the new one.
-    public static final int TABLE_VERSION = 7; // previous release version: never/1
+    public static final int TABLE_VERSION = 1; // previous release version: never
     public static final String DATABASE_NAME = "products.db";
 
     public static final String BASE_TABLE_NAME = "productEntries";
@@ -215,50 +215,10 @@ class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> "
-                        + newVersion + "). Converting old data to new stuff... in MySQLiteHelper.onUpgrade");
+        Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> " + newVersion +
+                "). Converting old data to new stuff... in MySQLiteHelper.onUpgrade");
         db.execSQL(DATABASE_CREATE);
-        Cursor cursor;
         switch (oldVersion) {
-            case 1:
-            case 2:
-                db.execSQL("create table if not exists " + BASE_TABLE_NAME + "3;");
-                cursor = db.query(BASE_TABLE_NAME, allColumns, null, null, null, null, null);
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    int newSection;
-                    String oldSection = cursor.getString(5);
-                    if (oldSection.equals("A")) {
-                        newSection = 1;
-                    } else {
-                        newSection = 2;
-                    }
-                    ContentValues values = new ContentValues();
-                    values.put(COLUMN_PRODUCT_CODE, cursor.getString(1));
-                    values.put(COLUMN_PRODUCT_NUMBER, cursor.getString(2));
-                    values.put(COLUMN_CATEGORY, cursor.getString(3));
-                    values.put(COLUMN_NAME, cursor.getString(4));
-                    values.put(COLUMN_SECTION, cursor.getString(newSection));
-                    values.put(COLUMN_COLOR, cursor.getString(6));
-                    values.put(COLUMN_COST, cursor.getFloat(7));
-                    values.put(COLUMN_NUMBER_IN_STOCK, cursor.getInt(8));
-                    values.put(COLUMN_NUMBER_ON_ORDER, cursor.getInt(9));
-                    values.put(COLUMN_HIGHEST_NUMBER_IN_STOCK, cursor.getInt(10));
-                    values.put(COLUMN_IMAGE, cursor.getBlob(11));
-                    db.insert(BASE_TABLE_NAME + 3, null, values);
-                    cursor.moveToNext();
-                }
-                cursor.close();
-                db.execSQL("drop table " + BASE_TABLE_NAME);
-            case 4:
-            case 5:
-                db.execSQL("insert into " + TABLE_PRODUCTS + " select * from " + BASE_TABLE_NAME + "3;");
-                db.execSQL("drop table if exists " + BASE_TABLE_NAME + "4;");
-                db.execSQL("drop table if exists " + BASE_TABLE_NAME + "5;");
-            case 6:
-                db.execSQL("insert into " + TABLE_PRODUCTS + " select * from " + BASE_TABLE_NAME + "6;");
-                db.execSQL("update " + TABLE_PRODUCTS + " set " + COLUMN_SECTION + " = " + COLUMN_SECTION + " + 1;");
-                break;
             default:
                 Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade.");
         }
@@ -275,5 +235,6 @@ class MySQLiteHelper extends SQLiteOpenHelper {
         } finally{
             db.endTransaction();
         }
+        Log.i(MyApp.LOGGING_TAG, "Done with database downgrade in MySQLiteHelper.onDowngrade");
     }
 }

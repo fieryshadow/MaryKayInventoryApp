@@ -187,24 +187,59 @@ public class InventoryManager {
     }
 
     /**
-     * Create the local inventory list from the database that has the inventory list stored.
+     * Create the local inventory list from the database that has the stored data
      */
     public void readFromDatabase() {
-        Log.v(MyApp.LOGGING_TAG, "Starting to read from database in InventoryManager.readFromDatabase ...");
-        inventory.putAll(ProductDataSource.getInstance().readAllProducts());
-        Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread ...");
+                inventory.putAll(ProductDataSource.getInstance().readAllProducts());
+                Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase.thread");
 
-        /* can test with hard coded products
-        inventory.put(ProductCode.makeProductKey("1234", "A"), new ProductEntry(new Product("1234", "foundation", "liquid", "A", "peach", 12.34f), 0, 0, 0));
-        inventory.put(ProductCode.makeProductKey("5678", "A"), new ProductEntry(new Product("5678", "foundation", "liquid", "A", "dark", 34.34f), 4, 5, 6));
-        inventory.put(ProductCode.makeProductKey("2345", "B"), new ProductEntry(new Product("2435", "eyeliner", "lash enhancing", "B", "deep black", 56.34f), 7, 8, 9));
-        inventory.put(ProductCode.makeProductKey("3456", "A"), new ProductEntry(new Product("3456", "lipstick", "liquid", "A", "bright red", 78.34f), 0, 0, 0));
-        inventory.put(ProductCode.makeProductKey("6789", "A"), new ProductEntry(new Product("6789", "lipstick", "twist up", "A", "natural", 96.57f), 3, 5, 7));
-        inventory.put(ProductCode.makeProductKey("0987", "A"), new ProductEntry(new Product("0987", "foundation", "liquid", "A", "green", 12.34f), 0, 0, 0));
-        inventory.put(ProductCode.makeProductKey("9876", "A"), new ProductEntry(new Product("9876", "foundation", "liquid", "A", "light", 34.34f), 4, 5, 6));
-        inventory.put(ProductCode.makeProductKey("8765", "B"), new ProductEntry(new Product("8765", "eyeliner", "lash enhancing", "B", "pale sparkles", 56.34f), 7, 8, 9));
-        inventory.put(ProductCode.makeProductKey("7654", "A"), new ProductEntry(new Product("7654", "lipstick", "liquid", "A", "leafy", 78.34f), 0, 0, 0));
-        inventory.put(ProductCode.makeProductKey("6543", "B"), new ProductEntry(new Product("6543", "blush", "gnarly", "B", "soft", 96.57f), 3, 5, 7));
-        //*/
+                if (inventory.values().size() == 0) { // prepopulate inventory for testing
+                    Log.i(MyApp.LOGGING_TAG, "Database empty. Creating new product list in InventoryManager.readFromDatabase.thread");
+                    ProductEntry productEntry;
+                    productEntry = new ProductEntry(new Product("12345678", "Lipstick", "True Dimensions", 1, "Sassy Fuchsia (Satin)", 18.00f), 3, 0, 5);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-sassy-fuchsia-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("12348765", "Lipstick", "True Dimensions", 1, "Spice n' Nice (Satin)", 18.00f), 5, 7, 5);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-spice-and-nice-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("97445676", "Lipstick", "True Dimensions", 1, "Chocolate (Satin)", 18.00f), 123, 21, 234);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-chocolatte-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("95346212", "Lipstick", "True Dimensions", 1, "Tangerine Pop (Satin)", 18.00f), 56, 0, 1213);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-tangerine-pop-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("97543456", "Lipstick", "True Dimensions", 1, "First Blush (Satin)", 18.00f), 1, 17, 2);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-first-blush-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("12344321", "Lip Gloss", "NouriShine", 1, "Shock Tart (Shimmer)", 15.00f), 13, 0, 54);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20Nourishine%20Plus%20Lip%20Gloss/mary-kay-nourishine-plus-lip-gloss-shock-tart-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("12345678", "Lipstick", "True Dimensions", 2, "Sassy Fuchsia (Satin)", 0.02f), 7, 3, 11);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-sassy-fuchsia-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    productEntry = new ProductEntry(new Product("12344321", "Lip Gloss", "NouriShine", 2, "Shock Tart (Shimmer)", 0.34f), 0, 0, 13);
+                    productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20Nourishine%20Plus%20Lip%20Gloss/mary-kay-nourishine-plus-lip-gloss-shock-tart-h.png");
+                    inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
+
+                    Log.i(MyApp.LOGGING_TAG, "Writing products to database in InventoryManager.readFromDatabase.thread");
+                    ProductDataSource pds = ProductDataSource.getInstance();
+                    for (ProductEntry entry : inventory.values()) {
+                        pds.storeProduct(entry);
+                    }
+                    Log.i(MyApp.LOGGING_TAG, "Finished creating product list in InventoryManager.readFromDatabase.thread");
+                }
+            }
+        }).start();
     }
 }
