@@ -72,9 +72,9 @@ public class InventoryManager {
      * @return Returns the whole MaryKay product list
      */
     public List<ProductInfo> getWebsiteListing() {
-        Log.v(MyApp.LOGGING_TAG, "Connecting to the MaryKay server... in InventoryManager.getWebsiteListing");
+        Log.v(MyApp.LOGGING_TAG, "Connecting to the MaryKay server in InventoryManager.getWebsiteListing");
         // tbd...
-        Log.i(MyApp.LOGGING_TAG, "Loaded data from MaryKay server.");
+        Log.i(MyApp.LOGGING_TAG, "Loaded data from MaryKay server");
         return null;
     }
 
@@ -94,16 +94,16 @@ public class InventoryManager {
 
             productEntry.setNumberInStock(productEntry.getNumberInStock() + changeInProduct);
             productEntry.setNumberOnOrder(productEntry.getNumberOnOrder() + changeInOrder);
-            Log.v(MyApp.LOGGING_TAG, "Total in stock = " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
+            Log.v(MyApp.LOGGING_TAG, "Total in stock is: " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
         } else { // add new product to inventory
             Log.i(MyApp.LOGGING_TAG, "Adding a new product in InventoryManager.updateProduct");
             product = new Product(productNumber, category, name, section, color, cost);
             Log.v(MyApp.LOGGING_TAG, "Checking product delta in InventoryManager.updateProduct");
             if (changeInProduct < 0) {
-                Log.w(MyApp.LOGGING_TAG, "You can't remove products that don't exist in the inventory! Adding product to the list... in InventoryManager.updateProduct");
+                Log.w(MyApp.LOGGING_TAG, "You can't remove products that don't exist in the inventory! Adding product to the list in InventoryManager.updateProduct");
                 changeInProduct = 0;
             } else if (changeInOrder < 0) {
-                Log.w(MyApp.LOGGING_TAG, "You don't have any items ordered for nonexistent products. Adding product to the list... in InventoryManager.updateProduct");
+                Log.w(MyApp.LOGGING_TAG, "You don't have any items ordered for nonexistent products. Adding product to the list in InventoryManager.updateProduct");
                 changeInOrder = 0;
             }
             Log.i(MyApp.LOGGING_TAG, "Adding product to inventory in InventoryManager.updateProduct");
@@ -146,7 +146,7 @@ public class InventoryManager {
             public void run() {
                 int changeInOrder = 0;
                 String productKey = ProductCode.makeProductKey(productNumber, section);
-                Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
+                Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " products to " + productKey + " in InventoryManager.processCheckIn");
                 if (inventory.containsKey(productKey)) {
                     int orders = inventory.get(productKey).getNumberOnOrder();
                     changeInOrder = Math.min(orders, numOfProduct);
@@ -218,12 +218,12 @@ public class InventoryManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread ...");
+                Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread");
                 inventory.putAll(ProductDataSource.getInstance().readAllProducts());
                 Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase.thread");
 
                 if (inventory.values().size() == 0) { // prepopulate inventory for testing
-                    Log.i(MyApp.LOGGING_TAG, "Database empty. Creating new product list in InventoryManager.readFromDatabase.thread");
+                    Log.i(MyApp.LOGGING_TAG, "Database is empty, creating new product list in InventoryManager.readFromDatabase.thread");
                     ProductEntry productEntry;
                     productEntry = new ProductEntry(new Product("12345678", "Lipstick", "True Dimensions", 1, "Sassy Fuchsia (Satin)", 18.00f), 3, 0, 5);
                     productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-sassy-fuchsia-h.png");

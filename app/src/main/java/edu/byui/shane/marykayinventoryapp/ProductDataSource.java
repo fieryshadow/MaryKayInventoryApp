@@ -76,7 +76,7 @@ public class ProductDataSource {
         ProductInfo info = item.getInfo();
         ContentValues values = new ContentValues();
 
-        Log.v(MyApp.LOGGING_TAG, "Packing it up in ProductDataSource.packValues");
+        Log.v(MyApp.LOGGING_TAG, "Packing up a product entry in ProductDataSource.packValues");
         values.put(MySQLiteHelper.COLUMN_PRODUCT_CODE, ProductCode.makeProductKey(item));
         values.put(MySQLiteHelper.COLUMN_PRODUCT_NUMBER, info.getProductNumber());
         values.put(MySQLiteHelper.COLUMN_CATEGORY, info.getCategory());
@@ -97,6 +97,7 @@ public class ProductDataSource {
             Log.v(MyApp.LOGGING_TAG, "Storing image in ProductDataSource.packValues");
             values.put(MySQLiteHelper.COLUMN_IMAGE, stream.toByteArray());
         }
+        Log.i(MyApp.LOGGING_TAG, "Finished creating database ready object in ProductDataSource.packValues");
         return values;
     }
 
@@ -108,12 +109,12 @@ public class ProductDataSource {
         open();
         Log.v(MyApp.LOGGING_TAG, "Packing product entry for database in ProductDataSource.storeProduct");
         ContentValues values = packValues(item);
-        Log.v(MyApp.LOGGING_TAG, "Deleting database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Deleting database entry in ProductDataSource.storeProduct");
         database.delete(MySQLiteHelper.TABLE_PRODUCTS,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + ProductCode.makeProductKey(item) + "\"", null);
-        Log.v(MyApp.LOGGING_TAG, "Adding database entry... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Adding database entry in ProductDataSource.storeProduct");
         database.insert(MySQLiteHelper.TABLE_PRODUCTS, null, values);
-        Log.v(MyApp.LOGGING_TAG, "Closing database... in ProductDataSource.storeProduct");
+        Log.v(MyApp.LOGGING_TAG, "Closing database in ProductDataSource.storeProduct");
         close();
     }
 
@@ -144,18 +145,18 @@ public class ProductDataSource {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
                 MySQLiteHelper.allColumns, null, null, null, null, null);
 
-        Log.v(MyApp.LOGGING_TAG, "Beginning database read... in ProductDataSource.readAllProducts");
+        Log.v(MyApp.LOGGING_TAG, "Moving cursor to beginning of database in ProductDataSource.readAllProducts");
         cursor.moveToFirst();
         ProductEntry productEntry;
         while (!cursor.isAfterLast()) {
-            Log.v(MyApp.LOGGING_TAG, "Converting cursor in ProductDataSource.readAllProducts");
+            Log.v(MyApp.LOGGING_TAG, "Converting cursor to product entry in ProductDataSource.readAllProducts");
             productEntry = cursor2ProductEntry(cursor);
             products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
         }
 
         cursor.close();
-        Log.i(MyApp.LOGGING_TAG, "Finished reading the database. in ProductDataSource.readAllProducts");
+        Log.i(MyApp.LOGGING_TAG, "Finished reading the database in ProductDataSource.readAllProducts");
         close();
         return products;
     }
@@ -216,11 +217,11 @@ class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> " + newVersion +
-                "). Converting old data to new stuff... in MySQLiteHelper.onUpgrade");
+                "). Converting old data to new stuff in MySQLiteHelper.onUpgrade");
         db.execSQL(DATABASE_CREATE);
         switch (oldVersion) {
             default:
-                Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade.");
+                Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade in MySQLiteHelper.onUpgrade");
         }
         Log.i(MyApp.LOGGING_TAG, "Done with database upgrade in MySQLiteHelper.onUpgrade");
     }

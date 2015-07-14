@@ -72,11 +72,10 @@ public class UpdateProductListActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
-     * @param view
      * Submit takes all the parameters from the edit text boxes in the Activity Update Product List page.
      * and decides whether to add or remove the product based on what button was pushed in the previous activity.
+     * @param view The thing a user is looking at!
      */
     public void submit(View view) {
         Log.v(MyApp.LOGGING_TAG, "Loading user input from text boxes in UpdateProductListActivity.submit");
@@ -88,18 +87,18 @@ public class UpdateProductListActivity extends ActionBarActivity {
         int numProduct = Integer.parseInt(((EditText) findViewById(R.id.NumberOfProduct)).getText().toString());
         float cost = Float.parseFloat(((EditText) findViewById(R.id.ProductCost)).getText().toString());
         String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
-        Log.w(MyApp.LOGGING_TAG, "Values: prod#->" + productNumber + ", cat->" + category +
+        Log.w(MyApp.LOGGING_TAG, "Pulled input values: prod#->" + productNumber + ", cat->" + category +
                 ", name->" + name + ", sec->" + section + ", col->" + color + ", #prod->" +
-                numProduct + ", cost->" + cost + ", iFile->" + imageFile + "... in UpdateProductListActivity.submit");
+                numProduct + ", cost->" + cost + ", iFile->'" + imageFile + "' in UpdateProductListActivity.submit");
 
-        Log.v(MyApp.LOGGING_TAG, "removeProduct == " + removeProduct + " in UpdateProductListActivity.submit");
+        Log.v(MyApp.LOGGING_TAG, "Variable removeProduct is: " + removeProduct + " in UpdateProductListActivity.submit");
         InventoryManager inventoryManager = InventoryManager.getInstance();
         Log.i(MyApp.LOGGING_TAG, "Submitting user input in UpdateProductListActivity.submit");
         if (!removeProduct) {
-            Log.v(MyApp.LOGGING_TAG, "Adding Product in UpdateProductListActivity.submit");
+            Log.v(MyApp.LOGGING_TAG, "Adding product in UpdateProductListActivity.submit");
             inventoryManager.processCheckIn(productNumber, category, name, color, cost, section, numProduct, imageFile);
         } else {
-            Log.i(MyApp.LOGGING_TAG, "Removing Product in UpdateProductListActivity.submit");
+            Log.i(MyApp.LOGGING_TAG, "Removing product in UpdateProductListActivity.submit");
             inventoryManager.processCheckOut(productNumber, category, name, color, cost, section, numProduct, imageFile);
         }
 

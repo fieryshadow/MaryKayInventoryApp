@@ -76,7 +76,7 @@ public class UpdateInventoryActivity extends ActionBarActivity implements Adapte
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
         Spinner Section = (Spinner) findViewById(R.id.ProductSection);
         if (Product.getText().toString().equals("")){
-            Log.e(MyApp.LOGGING_TAG, "Empty String being passed");
+            Log.e(MyApp.LOGGING_TAG, "Empty String being passed in UpdateInventoryActivity.updateProduct");
         }
 
 
@@ -104,7 +104,7 @@ public class UpdateInventoryActivity extends ActionBarActivity implements Adapte
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         EditText product = (EditText) findViewById(R.id.ProductNumber);
         if (product.getText().toString().equals("")) {
-            Log.e(MyApp.LOGGING_TAG, "Empty String being passed.");
+            Log.e(MyApp.LOGGING_TAG, "Empty String being passed in UpdateInventoryActivity.removeProduct");
         }
         String message = product.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
