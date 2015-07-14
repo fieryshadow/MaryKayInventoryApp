@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * The super cool class which interfaces lists and views
+ * A super cool class which interfaces product lists and inventory views
  */
 public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
     private Context context;
@@ -38,10 +38,10 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         }
 
         ProductInfo info = data.get(position);
-        ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) row.findViewById(R.id.anchor);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
-        TextView colorView = (TextView) row.findViewById(R.id.colorView);
+        TextView colorView = (TextView) row.findViewById(R.id.colorsView);
         TextView stockStatusView = (TextView) row.findViewById(R.id.stockStatusView);
 
         if (info.getImage() != null) {
@@ -51,8 +51,8 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         nameView.setText(info.getName());
         colorView.setText(info.getColor());
 
-        String stockStatus = "Stocking " + Integer.toString(info.getNumberInStock()) + " at $" +
-                Float.toString(info.getCost()) + " each ($" + Float.toString(info.getInventoryValue()) + ")";
+        String stockStatus = "You have " + Integer.toString(info.getNumberInStock()) +
+                " at $" + Float.toString(info.getCost()) + " each.";
         stockStatusView.setText(stockStatus);
         return row;
     }

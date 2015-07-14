@@ -20,12 +20,12 @@ public class InventoryManagerTest extends InstrumentationTestCase {
 
         // Check in a new item
         m.checkInItem("12345");
-        // set size to number of in stock items
-        int size = m.getProductInfo("12345").getNumberInStock();
+        // set getSize to number of in stock items
+        int getSize = m.getProductInfo("12345").getNumberInStock();
         // check in a new item
         m.checkInItem("12345");
         // check to see if the number of items in the list is one larger than before.
-        assertEquals(size + 1, m.getProductInfo("12345").getNumberInStock());
+        assertEquals(getSize + 1, m.getProductInfo("12345").getNumberInStock());
     }
     */
 
@@ -39,14 +39,14 @@ public class InventoryManagerTest extends InstrumentationTestCase {
         m.checkInItem("12345");
         m.checkInItem("12345");
 
-        //set the size to the size of the list to compare after removing 1.
-        int size = m.getProductInfo("12345").getNumberInStock();
+        //set the getSize to the getSize of the list to compare after removing 1.
+        int getSize = m.getProductInfo("12345").getNumberInStock();
 
         // remove 1 item from the list
         m.processCheckOut("12345", 1);
 
         // check to see if the number of items in the list is 1 less than before.
-        assertEquals(size - 1, m.getSectionListing(InventoryManager.section1).size());
+        assertEquals(getSize - 1, m.getSectionListing(InventoryManager.section1).getSize());
     }
     */
 

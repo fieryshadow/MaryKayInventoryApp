@@ -102,7 +102,7 @@ public class Product {
             Log.i(MyApp.LOGGING_TAG, "Decoding image at '" + path + "' in Product.setImageByFile");
             Bitmap image = BitmapFactory.decodeFile(filepath);
             Log.i(MyApp.LOGGING_TAG, "Scaling image in Product.setImageByFile");
-            this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
+            this.image = Bitmap.createScaledBitmap(image, 80, 80, true);
             Log.i(MyApp.LOGGING_TAG, "Image has been updated in Product.setImageByFile");
         } else {
             Log.w(MyApp.LOGGING_TAG, "The filename specified doesn't exist! in Product.setImageByFile");
@@ -116,7 +116,7 @@ public class Product {
             Log.v(MyApp.LOGGING_TAG, "Decoding image in Product.setImageByURL");
             Bitmap image = BitmapFactory.decodeStream(u.openStream());
             Log.v(MyApp.LOGGING_TAG, "Resizing image in Product.setImageByURL");
-            this.image = Bitmap.createScaledBitmap(image, 50, 50, true);
+            this.image = Bitmap.createScaledBitmap(image, 80, 80, true);
             Log.i(MyApp.LOGGING_TAG, "Image has been set in Product.setImageByURL");
         } catch (MalformedURLException ex) {
             Log.w(MyApp.LOGGING_TAG, "Couldn't download image from specified URL in Product.setImageByURL");

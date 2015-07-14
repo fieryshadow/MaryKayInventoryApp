@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 
@@ -123,11 +124,11 @@ public class InventoryListActivity extends ActionBarActivity {
             int section = getArguments().getInt(ARG_SECTION);
 
             Log.v(MyApp.LOGGING_TAG, "Finding the list in SectionFragment.onCreateView");
-            ListView listView = (ListView) fragmentView.findViewById(R.id.fragmentListView);
+            ExpandableListView listView = (ExpandableListView) fragmentView.findViewById(R.id.fragmentListView);
             Log.v(MyApp.LOGGING_TAG, "Getting product list in SectionFragment.onCreateView");
-            List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(section);
+            List<ProductGroup> list = InventoryManager.getInstance().getSectionListing(section);
             Log.v(MyApp.LOGGING_TAG, "Displaying the list view in SectionFragment.onCreateView");
-            ProductListAdapter productsView = new ProductListAdapter(getActivity(), R.layout.inventory_list_item, list);
+            ProductGroupAdapter productsView = new ProductGroupAdapter(getActivity(), R.layout.inventory_list_group, R.layout.inventory_list_item, list);
             listView.setAdapter(productsView);
 
             Log.v(MyApp.LOGGING_TAG, "Finished creation in SectionFragment.onCreateView");

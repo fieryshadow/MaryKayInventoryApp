@@ -43,18 +43,28 @@ public class InventoryManager {
      * @param section Section identifier
      * @return Returns a list of product entries
      */
-    public List<ProductInfo> getSectionListing(int section) {
-        List<ProductInfo> listing = new ArrayList<>();
+    public List<ProductGroup> getSectionListing(int section) {
+        Hashtable<String, ProductGroup> listing = new Hashtable<>();
         Log.v(MyApp.LOGGING_TAG, "Finding products under section " + section + " in InventoryManager.getSectionListing");
         for (ProductEntry entry : inventory.values()) {
             Log.v(MyApp.LOGGING_TAG, "Current product (" + ProductCode.makeProductKey(entry) + ") section is " + entry.getProduct().getSection() + " in InventoryManager.getSectionListing");
             if (entry.getProduct().getSection() == section) {
                 Log.v(MyApp.LOGGING_TAG, "Adding product to list in InventoryManager.getSectionListing");
-                listing.add(entry.getInfo());
+                ProductInfo info = entry.getInfo();
+                String key = info.getCategory()+ "_" + info.getName();
+                if (listing.containsKey(key)) {
+                    listing.get(key).addChild(info);
+                } else {
+                    ProductGroup group = new ProductGroup(info.getCategory(), info.getName(), info.getImage());
+                    group.addChild(info);
+                    listing.put(key, group);
+                }
             }
         }
         Log.v(MyApp.LOGGING_TAG, "Returning products under section " + section + " in InventoryManager.getSectionListing");
-        return listing;
+        List<ProductGroup> list = new ArrayList<>();
+        list.addAll(listing.values());
+        return list;
     }
 
     /**
