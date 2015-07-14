@@ -79,35 +79,29 @@ public class UpdateProductListActivity extends ActionBarActivity {
      * and decides whether to add or remove the product based on what button was pushed in the previous activity.
      */
     public void submit(View view) {
-        Log.i(MyApp.LOGGING_TAG, "Submitting user input in UpdateProductListActivity.submit");
-        Log.v(MyApp.LOGGING_TAG, "Load user input from text boxes in UpdateProductListActivity.submit");
-        // these variables need to be final for them to be sent to threads properly
-        final String productNumber = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
-        final String category = ((EditText) findViewById(R.id.ProductCategory)).getText().toString();
-        final String name = ((EditText) findViewById(R.id.ProductName)).getText().toString();
-        final int section = Integer.parseInt(((EditText) findViewById(R.id.ProductSection)).getText().toString());
-        final String color = ((EditText) findViewById(R.id.color)).getText().toString();
-        final int numProduct = Integer.parseInt(((EditText) findViewById(R.id.NumberOfProduct)).getText().toString());
-        final float cost = Float.parseFloat(((EditText) findViewById(R.id.ProductCost)).getText().toString());
-        final String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
-        Log.v(MyApp.LOGGING_TAG, "Values: prod#->" + productNumber + ", cat->" + category +
+        Log.v(MyApp.LOGGING_TAG, "Loading user input from text boxes in UpdateProductListActivity.submit");
+        String productNumber = ((TextView) findViewById(R.id.ProductNumber)).getText().toString();
+        String category = ((EditText) findViewById(R.id.ProductCategory)).getText().toString();
+        String name = ((EditText) findViewById(R.id.ProductName)).getText().toString();
+        int section = Integer.parseInt(((EditText) findViewById(R.id.ProductSection)).getText().toString());
+        String color = ((EditText) findViewById(R.id.color)).getText().toString();
+        int numProduct = Integer.parseInt(((EditText) findViewById(R.id.NumberOfProduct)).getText().toString());
+        float cost = Float.parseFloat(((EditText) findViewById(R.id.ProductCost)).getText().toString());
+        String imageFile = ((EditText) findViewById(R.id.ProductImageUpdater)).getText().toString();
+        Log.w(MyApp.LOGGING_TAG, "Values: prod#->" + productNumber + ", cat->" + category +
                 ", name->" + name + ", sec->" + section + ", col->" + color + ", #prod->" +
                 numProduct + ", cost->" + cost + ", iFile->" + imageFile + "... in UpdateProductListActivity.submit");
 
-        Log.v(MyApp.LOGGING_TAG, "Remove Product == " + removeProduct + " in UpdateProductListActivity.submit");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                InventoryManager inventoryManager = InventoryManager.getInstance();
-                if (!removeProduct) {
-                    Log.v(MyApp.LOGGING_TAG, "Adding Product in UpdateProductListActivity.submit.thread");
-                    inventoryManager.processCheckIn(productNumber, category, name, color, cost, section, numProduct, imageFile);
-                    Log.i(MyApp.LOGGING_TAG, "Finished adding Product in UpdateProductListActivity.submit.thread");
-                } else {
-                    inventoryManager.processCheckOut(productNumber, category, name, color, cost, section, numProduct, imageFile);
-                }
-            }
-        }).start();
+        Log.v(MyApp.LOGGING_TAG, "removeProduct == " + removeProduct + " in UpdateProductListActivity.submit");
+        InventoryManager inventoryManager = InventoryManager.getInstance();
+        Log.i(MyApp.LOGGING_TAG, "Submitting user input in UpdateProductListActivity.submit");
+        if (!removeProduct) {
+            Log.v(MyApp.LOGGING_TAG, "Adding Product in UpdateProductListActivity.submit");
+            inventoryManager.processCheckIn(productNumber, category, name, color, cost, section, numProduct, imageFile);
+        } else {
+            Log.i(MyApp.LOGGING_TAG, "Removing Product in UpdateProductListActivity.submit");
+            inventoryManager.processCheckOut(productNumber, category, name, color, cost, section, numProduct, imageFile);
+        }
 
         Log.i(MyApp.LOGGING_TAG, "Sending you back to the home page in UpdateProductListActivity.submit");
         Intent intent = new Intent(this, MainActivity.class);

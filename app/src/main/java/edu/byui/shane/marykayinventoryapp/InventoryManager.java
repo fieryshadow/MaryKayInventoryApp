@@ -139,16 +139,21 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being added
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processCheckIn(String productNumber, String category, String name, String color,
-                               float cost, int section, int numOfProduct, String imageFile) {
-        int changeInOrder = 0;
-        String productKey = ProductCode.makeProductKey(productNumber, section);
-        Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
-        if (inventory.containsKey(productKey)) {
-            int orders = inventory.get(productKey).getNumberOnOrder();
-            changeInOrder = Math.min(orders, numOfProduct);
-        }
-        updateProduct(productNumber, category, name, color, cost, section, numOfProduct, changeInOrder, imageFile);
+    public void processCheckIn(final String productNumber, final String category, final String name, final String color,
+                               final float cost, final int section, final int numOfProduct, final String imageFile) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int changeInOrder = 0;
+                String productKey = ProductCode.makeProductKey(productNumber, section);
+                Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " to " + productKey + " in InventoryManager.processCheckIn");
+                if (inventory.containsKey(productKey)) {
+                    int orders = inventory.get(productKey).getNumberOnOrder();
+                    changeInOrder = Math.min(orders, numOfProduct);
+                }
+                updateProduct(productNumber, category, name, color, cost, section, numOfProduct, changeInOrder, imageFile);
+            }
+        }).start();
     }
 
     /**
@@ -162,9 +167,14 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being removed
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processCheckOut(String productNumber, String category, String name, String color,
-                                float cost, int section, int numOfProduct, String imageFile) {
-        updateProduct(productNumber, category, name, color, cost, section, -numOfProduct, 0, imageFile);
+    public void processCheckOut(final String productNumber, final String category, final String name, final String color,
+                                final float cost, final int section, final int numOfProduct, final String imageFile) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateProduct(productNumber, category, name, color, cost, section, -numOfProduct, 0, imageFile);
+            }
+        }).start();
     }
 
     /**
@@ -178,9 +188,14 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being ordered
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processOrders(String productNumber, String category, String name, String color,
-                              float cost, int section, int numOfProduct, String imageFile) {
-        updateProduct(productNumber, category, name, color, cost, section, 0, numOfProduct, imageFile);
+    public void processOrders(final String productNumber, final String category, final String name, final String color,
+                              final float cost, final int section, final int numOfProduct, final String imageFile) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateProduct(productNumber, category, name, color, cost, section, 0, numOfProduct, imageFile);
+            }
+        }).start();
     }
 
     /**

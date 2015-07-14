@@ -1,5 +1,6 @@
 package edu.byui.shane.marykayinventoryapp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,7 +65,6 @@ public class InventoryListActivity extends ActionBarActivity {
 
     /** Manager of the different lists of products */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
         /** Adhering to the fragment API */
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -116,20 +116,29 @@ public class InventoryListActivity extends ActionBarActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             Log.v(MyApp.LOGGING_TAG, "Inflating layout in SectionFragment.onCreateView");
             View fragmentView = inflater.inflate(R.layout.fragment_inventory_list, container, false);
             Log.v(MyApp.LOGGING_TAG, "Retrieving section in SectionFragment.onCreateView");
-            int section = getArguments().getInt(ARG_SECTION);
+            final int section = getArguments().getInt(ARG_SECTION);
 
             Log.v(MyApp.LOGGING_TAG, "Finding the list in SectionFragment.onCreateView");
             ExpandableListView listView = (ExpandableListView) fragmentView.findViewById(R.id.fragmentListView);
-            Log.v(MyApp.LOGGING_TAG, "Getting product list in SectionFragment.onCreateView");
-            List<ProductGroup> list = InventoryManager.getInstance().getSectionListing(section);
+            final List<ProductGroup> list = new ArrayList<>();
             Log.v(MyApp.LOGGING_TAG, "Displaying the list view in SectionFragment.onCreateView");
-            ProductGroupAdapter productsView = new ProductGroupAdapter(getActivity(), R.layout.inventory_list_group, R.layout.inventory_list_item, list);
+            final ProductGroupAdapter productsView = new ProductGroupAdapter(getActivity(), R.layout.inventory_list_group, R.layout.inventory_list_item, list);
             listView.setAdapter(productsView);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.v(MyApp.LOGGING_TAG, "Getting product list in SectionFragment.onCreateView.thread");
+                    List<ProductGroup> listUpdate = InventoryManager.getInstance().getSectionListing(section);
+                    list.addAll(listUpdate);
+                    productsView.notifyDataSetChanged();
+                    Log.v(MyApp.LOGGING_TAG, "Got product list in SectionFragment.onCreateView.thread");
+                }
+            }).start();
 
             Log.v(MyApp.LOGGING_TAG, "Finished creation in SectionFragment.onCreateView");
             return fragmentView;
