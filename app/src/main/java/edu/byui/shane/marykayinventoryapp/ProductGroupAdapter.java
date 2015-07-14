@@ -100,7 +100,7 @@ public class ProductGroupAdapter extends BaseExpandableListAdapter {
         }
 
         ProductInfo info = (ProductInfo) getChild(groupPosition, childPosition);
-        ImageView imageView = (ImageView) row.findViewById(R.id.anchor);
+        ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
         TextView colorView = (TextView) row.findViewById(R.id.colorsView);

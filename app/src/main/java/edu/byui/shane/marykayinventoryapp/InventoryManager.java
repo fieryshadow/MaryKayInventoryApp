@@ -39,9 +39,9 @@ public class InventoryManager {
     }
 
     /**
-     * Retrieves the product entries corresponding to the given section
+     * Retrieves the product entries corresponding to the given section and groups them by category/name
      * @param section Section identifier
-     * @return Returns a list of product entries
+     * @return Returns a list of product groups
      */
     public List<ProductGroup> getSectionListing(int section) {
         Hashtable<String, ProductGroup> listing = new Hashtable<>();
@@ -68,14 +68,15 @@ public class InventoryManager {
     }
 
     /**
-     * Stretch goal
-     * @return Returns the whole MaryKay product list
+     * Retrieves all the product info you could ever want
+     * @return Returns a list of product info
      */
-    public List<ProductInfo> getWebsiteListing() {
-        Log.v(MyApp.LOGGING_TAG, "Connecting to the MaryKay server in InventoryManager.getWebsiteListing");
-        // tbd...
-        Log.i(MyApp.LOGGING_TAG, "Loaded data from MaryKay server");
-        return null;
+    public List<ProductInfo> getListing() {
+        List<ProductInfo> list = new ArrayList<>();
+        for (ProductEntry entry : inventory.values()) {
+            list.add(entry.getInfo());
+        }
+        return list;
     }
 
     private void updateProduct(String productNumber, String category, String name, String color,

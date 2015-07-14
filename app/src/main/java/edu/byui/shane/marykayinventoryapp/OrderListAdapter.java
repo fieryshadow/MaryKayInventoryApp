@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * A super cool class which interfaces product lists and inventory views
  */
-public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
+public class OrderListAdapter extends ArrayAdapter<ProductInfo> {
     private Context context;
     private int layoutResourceId;
     private List<ProductInfo> data;
@@ -24,7 +24,7 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
      * @param resource The resource ID for a layout file containing a TextView to use when
      * @param data  The list of ProductInfo's to keep track of
      */
-    public ProductListAdapter(Context context, int resource, List<ProductInfo> data) {
+    public OrderListAdapter(Context context, int resource, List<ProductInfo> data) {
         super(context, resource, data);
         this.context = context;
         this.layoutResourceId = resource;
@@ -37,12 +37,14 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
             row = ((Activity) context).getLayoutInflater().inflate(layoutResourceId, parent, false);
         }
 
+        // these should be whatever are in the corresponding xml file
         ProductInfo info = data.get(position);
         ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
         TextView colorView = (TextView) row.findViewById(R.id.colorsView);
         TextView stockStatusView = (TextView) row.findViewById(R.id.stockStatusView);
+        TextView amountView = (TextView) row.findViewById(R.id.amountView);
 
         if (info.getImage() != null) {
             imageView.setImageBitmap(info.getImage());
@@ -50,10 +52,8 @@ public class ProductListAdapter extends ArrayAdapter<ProductInfo> {
         categoryView.setText(info.getCategory());
         nameView.setText(info.getName());
         colorView.setText(info.getColor());
-
-        String stockStatus = "You have " + Integer.toString(info.getNumberInStock()) +
-                " at $" + Float.toString(info.getCost()) + " each";
-        stockStatusView.setText(stockStatus);
+        stockStatusView.setText("Maybe you could do something useful here");
+        amountView.setText("You haven't ordered any yet");
         return row;
     }
 }
