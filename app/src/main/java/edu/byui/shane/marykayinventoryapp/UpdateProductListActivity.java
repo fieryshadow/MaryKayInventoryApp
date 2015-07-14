@@ -20,17 +20,37 @@ public class UpdateProductListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_product_list);
+
+        InventoryManager inventoryManager = InventoryManager.getInstance();
+
         Intent intent = getIntent();
+
         String productNumber = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
         String productSection = intent.getStringExtra("Product Section");
+
         removeProduct = intent.getBooleanExtra("processCheckOut", false);
-        TextView ProductID = (TextView) findViewById(R.id.ProductNumber);
+
+        EditText ProductID = (EditText) findViewById(R.id.ProductNumber);
         EditText ProductSection = (EditText) findViewById(R.id.ProductSection);
+
         ProductSection.setText(productSection);
-        ProductID.setTextSize(20);
-        ProductID.setText(UpdateInventoryActivity.EXTRA_MESSAGE + productNumber);
-        InventoryManager inventoryManager = InventoryManager.getInstance();
+        ProductID.setText(productNumber);
+
+        String ProductKey = ProductCode.getProductKey(productNumber, productSection);
+
+        if(inventoryManager.getProductInfo(ProductKey) != null){
+            EditText ProductColor = (EditText) findViewById(R.id.color);
+            EditText ProductName = (EditText) findViewById(R.id.ProductName);
+            EditText ProductCost = (EditText) findViewById(R.id.ProductCost);
+            EditText productCategory = (EditText) findViewById(R.id.ProductCategory);
+            productCategory.setText(inventoryManager.getProductInfo(ProductKey).getGroup());
+            ProductColor.setText(inventoryManager.getProductInfo(ProductKey).getColor());
+            ProductName.setText(inventoryManager.getProductInfo(ProductKey).getName());
+            ProductCost.setText(Float.toString(inventoryManager.getProductInfo(ProductKey).getCost()));
+        }
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

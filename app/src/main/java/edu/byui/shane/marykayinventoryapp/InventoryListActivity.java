@@ -118,7 +118,7 @@ public class InventoryListActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_inventory_list, container, false);
-            String section = savedInstanceState.getString(ARG_SECTION);
+            String section = getArguments().getString(ARG_SECTION);
 
             ListView listView = (ListView) view.findViewById(R.id.listView);
             List<ProductInfo> list = InventoryManager.getInstance().getSectionListing(section);
