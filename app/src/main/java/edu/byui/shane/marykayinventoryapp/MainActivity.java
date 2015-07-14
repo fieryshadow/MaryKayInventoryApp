@@ -57,10 +57,10 @@ public class MainActivity extends ActionBarActivity {
      * This function will take the user from the home page to the Update Product List Activity when the user clicks on the button.
      * @param view The current view the user is looking at
      */
-    public void switchToUpdateProductList(View view) {
-        Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
-        startActivity(switcheroo);
-    }
+//    public void switchToUpdateProductList(View view) {
+//        Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
+//        startActivity(switcheroo);
+//    }
 
     /**
      * This function will take the user from the home page to the Update Inventory Activity when the user clicks on the button.

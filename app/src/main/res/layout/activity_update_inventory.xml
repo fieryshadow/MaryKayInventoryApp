@@ -15,15 +15,14 @@
         android:inputType="numberSigned"
         android:singleLine="true"
         android:textSize="30sp" />
-    <EditText
+
+    <Spinner
         android:id="@+id/ProductSection"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ProductNumber"
-        android:hint="@string/ProductSection"
-        android:inputType="textCapCharacters"
-        android:singleLine="true"
-        android:textSize="30sp"/>
+        android:layout_alignRight="@+id/ProductNumber"
+        android:layout_alignEnd="@+id/ProductNumber" />
 
     <Button
         android:id="@+id/ScanIn"
