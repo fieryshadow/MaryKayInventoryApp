@@ -7,20 +7,34 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * The Update Inventory Activity allows the user to edit the items in the inventory.
  */
-public class UpdateInventoryActivity extends ActionBarActivity {
+public class UpdateInventoryActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
     public final static String EXTRA_MESSAGE = "Product Number: ";
+    private String productSection;
     public final static String EXTRA_REMOVED = "processCheckOut";
     private boolean removeProduct;
+    Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_inventory);
+        spinner = (Spinner) findViewById(R.id.ProductSection);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.Sections, android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -60,8 +74,7 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
-        EditText Section = (EditText) findViewById(R.id.ProductSection);
-
+        Spinner Section = (Spinner) findViewById(R.id.ProductSection);
         if (Product.getText().toString().equals("")){
             Log.e(MyApp.LOGGING_TAG, "Empty String being passed");
         }
@@ -69,7 +82,6 @@ public class UpdateInventoryActivity extends ActionBarActivity {
 
         // create message to send
         String productNumber = Product.getText().toString();
-        String productSection = Section.getText().toString();
         // test print of the full message to be sent
         Log.i(MyApp.LOGGING_TAG, EXTRA_MESSAGE + productNumber);
         // add info from edit text box to the intent
@@ -99,5 +111,21 @@ public class UpdateInventoryActivity extends ActionBarActivity {
         intent.putExtra(EXTRA_REMOVED, removeProduct);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        TextView myText =  (TextView) view;
+        if(myText.getText().toString().equals("Section 1")){
+            productSection = "1";
+        } else {
+            productSection = "2";
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:hint="Product Number: " />
+        android:hint="Product Number: "
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/ProductCategory"
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/color"
         android:hint="Product Section"
-        android:inputType="textCapCharacters"/>
+        android:inputType="number"/>
 
     <EditText
         android:layout_width="fill_parent"

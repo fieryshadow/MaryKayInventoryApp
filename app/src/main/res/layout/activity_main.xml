@@ -12,46 +12,40 @@
         android:layout_centerInParent="true" />
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="280dp"
+        android:layout_height="90dp"
         android:text="View Inventory"
         android:id="@+id/viewInventoryButton"
         android:onClick="switchToInventoryList"
         android:layout_above="@+id/scanProductButton"
         android:layout_alignLeft="@+id/scanProductButton"
         android:layout_alignStart="@+id/scanProductButton"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:textSize="25dp"/>
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Update Product"
+        android:layout_width="280dp"
+        android:layout_height="90dp"
+        android:text="Add/Remove Product"
         android:id="@+id/scanProductButton"
         android:onClick="switchToUpdateInventory"
         android:layout_above="@+id/anchor"
         android:layout_alignLeft="@+id/reorderProductButton"
         android:layout_alignStart="@+id/reorderProductButton"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textSize="25dp"/>
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Reorder Product"
+        android:layout_width="280dp"
+        android:layout_height="90dp"
+        android:text="Reorder List"
         android:id="@+id/reorderProductButton"
         android:onClick="switchToReorderProduct"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/anchor"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"/>
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Update Product List"
-        android:id="@+id/updateProductListButton"
-        android:onClick="switchToUpdateProductList"
-        android:layout_below="@+id/reorderProductButton"
-        android:layout_alignLeft="@+id/reorderProductButton"
-        android:layout_alignStart="@+id/reorderProductButton"
-        android:layout_marginTop="20dp" />
+
 
 </RelativeLayout>
