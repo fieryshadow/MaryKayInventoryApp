@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class InventoryListActivity extends ActionBarActivity {
@@ -117,30 +118,39 @@ public class InventoryListActivity extends ActionBarActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Log.v(MyApp.LOGGING_TAG, "Inflating layout in SectionFragment.onCreateView");
+            Log.v(MyApp.LOGGING_TAG, "Inflating layout in InventoryListActivity.SectionFragment.onCreateView");
             View fragmentView = inflater.inflate(R.layout.fragment_inventory_list, container, false);
-            Log.v(MyApp.LOGGING_TAG, "Retrieving section in SectionFragment.onCreateView");
+            Log.v(MyApp.LOGGING_TAG, "Retrieving section in InventoryListActivity.SectionFragment.onCreateView");
             final int section = getArguments().getInt(ARG_SECTION);
 
-            Log.v(MyApp.LOGGING_TAG, "Finding the list in SectionFragment.onCreateView");
+            Log.v(MyApp.LOGGING_TAG, "Finding the list in InventoryListActivity.SectionFragment.onCreateView");
             ExpandableListView listView = (ExpandableListView) fragmentView.findViewById(R.id.fragmentListView);
             final List<ProductGroup> list = new ArrayList<>();
-            Log.v(MyApp.LOGGING_TAG, "Displaying the list view in SectionFragment.onCreateView");
+            Log.v(MyApp.LOGGING_TAG, "Displaying the list view in InventoryListActivity.SectionFragment.onCreateView");
             final ProductGroupAdapter productsView = new ProductGroupAdapter(getActivity(), R.layout.inventory_list_group, R.layout.inventory_list_item, list);
             listView.setAdapter(productsView);
+
+            final TextView valueView = (TextView) fragmentView.findViewById(R.id.valueView);
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.v(MyApp.LOGGING_TAG, "Getting product list in SectionFragment.onCreateView.thread");
+                    Log.v(MyApp.LOGGING_TAG, "Getting product list in InventoryListActivity.SectionFragment.onCreateView.thread");
                     List<ProductGroup> listUpdate = InventoryManager.getInstance().getSectionListing(section);
                     list.addAll(listUpdate);
                     productsView.notifyDataSetChanged();
-                    Log.v(MyApp.LOGGING_TAG, "Got product list in SectionFragment.onCreateView.thread");
+
+                    Log.i(MyApp.LOGGING_TAG, "Calculating total inventory value in InventoryListActivity.SectionFragment.onCreateView.thread");
+                    float value = 0;
+                    for (ProductInfo info : InventoryManager.getInstance().getListing()) {
+                        value += info.getInventoryValue();
+                    }
+                    valueView.setText(Float.toString(value));
+                    Log.v(MyApp.LOGGING_TAG, "Got product list in InventoryListActivity.SectionFragment.onCreateView.thread");
                 }
             }).start();
 
-            Log.v(MyApp.LOGGING_TAG, "Finished creation in SectionFragment.onCreateView");
+            Log.v(MyApp.LOGGING_TAG, "Finished creation in InventoryListActivity.SectionFragment.onCreateView");
             return fragmentView;
         }
     }
