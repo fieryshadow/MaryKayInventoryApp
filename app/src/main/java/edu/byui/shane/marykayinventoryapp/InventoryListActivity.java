@@ -142,10 +142,12 @@ public class InventoryListActivity extends ActionBarActivity {
 
                     Log.i(MyApp.LOGGING_TAG, "Calculating total inventory value in InventoryListActivity.SectionFragment.onCreateView.thread");
                     float value = 0;
-                    for (ProductInfo info : InventoryManager.getInstance().getListing()) {
-                        value += info.getInventoryValue();
+                    for (ProductGroup group : listUpdate) {
+                        for (ProductInfo info : group.getChildren()) {
+                            value += info.getInventoryValue();
+                        }
                     }
-                    valueView.setText(Float.toString(value));
+                    valueView.setText("Total: $" + Float.toString(value));
                     Log.v(MyApp.LOGGING_TAG, "Got product list in InventoryListActivity.SectionFragment.onCreateView.thread");
                 }
             }).start();

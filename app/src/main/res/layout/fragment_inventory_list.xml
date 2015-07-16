@@ -24,6 +24,7 @@
         android:text="Inventory Value"
         android:id="@+id/valueView"
         android:gravity="center_horizontal"
+        android:textColor="#ffbd00e8"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
