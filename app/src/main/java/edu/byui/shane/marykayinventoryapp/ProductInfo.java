@@ -10,6 +10,7 @@ public class ProductInfo {
     private int section, numberInStock, numberOnOrder, highestNumberInInventory;
     private float cost, inventoryValue, totalWorth;
     private Bitmap image;
+    private int numberToOrder;
 
     public ProductInfo(String productNumber, String category, String name, int section, String color, float cost,
                        int numberInStock, int numberOnOrder, int highestNumberInInventory,
@@ -26,6 +27,7 @@ public class ProductInfo {
         this.inventoryValue = inventoryValue;
         this.totalWorth = totalWorth;
         this.image = image;
+        this.numberToOrder = 0;//We might also subtract off the numberOnOrder to not order twice.
     }
 
     public String getProductNumber() {
@@ -75,6 +77,14 @@ public class ProductInfo {
     public Bitmap getImage() {
         return image;
     }
+
+    public int getNumberToOrder() {return numberToOrder;}
+
+    public void setNumberToOrder(int numToOrder) {this.numberToOrder = numToOrder;}
+
+    public void setNumberToOrderToDefault() {this.numberToOrder = highestNumberInInventory - numberInStock;}
+
+    public void resetNumberToOrder() {this.numberToOrder = 0;}
 
     @Override
     public String toString() {

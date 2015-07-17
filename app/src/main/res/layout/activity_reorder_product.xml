@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Submit Order"
         android:id="@+id/submit"
+        android:onClick="submit"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

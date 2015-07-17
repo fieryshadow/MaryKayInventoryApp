@@ -31,13 +31,17 @@ public class ReorderProductActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // do the order update and number manipulation stuff here, this is an example
-                TextView amountView = (TextView) view.findViewById(R.id.amountView);
                 ProductInfo info = productList.get(position);
-                int number = info.getHighestNumberInInventory() - info.getNumberInStock();
-                // the following doesn't actually save any values, so we need to put some more data into product info...
-                amountView.setText("You will be getting " + number + " of these items from MaryKay if you choose to continue...");
-                amountView.setTextColor(Color.parseColor("#ffff0000")); // red
+                if (info.getNumberToOrder() == 0) {
+                    info.setNumberToOrderToDefault();
+                    // do the order update and number manipulation stuff here, this is an example
+                    TextView amountView = (TextView) view.findViewById(R.id.amountView);
+                    // the following doesn't actually save any values, so we need to put some more data into product info...
+                    amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
+                    amountView.setTextColor(Color.parseColor("#ffff0000")); // red
+                } else {
+                    // do something to allow user to enter a number to set numberToOrder in the info object.
+                }
             }
         });
     }
@@ -67,6 +71,7 @@ public class ReorderProductActivity extends ActionBarActivity {
 
     public void submit(View view) {
         finish();
+        //instead of calling finish(), loop through the productList and call processOrder on any object that toOrder isn't 0.
     }
 
     /**

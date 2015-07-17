@@ -2,6 +2,7 @@ package edu.byui.shane.marykayinventoryapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,7 +54,14 @@ public class OrderListAdapter extends ArrayAdapter<ProductInfo> {
         nameView.setText(info.getName());
         colorView.setText(info.getColor());
         stockStatusView.setText("Maybe you could do something useful here");
-        amountView.setText("You haven't ordered any yet");
+
+        if(info.getNumberToOrder() != 0 && info.getHighestNumberInInventory() != 0) {
+            amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
+            amountView.setTextColor(Color.parseColor("#ffff0000")); // red
+        } else {
+            amountView.setText("You haven't ordered any yet");
+            amountView.setTextColor(Color.parseColor("#ff00e812"));//green
+        }
         return row;
     }
 }
