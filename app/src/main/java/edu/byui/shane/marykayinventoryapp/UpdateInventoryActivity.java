@@ -21,10 +21,11 @@ import org.w3c.dom.Text;
  * The Update Inventory Activity allows the user to edit the items in the inventory.
  */
 public class UpdateInventoryActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+
     public final static String EXTRA_MESSAGE = "Product Number: ";
     private String productSection;
     public final static String EXTRA_REMOVED = "processCheckOut";
-    private boolean removeProduct;
+    private boolean removeProduct = true;
     Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,12 @@ public class UpdateInventoryActivity extends ActionBarActivity implements Adapte
     public void updateProduct(View view) {
         Log.i(MyApp.LOGGING_TAG, "Button Clicked");
         //create intent
-
-        Button button = (Button) findViewById(R.id.ScanIn);
+        removeProduct = false;
+        /*Button button = (Button) findViewById(R.id.ScanIn);
         if (button.isActivated()){
-            removeProduct = false;
-        }
+            Log.i(MyApp.LOGGING_TAG, "add product");
+
+        }*/
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);
@@ -98,17 +100,21 @@ public class UpdateInventoryActivity extends ActionBarActivity implements Adapte
      */
     public void removeProduct(View view) {
         Button button = (Button) findViewById(R.id.ScanOut);
-        if (button.isActivated()){
-            removeProduct = true;
-        }
+        removeProduct = true;
+        /*if (button.isActivated()){
+            Log.i(MyApp.LOGGING_TAG, "removeProduct");
+
+        }*/
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         EditText product = (EditText) findViewById(R.id.ProductNumber);
+        Spinner spinner = (Spinner) findViewById(R.id.ProductSection);
         if (product.getText().toString().equals("")) {
             Log.e(MyApp.LOGGING_TAG, "Empty String being passed in UpdateInventoryActivity.removeProduct");
         }
         String message = product.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         intent.putExtra(EXTRA_REMOVED, removeProduct);
+        intent.putExtra("Product Section", productSection);
 
         startActivity(intent);
     }

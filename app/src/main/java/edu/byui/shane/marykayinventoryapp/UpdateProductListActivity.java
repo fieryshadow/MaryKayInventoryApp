@@ -28,7 +28,7 @@ public class UpdateProductListActivity extends ActionBarActivity {
         String productNumber = intent.getStringExtra(UpdateInventoryActivity.EXTRA_MESSAGE);
         String productSection = intent.getStringExtra("Product Section");
 
-        removeProduct = intent.getBooleanExtra("processCheckOut", false);
+        removeProduct = intent.getBooleanExtra(UpdateInventoryActivity.EXTRA_REMOVED, false);
 
         EditText ProductID = (EditText) findViewById(R.id.ProductNumber);
         EditText ProductSection = (EditText) findViewById(R.id.ProductSection);
