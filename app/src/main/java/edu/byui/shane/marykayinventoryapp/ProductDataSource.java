@@ -23,6 +23,12 @@ public class ProductDataSource {
     private static ProductDataSource dataSource;
     private static Context appContext;
 
+    public static final String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
+            MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
+            MySQLiteHelper.COLUMN_SECTION, MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST,
+            MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_NUMBER_ON_ORDER,
+            MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_IMAGE };
+
     private ProductDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
     }
@@ -125,7 +131,7 @@ public class ProductDataSource {
      */
     public ProductEntry getProduct(String productCode) {
         open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, MySQLiteHelper.allColumns,
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
                 MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + productCode, null, null, null, null);
         cursor.moveToFirst();
         ProductEntry productEntry = cursor2ProductEntry(cursor);
@@ -142,8 +148,7 @@ public class ProductDataSource {
         open();
         Hashtable<String, ProductEntry> products = new Hashtable<>();
         Log.v(MyApp.LOGGING_TAG, "Prepare to die, we're making a cursor! in ProductDataSource.readAllProducts");
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS,
-                MySQLiteHelper.allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns, null, null, null, null, null);
 
         Log.v(MyApp.LOGGING_TAG, "Moving cursor to beginning of database in ProductDataSource.readAllProducts");
         cursor.moveToFirst();
@@ -160,82 +165,75 @@ public class ProductDataSource {
         close();
         return products;
     }
-}
 
+    class MySQLiteHelper extends SQLiteOpenHelper {
+        // Increment table version whenever database columns change, but also,
+        // make the onUpgrade method convert the old database to the new one.
+        public static final int TABLE_VERSION = 1; // previous release version: never
+        public static final String DATABASE_NAME = "products.db";
 
-class MySQLiteHelper extends SQLiteOpenHelper {
-    // Increment table version whenever database columns change, but also,
-    // make the onUpgrade method convert the old database to the new one.
-    public static final int TABLE_VERSION = 1; // previous release version: never
-    public static final String DATABASE_NAME = "products.db";
+        public static final String BASE_TABLE_NAME = "productEntries";
+        public static final String TABLE_PRODUCTS = BASE_TABLE_NAME + TABLE_VERSION ;
+        public static final String COLUMN_ID = "_id"; // this is a database row, not product id!!
+        public static final String COLUMN_PRODUCT_CODE = "productCode";
+        public static final String COLUMN_PRODUCT_NUMBER = "productNumber";
+        public static final String COLUMN_CATEGORY = "category";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_COLOR = "color";
+        public static final String COLUMN_SECTION = "section";
+        public static final String COLUMN_COST = "cost";
+        public static final String COLUMN_NUMBER_IN_STOCK = "inStockNum";
+        public static final String COLUMN_NUMBER_ON_ORDER = "onOrderNum";
+        public static final String COLUMN_HIGHEST_NUMBER_IN_STOCK = "greatestNum";
+        public static final String COLUMN_IMAGE = "image";
 
-    public static final String BASE_TABLE_NAME = "productEntries";
-    public static final String TABLE_PRODUCTS = BASE_TABLE_NAME + TABLE_VERSION ;
-    public static final String COLUMN_ID = "_id"; // this is a database row, not product id!!
-    public static final String COLUMN_PRODUCT_CODE = "productCode";
-    public static final String COLUMN_PRODUCT_NUMBER = "productNumber";
-    public static final String COLUMN_CATEGORY = "category";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_COLOR = "color";
-    public static final String COLUMN_SECTION = "section";
-    public static final String COLUMN_COST = "cost";
-    public static final String COLUMN_NUMBER_IN_STOCK = "inStockNum";
-    public static final String COLUMN_NUMBER_ON_ORDER = "onOrderNum";
-    public static final String COLUMN_HIGHEST_NUMBER_IN_STOCK = "greatestNum";
-    public static final String COLUMN_IMAGE = "image";
+        private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +
+                COLUMN_ID + " integer primary key autoincrement, " +
+                COLUMN_PRODUCT_CODE + " text not null, " +
+                COLUMN_PRODUCT_NUMBER + " text not null, " +
+                COLUMN_CATEGORY + " text not null, " +
+                COLUMN_NAME + " text not null, " +
+                COLUMN_COLOR + " text not null, " +
+                COLUMN_SECTION + " integer not null, " +
+                COLUMN_COST + " real not null, " +
+                COLUMN_NUMBER_IN_STOCK + " integer not null, " +
+                COLUMN_NUMBER_ON_ORDER + " integer not null, " +
+                COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null, " +
+                COLUMN_IMAGE + " blob not null);";
 
-    private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "(" +
-            COLUMN_ID + " integer primary key autoincrement, " +
-            COLUMN_PRODUCT_CODE + " text not null, " +
-            COLUMN_PRODUCT_NUMBER + " text not null, " +
-            COLUMN_CATEGORY + " text not null, " +
-            COLUMN_NAME + " text not null, " +
-            COLUMN_COLOR + " text not null, " +
-            COLUMN_SECTION + " integer not null, " +
-            COLUMN_COST + " real not null, " +
-            COLUMN_NUMBER_IN_STOCK + " integer not null, " +
-            COLUMN_NUMBER_ON_ORDER + " integer not null, " +
-            COLUMN_HIGHEST_NUMBER_IN_STOCK + " integer not null, " +
-            COLUMN_IMAGE + " blob not null);";
-
-    public static String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
-            MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
-            MySQLiteHelper.COLUMN_SECTION, MySQLiteHelper.COLUMN_COLOR, MySQLiteHelper.COLUMN_COST,
-            MySQLiteHelper.COLUMN_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_NUMBER_ON_ORDER,
-            MySQLiteHelper.COLUMN_HIGHEST_NUMBER_IN_STOCK, MySQLiteHelper.COLUMN_IMAGE };
-
-    /** Makes the proper database */
-    public MySQLiteHelper(Context context) {
-        super(context, DATABASE_NAME, null, TABLE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DATABASE_CREATE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> " + newVersion +
-                "). Converting old data to new stuff in MySQLiteHelper.onUpgrade");
-        db.execSQL(DATABASE_CREATE);
-        switch (oldVersion) {
-            default:
-                Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade in MySQLiteHelper.onUpgrade");
+        /** Makes the proper database */
+        public MySQLiteHelper(Context context) {
+            super(context, DATABASE_NAME, null, TABLE_VERSION);
         }
-        Log.i(MyApp.LOGGING_TAG, "Done with database upgrade in MySQLiteHelper.onUpgrade");
-    }
 
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MyApp.LOGGING_TAG, "Downgrading database in MySQLiteHelper.onDowngrade");
-        db.beginTransaction();
-        try{
-            db.execSQL("alter table " + BASE_TABLE_NAME + oldVersion + " rename to " + TABLE_PRODUCTS + ";");
-            db.setTransactionSuccessful();
-        } finally{
-            db.endTransaction();
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(DATABASE_CREATE);
         }
-        Log.i(MyApp.LOGGING_TAG, "Done with database downgrade in MySQLiteHelper.onDowngrade");
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(MyApp.LOGGING_TAG, "Upgrading database (" + oldVersion + " -> " + newVersion +
+                    "). Converting old data to new stuff in MySQLiteHelper.onUpgrade");
+            db.execSQL(DATABASE_CREATE);
+            switch (oldVersion) {
+                default:
+                    Log.w(MyApp.LOGGING_TAG, "Unknown database version. Can't upgrade in MySQLiteHelper.onUpgrade");
+            }
+            Log.i(MyApp.LOGGING_TAG, "Done with database upgrade in MySQLiteHelper.onUpgrade");
+        }
+
+        @Override
+        public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(MyApp.LOGGING_TAG, "Downgrading database in MySQLiteHelper.onDowngrade");
+            db.beginTransaction();
+            try{
+                db.execSQL("alter table " + BASE_TABLE_NAME + oldVersion + " rename to " + TABLE_PRODUCTS + ";");
+                db.setTransactionSuccessful();
+            } finally{
+                db.endTransaction();
+            }
+            Log.i(MyApp.LOGGING_TAG, "Done with database downgrade in MySQLiteHelper.onDowngrade");
+        }
     }
 }

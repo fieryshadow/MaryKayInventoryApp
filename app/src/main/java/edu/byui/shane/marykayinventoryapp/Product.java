@@ -119,7 +119,7 @@ public class Product {
             this.image = Bitmap.createScaledBitmap(image, 80, 80, true);
             Log.i(MyApp.LOGGING_TAG, "Image has been set in Product.setImageByURL");
         } catch (MalformedURLException ex) {
-            Log.w(MyApp.LOGGING_TAG, "Couldn't download image from specified URL in Product.setImageByURL");
+            Log.w(MyApp.LOGGING_TAG, "Couldn't find specified URL in Product.setImageByURL");
         } catch (IOException e) {
             Log.w(MyApp.LOGGING_TAG, "Couldn't decode image from specified URL in Product.setImageByURL");
         }
