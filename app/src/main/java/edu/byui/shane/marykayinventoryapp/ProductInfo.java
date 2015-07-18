@@ -1,6 +1,7 @@
 package edu.byui.shane.marykayinventoryapp;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * A container for important values needing to be sent to the View (MVC)
@@ -82,7 +83,13 @@ public class ProductInfo {
 
     public void setNumberToOrder(int numToOrder) {this.numberToOrder = numToOrder;}
 
-    public void setNumberToOrderToDefault() {this.numberToOrder = highestNumberInInventory - numberInStock;}
+    public void setNumberToOrderToDefault() {
+        this.numberToOrder = highestNumberInInventory - numberInStock;
+        if(this.numberToOrder == 0){
+            this.numberToOrder = 1;
+            Log.i(MyApp.LOGGING_TAG, "no item added setting number to order to " + this.numberToOrder);
+        }
+    }
 
     public void resetNumberToOrder() {this.numberToOrder = 0;}
 

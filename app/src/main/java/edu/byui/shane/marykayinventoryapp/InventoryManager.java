@@ -134,6 +134,7 @@ public class InventoryManager {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 int changeInOrder = 0;
                 String productKey = ProductCode.makeProductKey(productNumber, section);
                 Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " products to " + productKey + " in InventoryManager.processCheckIn");
@@ -188,8 +189,10 @@ public class InventoryManager {
             @Override
             public void run() {
                 updateProduct(productNumber, category, name, color, cost, section, 0, numOfProduct, imageFile);
+
             }
         });
+
         thread.start();
         return thread;
     }

@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,32 +19,45 @@ import java.util.List;
 
 public class ReorderProductActivity extends ActionBarActivity {
     private List<ProductInfo> productList;
-
+    private float total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reorder_product);
 
+        final TextView totalCost = (TextView) findViewById(R.id.orderTotal);
         ListView listView = (ListView) findViewById(R.id.orderList);
+
         productList = InventoryManager.getInstance().getListing();
+
         OrderListAdapter adapter = new OrderListAdapter(this, R.layout.order_list_item, productList);
+
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ProductInfo info = productList.get(position);
+
                 if (info.getNumberToOrder() == 0) {
                     info.setNumberToOrderToDefault();
                     // do the order update and number manipulation stuff here, this is an example
                     TextView amountView = (TextView) view.findViewById(R.id.amountView);
                     // the following doesn't actually save any values, so we need to put some more data into product info...
                     amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
-                    amountView.setTextColor(Color.parseColor("#ffff0000")); // red
+                    amountView.setTextColor(Color.parseColor("#ffff0000"));// red
+                    totalCost.setText("Total Cost: " + updateTotalCost(info));
                 } else {
                     // do something to allow user to enter a number to set numberToOrder in the info object.
                 }
             }
         });
+        Log.i(MyApp.LOGGING_TAG, "productList Size = " +productList.size());
+
+    }
+    public float updateTotalCost(ProductInfo productInfo){
+        total += productInfo.getCost()*productInfo.getNumberToOrder()/2;
+        return total;
     }
 
     @Override
@@ -81,4 +95,5 @@ public class ReorderProductActivity extends ActionBarActivity {
     public void cancel(View view) {
         finish();
     }
+
 }
