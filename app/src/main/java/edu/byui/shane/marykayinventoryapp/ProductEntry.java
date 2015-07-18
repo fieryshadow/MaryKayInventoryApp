@@ -8,7 +8,6 @@ public class ProductEntry {
     private int numberInStock, numberOnOrder, highestNumberInInventory;
 
     public ProductEntry(Product product, int numberInStock, int numberOnOrder, int highestNumberInInventory) {
-        // should we throw some exceptions for passing negative values?
         this.product = product;
         this.numberInStock = numberInStock;
         this.numberOnOrder = numberOnOrder;

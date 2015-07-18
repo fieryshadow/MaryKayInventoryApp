@@ -6,76 +6,62 @@ import android.test.InstrumentationTestCase;
  * Tests that the InventoryManager is working correctly
  */
 public class InventoryManagerTest extends InstrumentationTestCase {
+    /**
+     * Check to see if products are correctly added to the inventory
+     */
+    public void testProcessCheckIn() {
+        InventoryManager m = InventoryManager.getInstance();
+        // check to make sure the product doesn't exist in the inventory
+        assertEquals(null, m.getProductInfo("imt1"));
+
+        // add a new item
+        m.processCheckIn("imt1", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        assertEquals(3, m.getProductInfo("12345").getNumberInStock());
+        // check in a new item
+        m.processCheckIn("imt1", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 4, "");
+        // check to see if the number of items in the list is one larger than before.
+        assertEquals(7, m.getProductInfo("imt1").getNumberInStock());
+    }
+
+    /**
+     * Check to see if products are correctly removed from the inventory
+     */
+    public void testProcessCheckOut() {
+        InventoryManager m = InventoryManager.getInstance();
+        // not in inventory yet, test
+        m.processCheckOut("imt2", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        // check to see that an entry (with none in stock) gets added to the inventory
+        assertEquals(0, m.getProductInfo("imt2").getNumberInStock());
+        
+        // need a few products to start with
+        m.processCheckIn("imt2", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 4, "");
+        // remove 3 items from inventory
+        m.processCheckOut("imt2", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        // check to see if the number of items in the list is 1 less than before
+        assertEquals(1, m.getProductInfo("imt2").getNumberInStock());
+    }
+
+    public void testProcessOrder() {
+        InventoryManager m = InventoryManager.getInstance();
+        m.processOrders("imt3", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        assertEquals(3, m.getProductInfo("imt3").getNumberOnOrder());
+        m.processOrders("imt3", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 4, "");
+        assertEquals(7, m.getProductInfo("imt3").getNumberOnOrder());
+    }
+
+    public void testGetSectionListing() {
+
+    }
+
     public void testGetListing() {
 
     }
 
-    /* The API has been updated since this was written. This needs to be tested indirectly.
-    public void testProcessCheckIn() {
-        // check to see if the product was correctly added to the list of products
-        // add a new item to the list
-        InventoryManager m = InventoryManager.getInstance();
-        //check to make sure the Listing is at 0 on a new created object of InventoryManager
-        assertEquals(0, m.getProductInfo("12345").getNumberInStock());
-
-        // Check in a new item
-        m.checkInItem("12345");
-        // set getSize to number of in stock items
-        int getSize = m.getProductInfo("12345").getNumberInStock();
-        // check in a new item
-        m.checkInItem("12345");
-        // check to see if the number of items in the list is one larger than before.
-        assertEquals(getSize + 1, m.getProductInfo("12345").getNumberInStock());
-    }
-    */
-
-    /* This needs to be updated to the correct API!
-    public void testProcessCheckOut() {
-        // check to see if the product was correctly removed from the list of products.
-        InventoryManager m = InventoryManager.getInstance();
-        // check to make sure the listing is empty
-        assertEquals(0, m.getProductInfo("12345").getNumberInStock());
-        // add a couple of items to the list
-        m.checkInItem("12345");
-        m.checkInItem("12345");
-
-        //set the getSize to the getSize of the list to compare after removing 1.
-        int getSize = m.getProductInfo("12345").getNumberInStock();
-
-        // remove 1 item from the list
-        m.processCheckOut("12345", 1);
-
-        // check to see if the number of items in the list is 1 less than before.
-        assertEquals(getSize - 1, m.getSectionListing(InventoryManager.section1).getSize());
-    }
-    */
-
-    public void testProcessOrder() {
-
-    }
-
-    public void testAddProduct() { // probably needs moving to testProcessCheckIn...
-        InventoryManager inventoryManager = InventoryManager.getInstance();
-        assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.processCheckIn("1234123", "Eye Shadow", "liquid", "Orange", 12.34f, 1, 3, null);
-        Product product = new Product("1234123", "Eye Shadow", "bestStuff", 1, "Orange", 12.34f);
-        ProductInfo info = inventoryManager.getProductInfo("1234");
-        assertEquals(product.getProductNumber(), info.getProductNumber());
-        assertEquals(product.getCategory(), info.getCategory());
-        assertEquals(product.getName(), info.getName());
-        assertEquals(product.getColor(), info.getColor());
-        assertEquals(product.getCost(), info.getCost());
-    }
-
-    public void testRemoveProduct() { // probably needs moving to testProcessCheckOut
-        InventoryManager inventoryManager = InventoryManager.getInstance();
-        assertEquals(inventoryManager.getProductInfo("1234"), null);
-        inventoryManager.processCheckIn("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, 1, 2, null);
-        inventoryManager.processCheckOut("1234", "Eye Shadow", "bestStuff", "Orange", 12.34f, 1, 1, null);
-        assertEquals(inventoryManager.getProductInfo("1234"), null);
-    }
-
     public void testGetProductInfo() {
+
+    }
+
+    public void testReadFromDatabase() {
 
     }
 }
