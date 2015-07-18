@@ -23,7 +23,7 @@ public class ProductEntry {
     }
 
     private float calculateCostOf(int amount) {
-        return amount * product.getCost();
+        return Math.round(amount * product.getCost() * 100f) / 100f;
     }
 
     public boolean isOutOfStock() { // are we going to use this??

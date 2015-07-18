@@ -1,13 +1,13 @@
 package edu.byui.shane.marykayinventoryapp;
 
-import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import java.util.Hashtable;
 
 /**
  * Tests that the ProductDataSource works properly
  */
-public class DatabaseManagerTest extends InstrumentationTestCase {
+public class DatabaseManagerTest extends BaseTest {
     public void testDatabaseReadWrite() {
         // store a new product entry into the database
         ProductDataSource pds = ProductDataSource.getInstance();
@@ -16,7 +16,8 @@ public class DatabaseManagerTest extends InstrumentationTestCase {
         pds.storeProduct(productEntry);
 
         // check read product entry's integrity
-        ProductEntry readProductEntry = pds.getProduct("dbmt1");
+        ProductEntry readProductEntry = pds.getProduct(ProductCode.makeProductKey("dbmt1", 1));
+        assertNotNull(readProductEntry);
         assertEquals(1, readProductEntry.getNumberInStock());
         assertEquals(2, readProductEntry.getNumberOnOrder());
         assertEquals(3, readProductEntry.getHighestNumberInInventory());
@@ -34,7 +35,8 @@ public class DatabaseManagerTest extends InstrumentationTestCase {
     public void testReadAllProducts() {
         // store some products
         ProductDataSource pds = ProductDataSource.getInstance();
-        assertEquals(0, pds.readAllProducts().size());
+        // can't do the following unless we somehow is
+        //assertEquals(0, pds.readAllProducts().size());
         pds.storeProduct(new ProductEntry(new Product("dbmt2-0", 1), 1, 2, 3));
         pds.storeProduct(new ProductEntry(new Product("dbmt2-1", 1), 1, 2, 3));
         pds.storeProduct(new ProductEntry(new Product("dbmt2-2", 1), 1, 2, 3));

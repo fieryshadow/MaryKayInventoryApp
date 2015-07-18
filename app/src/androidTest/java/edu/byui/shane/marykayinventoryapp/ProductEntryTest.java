@@ -1,11 +1,9 @@
 package edu.byui.shane.marykayinventoryapp;
 
-import android.test.InstrumentationTestCase;
-
 /**
  * Tests that the ProductEntry class is functional
  */
-public class ProductEntryTest extends InstrumentationTestCase {
+public class ProductEntryTest extends BaseTest {
     public void testConstructionAndGettersSetters() {
         Product product1 = new Product("pet1-0", 1);
         Product product2 = new Product("pet1-1", 2);

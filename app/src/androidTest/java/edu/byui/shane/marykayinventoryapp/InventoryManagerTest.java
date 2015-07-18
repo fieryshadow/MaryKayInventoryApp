@@ -1,22 +1,28 @@
 package edu.byui.shane.marykayinventoryapp;
 
-import android.test.InstrumentationTestCase;
+import junit.framework.AssertionFailedError;
 
 /**
  * Tests that the InventoryManager is working correctly
  */
-public class InventoryManagerTest extends InstrumentationTestCase {
+public class InventoryManagerTest extends BaseTest {
     /**
      * Check to see if products are correctly added to the inventory
      */
     public void testProcessCheckIn() {
         InventoryManager m = InventoryManager.getInstance();
         // check to make sure the product doesn't exist in the inventory
-        assertEquals(null, m.getProductInfo("imt1"));
+        assertNull(m.getProductInfo("imt1"));
 
         // add a new item
-        m.processCheckIn("imt1", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
-        assertEquals(3, m.getProductInfo("12345").getNumberInStock());
+        Thread thread = m.processCheckIn("imt1", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new AssertionFailedError("Inventory manager check in thread failed unexpectedly.");
+        }
+        assertNotNull(m.getProductInfo("imt1"));
+        assertEquals(3, m.getProductInfo("imt1").getNumberInStock());
         // check in a new item
         m.processCheckIn("imt1", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 4, "");
         // check to see if the number of items in the list is one larger than before.
@@ -29,8 +35,14 @@ public class InventoryManagerTest extends InstrumentationTestCase {
     public void testProcessCheckOut() {
         InventoryManager m = InventoryManager.getInstance();
         // not in inventory yet, test
-        m.processCheckOut("imt2", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        Thread thread = m.processCheckOut("imt2", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new AssertionFailedError("Inventory manager check out thread failed unexpectedly.");
+        }
         // check to see that an entry (with none in stock) gets added to the inventory
+        assertNotNull(m.getProductInfo("imt2"));
         assertEquals(0, m.getProductInfo("imt2").getNumberInStock());
         
         // need a few products to start with
@@ -43,7 +55,13 @@ public class InventoryManagerTest extends InstrumentationTestCase {
 
     public void testProcessOrder() {
         InventoryManager m = InventoryManager.getInstance();
-        m.processOrders("imt3", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        Thread thread = m.processOrders("imt3", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 3, "");
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new AssertionFailedError("Inventory manager process order thread failed unexpectedly.");
+        }
+        assertNotNull(m.getProductInfo("imt3"));
         assertEquals(3, m.getProductInfo("imt3").getNumberOnOrder());
         m.processOrders("imt3", "Foundation", "Powder Puff", "Orange", 12.00f, 1, 4, "");
         assertEquals(7, m.getProductInfo("imt3").getNumberOnOrder());

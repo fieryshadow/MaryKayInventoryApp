@@ -1,12 +1,10 @@
 package edu.byui.shane.marykayinventoryapp;
 
-import android.test.InstrumentationTestCase;
-
 /**
  * Tests that the Product class is functional
  */
 
-public class ProductTest extends InstrumentationTestCase {
+public class ProductTest extends BaseTest {
     public void testGetID() {
         //create new product
         Product p = new Product("pt1", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
@@ -25,7 +23,7 @@ public class ProductTest extends InstrumentationTestCase {
 
 
     public void testName() {
-        //create a new product
+        //create a new product with id 12345
         Product p = new Product("pt3", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         //set the name of the product
         p.setName("Eye Liner");
@@ -34,15 +32,15 @@ public class ProductTest extends InstrumentationTestCase {
     }
 
     public void testID() {
-        //create new product
-        Product p = new Product("pt4", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
+        //create new product with id 12345
+        Product p = new Product("12345", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         // check to make sure the id is correct.
-        assertEquals("pt4", p.getProductNumber());
+        assertEquals("12345", p.getProductNumber());
     }
 
     public void testColor(){
         //Create a new product
-        Product p = new Product("pt5", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
+        Product p = new Product("123", "Eye Shadow", "liquid", 1, "Orange", 12.3f);
         //Set the color to blue.
         p.setColor("blue");
         //Ensure that the color was set correctly.
@@ -51,7 +49,7 @@ public class ProductTest extends InstrumentationTestCase {
 
     public void testCost() {
         // Create new product
-        Product p = new Product("pt6", 1);
+        Product p = new Product("pt", 1);
         // need to check that the initial cost == 0
         assertEquals(0.00f, p.getCost());
         // set the cost

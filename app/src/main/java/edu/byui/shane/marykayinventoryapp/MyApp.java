@@ -15,7 +15,6 @@ public class MyApp extends Application {
         Log.i(MyApp.LOGGING_TAG, "Startup of App successful in MyApp.onCreate");
 
         ProductDataSource.createSingleton(getApplicationContext());
-        InventoryManager.createSingleton(getApplicationContext());
         Log.v(MyApp.LOGGING_TAG, "Starting to read database in MyApp.onCreate");
         InventoryManager.getInstance().readFromDatabase();
         Log.i(MyApp.LOGGING_TAG, "Finished reading database in MyApp.onCreate");
