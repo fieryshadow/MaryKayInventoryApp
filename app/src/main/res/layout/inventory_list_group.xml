@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:text="Colors"
-        android:id="@+id/colorsView"
+        android:id="@+id/colorView"
         android:layout_below="@+id/nameView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
