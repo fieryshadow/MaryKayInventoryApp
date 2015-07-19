@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -19,8 +20,12 @@ public class ReorderReceiptActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reorder_receipt);
+        String orderTotal = getIntent().getStringExtra("orderTotal");
+        TextView orderTotalView = (TextView) findViewById(R.id.orderTotalTextView);
+        orderTotalView.setText(orderTotal);
         Bundle bundle = getIntent().getExtras();
         List<ProductInfo> receiptList = bundle.getParcelableArrayList("productInfoList");
+
         Log.i(MyApp.LOGGING_TAG, "Loaded bundle from Intent");
 
         ListView listView = (ListView) findViewById(R.id.listView);

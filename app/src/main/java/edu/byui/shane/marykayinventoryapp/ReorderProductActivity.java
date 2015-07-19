@@ -103,11 +103,13 @@ public class ReorderProductActivity extends ActionBarActivity {
         //Now we just need to pass the receiptList to the ReorderReceiptActivity.
         Intent receiptIntent = new Intent(this, ReorderReceiptActivity.class);
 
+        TextView orderTotal = (TextView) findViewById(R.id.orderTotal);
+
         //Have to create a bundle to pass to the new activity...
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("productInfoList", list);
-        //receiptIntent.putExtra("receiptList", receiptList);
         receiptIntent.putExtras(bundle);
+        receiptIntent.putExtra("orderTotal", orderTotal.getText().toString());
         startActivity(receiptIntent);
         Log.i(MyApp.LOGGING_TAG, "Started receipt activity.");
     }
