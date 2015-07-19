@@ -17,5 +17,6 @@
     <string name="AddProduct">Add Product</string>
     <string name="RemoveProduct">Remove Product</string>
     <string name="ProductSection">Product Section</string>
+    <string name="title_activity_reorder_receipt">Order Receipt</string>
 
 </resources>

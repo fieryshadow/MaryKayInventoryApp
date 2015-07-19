@@ -79,7 +79,7 @@ public class ProductGroupAdapter extends BaseExpandableListAdapter {
         ProductGroup group = (ProductGroup) getGroup(groupPosition);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
-        TextView colorsView = (TextView) row.findViewById(R.id.colorsView);
+        TextView colorsView = (TextView) row.findViewById(R.id.colorView);
 
         categoryView.setText(group.getCategory());
         nameView.setText(group.getName());
@@ -103,7 +103,7 @@ public class ProductGroupAdapter extends BaseExpandableListAdapter {
         ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
-        TextView colorView = (TextView) row.findViewById(R.id.colorsView);
+        TextView colorView = (TextView) row.findViewById(R.id.colorView);
         TextView stockStatusView = (TextView) row.findViewById(R.id.stockStatusView);
 
         if (info.getImage() != null) {

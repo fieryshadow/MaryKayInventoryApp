@@ -43,8 +43,7 @@ public class OrderListAdapter extends ArrayAdapter<ProductInfo> {
         ImageView imageView = (ImageView) row.findViewById(R.id.imageView);
         TextView categoryView = (TextView) row.findViewById(R.id.categoryView);
         TextView nameView = (TextView) row.findViewById(R.id.nameView);
-        TextView colorView = (TextView) row.findViewById(R.id.colorsView);
-        TextView stockStatusView = (TextView) row.findViewById(R.id.stockStatusView);
+        TextView colorView = (TextView) row.findViewById(R.id.colorView);
         TextView amountView = (TextView) row.findViewById(R.id.amountView);
 
         if (info.getImage() != null) {
@@ -53,7 +52,6 @@ public class OrderListAdapter extends ArrayAdapter<ProductInfo> {
         categoryView.setText(info.getCategory());
         nameView.setText(info.getName());
         colorView.setText(info.getColor());
-        stockStatusView.setText("Maybe you could do something useful here");
 
         if(info.getNumberToOrder() != 0 && info.getHighestNumberInInventory() != 0) {
             amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");

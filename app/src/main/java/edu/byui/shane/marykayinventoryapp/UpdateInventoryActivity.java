@@ -68,11 +68,6 @@ public class UpdateInventoryActivity extends ActionBarActivity implements Adapte
         Log.i(MyApp.LOGGING_TAG, "Button Clicked");
         //create intent
         removeProduct = false;
-        /*Button button = (Button) findViewById(R.id.ScanIn);
-        if (button.isActivated()){
-            Log.i(MyApp.LOGGING_TAG, "add product");
-
-        }*/
         Intent intent = new Intent(this, UpdateProductListActivity.class);
         // get info from the edit text box
         EditText Product = (EditText) findViewById(R.id.ProductNumber);

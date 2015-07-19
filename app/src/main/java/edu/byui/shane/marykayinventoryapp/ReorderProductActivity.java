@@ -1,7 +1,9 @@
 package edu.byui.shane.marykayinventoryapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,11 +22,13 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ReorderProductActivity extends ActionBarActivity {
     private List<ProductInfo> productList;
+    private float total;
     private static OrderListAdapter orderListAdapter;
     private static TextView productNameView;
     private static TextView productColorView;
@@ -37,7 +41,9 @@ public class ReorderProductActivity extends ActionBarActivity {
         setContentView(R.layout.activity_reorder_product);
 
         final View anchor = findViewById(R.id.anchor);
+        final TextView totalCost = (TextView) findViewById(R.id.orderTotal);
         ListView listView = (ListView) findViewById(R.id.orderList);
+
         productList = InventoryManager.getInstance().getListing();
         orderListAdapter = new OrderListAdapter(this, R.layout.order_list_item, productList);
         listView.setAdapter(orderListAdapter);
@@ -52,7 +58,8 @@ public class ReorderProductActivity extends ActionBarActivity {
                     TextView amountView = (TextView) view.findViewById(R.id.amountView);
                     // the following doesn't actually save any values, so we need to put some more data into product info...
                     amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
-                    amountView.setTextColor(Color.parseColor("#ffff0000")); // red
+                    amountView.setTextColor(Color.parseColor("#ffff0000"));// red
+                    totalCost.setText("Total Cost: " + updateTotalCost(info));
                 } else {
                     View popupView = inflater.inflate(R.layout.popup_reorder_number_editer, null);
                     productNameView = (TextView) popupView.findViewById(R.id.nameView);
@@ -127,6 +134,18 @@ public class ReorderProductActivity extends ActionBarActivity {
                 }
             }
         });
+        Log.i(MyApp.LOGGING_TAG, "productList Size = " +productList.size());
+
+    }
+
+    /**
+     * updateTotalCost takes the products cost * the number to order and divides it by 2 to give the wholesale cost.
+     * @param productInfo
+     * @return  returns the summation of the previous total and products cost * number to order divided by 2
+     */
+    public float updateTotalCost(ProductInfo productInfo){
+        total += productInfo.getCost()*productInfo.getNumberToOrder()/2;
+        return total;
     }
 
     @Override
@@ -153,8 +172,34 @@ public class ReorderProductActivity extends ActionBarActivity {
 
 
     public void submit(View view) {
-        finish();
-        //instead of calling finish(), loop through the productList and call processOrder on any object that toOrder isn't 0.
+        // This will be passed to the new Receipt Activity to display what was ordered.
+        List<ProductInfo> receiptList = new ArrayList<ProductInfo>();
+        Log.i(MyApp.LOGGING_TAG, "Created receiptList to be passed to ReceiptActivity");
+
+        // Loop through the productList and call processOrder on any object that toOrder isn't 0.
+        for(ProductInfo info : productList) {
+            if(info.getNumberToOrder() != 0) {
+                receiptList.add(info);
+                Log.i(MyApp.LOGGING_TAG, "Added ProductInfo object to receiptList");
+
+                InventoryManager.getInstance().processOrders(info.getProductNumber(), info.getCategory(), info.getName(),
+                        info.getColor(), info.getCost(), info.getSection(), info.getNumberToOrder(), "");
+                Log.i(MyApp.LOGGING_TAG, "Called processOrders on same object.");
+            }
+        }
+        ArrayList<? extends Parcelable> list = new ArrayList<>(receiptList);
+        //Now we just need to pass the receiptList to the ReorderReceiptActivity.
+        Intent receiptIntent = new Intent(this, ReorderReceiptActivity.class);
+
+        TextView orderTotal = (TextView) findViewById(R.id.orderTotal);
+
+        //Have to create a bundle to pass to the new activity...
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("productInfoList", list);
+        receiptIntent.putExtras(bundle);
+        receiptIntent.putExtra("orderTotal", orderTotal.getText().toString());
+        startActivity(receiptIntent);
+        Log.i(MyApp.LOGGING_TAG, "Started receipt activity.");
     }
 
     /**

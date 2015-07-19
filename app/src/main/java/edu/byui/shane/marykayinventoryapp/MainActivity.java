@@ -14,6 +14,9 @@ import android.content.Context;
 import java.util.Hashtable;
 
 
+/**
+ * MainActivity is just the main page or start page for the entire app.
+ */
 public class MainActivity extends ActionBarActivity {
     private static Resources mainResources;
     private Hashtable<String, ProductEntry> inventory;
@@ -52,15 +55,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * This function will take the user from the home page to the Update Product List Activity when the user clicks on the button.
-     * @param view The current view the user is looking at
-     */
-//    public void switchToUpdateProductList(View view) {
-//        Intent switcheroo = new Intent(this, UpdateProductListActivity.class);
-//        startActivity(switcheroo);
-//    }
 
     /**
      * This function will take the user from the home page to the Update Inventory Activity when the user clicks on the button.
