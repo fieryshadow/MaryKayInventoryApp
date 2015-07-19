@@ -55,6 +55,12 @@ public class ReorderProductActivity extends ActionBarActivity {
         Log.i(MyApp.LOGGING_TAG, "productList Size = " +productList.size());
 
     }
+
+    /**
+     * updateTotalCost takes the products cost * the number to order and divides it by 2 to give the wholesale cost.
+     * @param productInfo
+     * @return  returns the summation of the previous total and products cost * number to order divided by 2
+     */
     public float updateTotalCost(ProductInfo productInfo){
         total += productInfo.getCost()*productInfo.getNumberToOrder()/2;
         return total;

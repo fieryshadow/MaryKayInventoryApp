@@ -94,6 +94,10 @@ public class Product {
         image = newImage;
     }
 
+    /**
+     * Retrieves a file and uses that file to set the image.
+     * @param filename
+     */
     public void setImageByFile(String filename) {
         Log.i(MyApp.LOGGING_TAG, "Loading product image in Product.setImageByFile");
         String path = Environment.getDataDirectory().getAbsolutePath();
@@ -109,6 +113,10 @@ public class Product {
         }
     }
 
+    /**
+     * retrieves a url and converts it to an image
+     * @param url
+     */
     public void setImageByURL(String url) {
         Log.i(MyApp.LOGGING_TAG, "Downloading product image from specified URL in Product.setImageByURL");
         try {

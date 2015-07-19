@@ -1,8 +1,10 @@
 package edu.byui.shane.marykayinventoryapp;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,22 +15,42 @@ import java.util.List;
  * what's in the inventory, out of stock, on order, etc.
  */
 public class InventoryManager {
+    private static Handler handler = new Handler();
     private static Context appContext;
     private static InventoryManager manager = new InventoryManager(); // it's the last one bro!
     private Hashtable<String, ProductEntry> inventory; // ProductCode -> ProductEntry
-    
-    /** This is a singleton */
+
+
+    /**
+     * This is a singleton
+     */
     private InventoryManager() {
         inventory = new Hashtable<>();
     }
 
-    /** Retrieve the one and only, instance */
+    /**
+     * A workaround for needing the activity context for parts of the code to work correctly. Must be
+     * called at the very beginning of the program startup, or else a NullPointerException will occur!
+     *
+     * @param context Needs to be the MainActivity! Not for calling anywhere else!
+     */
+    public static void createSingleton(Context context) {
+        if (manager == null) {
+            appContext = context;
+            manager = new InventoryManager();
+        }
+    }
+
+    /**
+     * Retrieve the one and only, instance
+     */
     public static InventoryManager getInstance() {
         return manager;
     }
 
     /**
      * Retrieves the product entries corresponding to the given section and groups them by category/name
+     *
      * @param section Section identifier
      * @return Returns a list of product groups
      */
@@ -40,7 +62,7 @@ public class InventoryManager {
             if (entry.getProduct().getSection() == section) {
                 Log.v(MyApp.LOGGING_TAG, "Adding product to list in InventoryManager.getSectionListing");
                 ProductInfo info = entry.getInfo();
-                String key = info.getCategory()+ "_" + info.getName();
+                String key = info.getCategory() + "_" + info.getName();
                 if (listing.containsKey(key)) {
                     listing.get(key).addChild(info);
                 } else {
@@ -58,6 +80,7 @@ public class InventoryManager {
 
     /**
      * Retrieves all the product info you could ever want
+     *
      * @return Returns a list of product info
      */
     public List<ProductInfo> getListing() {
@@ -116,21 +139,24 @@ public class InventoryManager {
         Log.v(MyApp.LOGGING_TAG, "Database time! in InventoryManager.updateProduct");
         ProductDataSource.getInstance().storeProduct(productEntry);
         Log.i(MyApp.LOGGING_TAG, "Stored info to database in InventoryManager.updateProduct");
+       // Toast.makeText(appContext, "success", Toast.LENGTH_SHORT).show();
+
     }
 
     /**
      * Takes all the info for a product and puts it into the inventory list based on a product key
+     *
      * @param productNumber The id on the product
-     * @param category Category of the product
-     * @param name Name of the product
-     * @param color Color of the product
-     * @param cost Total retail price of the product
-     * @param section Sales Inventory or Sample Inventory
-     * @param numOfProduct Total number of products being added
-     * @param imageFile The filename for a new icon to store in the database
+     * @param category      Category of the product
+     * @param name          Name of the product
+     * @param color         Color of the product
+     * @param cost          Total retail price of the product
+     * @param section       Sales Inventory or Sample Inventory
+     * @param numOfProduct  Total number of products being added
+     * @param imageFile     The filename for a new icon to store in the database
      */
     public Thread processCheckIn(final String productNumber, final String category, final String name, final String color,
-                               final float cost, final int section, final int numOfProduct, final String imageFile) {
+                                 final float cost, final int section, final int numOfProduct, final String imageFile) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -151,17 +177,18 @@ public class InventoryManager {
 
     /**
      * Removes the product from the inventory list based off of the productKey and how much of the product to remove.
+     *
      * @param productNumber The id on the product
-     * @param category Category of the product
-     * @param name Name of the product
-     * @param color Color of the product
-     * @param cost Total retail price of the product
-     * @param section Sales Inventory or Sample Inventory
-     * @param numOfProduct Total number of products being removed
-     * @param imageFile The filename for a new icon to store in the database
+     * @param category      Category of the product
+     * @param name          Name of the product
+     * @param color         Color of the product
+     * @param cost          Total retail price of the product
+     * @param section       Sales Inventory or Sample Inventory
+     * @param numOfProduct  Total number of products being removed
+     * @param imageFile     The filename for a new icon to store in the database
      */
     public Thread processCheckOut(final String productNumber, final String category, final String name, final String color,
-                                final float cost, final int section, final int numOfProduct, final String imageFile) {
+                                  final float cost, final int section, final int numOfProduct, final String imageFile) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -174,17 +201,18 @@ public class InventoryManager {
 
     /**
      * Processes order request, dispatching to other code to handle the details (website, etc)
+     *
      * @param productNumber The id on the product
-     * @param category Category of the product
-     * @param name Name of the product
-     * @param color Color of the product
-     * @param cost Total retail price of the product
-     * @param section Sales Inventory or Sample Inventory
-     * @param numOfProduct Total number of products being ordered
-     * @param imageFile The filename for a new icon to store in the database
+     * @param category      Category of the product
+     * @param name          Name of the product
+     * @param color         Color of the product
+     * @param cost          Total retail price of the product
+     * @param section       Sales Inventory or Sample Inventory
+     * @param numOfProduct  Total number of products being ordered
+     * @param imageFile     The filename for a new icon to store in the database
      */
     public Thread processOrders(final String productNumber, final String category, final String name, final String color,
-                              final float cost, final int section, final int numOfProduct, final String imageFile) {
+                                final float cost, final int section, final int numOfProduct, final String imageFile) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -199,6 +227,7 @@ public class InventoryManager {
 
     /**
      * Each product has a unique key that will return all the information associated with that product
+     *
      * @param productKey The product identifier
      * @return Returns product info gathered into one object
      */
@@ -212,11 +241,13 @@ public class InventoryManager {
 
     /**
      * Create the local inventory list from the database that has the stored data
+     * @return the thread from reading the Database.
      */
     public Thread readFromDatabase() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                inventory.clear();
                 Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread");
                 inventory.putAll(ProductDataSource.getInstance().readAllProducts());
                 Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase.thread");
@@ -268,4 +299,6 @@ public class InventoryManager {
         thread.start();
         return thread;
     }
+
+
 }
