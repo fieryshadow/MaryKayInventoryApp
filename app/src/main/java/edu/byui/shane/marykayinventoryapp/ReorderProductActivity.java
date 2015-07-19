@@ -28,7 +28,8 @@ import java.util.List;
 
 public class ReorderProductActivity extends ActionBarActivity {
     private List<ProductInfo> productList;
-    private float total;
+    private float totalCost;
+    private static TextView totalCostView;
     private static OrderListAdapter orderListAdapter;
     private static TextView productNameView;
     private static TextView productColorView;
@@ -41,7 +42,7 @@ public class ReorderProductActivity extends ActionBarActivity {
         setContentView(R.layout.activity_reorder_product);
 
         final View anchor = findViewById(R.id.anchor);
-        final TextView totalCost = (TextView) findViewById(R.id.orderTotal);
+        totalCostView = (TextView) findViewById(R.id.orderTotal);
         ListView listView = (ListView) findViewById(R.id.orderList);
 
         productList = InventoryManager.getInstance().getListing();
@@ -59,7 +60,7 @@ public class ReorderProductActivity extends ActionBarActivity {
                     // the following doesn't actually save any values, so we need to put some more data into product info...
                     amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
                     amountView.setTextColor(Color.parseColor("#ffff0000"));// red
-                    totalCost.setText("Total Cost: " + updateTotalCost(info));
+                    updateTotalCost();
                 } else {
                     View popupView = inflater.inflate(R.layout.popup_reorder_number_editer, null);
                     productNameView = (TextView) popupView.findViewById(R.id.nameView);
@@ -102,8 +103,12 @@ public class ReorderProductActivity extends ActionBarActivity {
 
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                            if (Integer.parseInt(numberToOrderView.getText().toString()) < progress) {
-                                numberToOrderView.setText(Integer.toString(progress));
+                            try {
+                                if (Integer.parseInt(numberToOrderView.getText().toString()) <= 100) {
+                                    numberToOrderView.setText(Integer.toString(progress));
+                                }
+                            } catch (NumberFormatException ex){
+                               numberToOrderView.setText("0");
                             }
                         }
                     });
@@ -117,6 +122,7 @@ public class ReorderProductActivity extends ActionBarActivity {
                             int amount = Integer.parseInt(numberToOrderView.getText().toString());
                             info.setNumberToOrder(amount);
                             orderListAdapter.notifyDataSetChanged();
+                            updateTotalCost();
                             popupWindow.dismiss();
                         }
                     });
@@ -140,12 +146,14 @@ public class ReorderProductActivity extends ActionBarActivity {
 
     /**
      * updateTotalCost takes the products cost * the number to order and divides it by 2 to give the wholesale cost.
-     * @param productInfo
-     * @return  returns the summation of the previous total and products cost * number to order divided by 2
+     * @return  returns the summation of the previous totalCost and products cost * number to order divided by 2
      */
-    public float updateTotalCost(ProductInfo productInfo){
-        total += productInfo.getCost()*productInfo.getNumberToOrder()/2;
-        return total;
+    public void updateTotalCost(){
+        totalCost = 0;
+        for (ProductInfo info : productList) {
+            totalCost += info.getCost() * info.getNumberToOrder() / 2;
+        }
+        totalCostView.setText("Total Cost: " + totalCost);
     }
 
     @Override
@@ -197,7 +205,7 @@ public class ReorderProductActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("productInfoList", list);
         receiptIntent.putExtras(bundle);
-        receiptIntent.putExtra("orderTotal", MyApp.convertToPrice(total));
+        receiptIntent.putExtra("orderTotal", MyApp.convertToPrice(totalCost));
         startActivity(receiptIntent);
         Log.i(MyApp.LOGGING_TAG, "Started receipt activity.");
     }

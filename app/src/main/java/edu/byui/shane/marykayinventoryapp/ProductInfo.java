@@ -85,7 +85,13 @@ public class ProductInfo implements Parcelable{
 
     public void setNumberToOrder(int numToOrder) {this.numberToOrder = numToOrder;}
 
-    public void setNumberToOrderToDefault() {this.numberToOrder = highestNumberInInventory - numberInStock;}
+    public void setNumberToOrderToDefault() {
+        if (highestNumberInInventory - numberInStock <= 0) {
+            this.numberToOrder = 1;
+        } else {
+            this.numberToOrder = highestNumberInInventory - numberInStock;
+        }
+    }
 
     public void resetNumberToOrder() {this.numberToOrder = 0;}
 

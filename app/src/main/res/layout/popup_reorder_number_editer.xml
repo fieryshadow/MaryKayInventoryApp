@@ -40,7 +40,8 @@
         android:hint="Current Number To Order"
         android:layout_below="@+id/colorView"
         android:layout_alignRight="@+id/cancel"
-        android:layout_alignEnd="@+id/cancel" />
+        android:layout_alignEnd="@+id/cancel"
+        android:background="@android:color/transparent"/>
 
     <SeekBar
         android:layout_width="fill_parent"
