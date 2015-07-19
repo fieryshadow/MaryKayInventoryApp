@@ -104,7 +104,7 @@ public class ReorderProductActivity extends ActionBarActivity {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                             try {
-                                if (Integer.parseInt(numberToOrderView.getText().toString()) <= 100) {
+                                if (Integer.parseInt(numberToOrderView.getText().toString()) <= 100 || progress != 100) {
                                     numberToOrderView.setText(Integer.toString(progress));
                                 }
                             } catch (NumberFormatException ex){

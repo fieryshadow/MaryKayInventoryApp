@@ -107,6 +107,7 @@ public class InventoryManager {
 
             productEntry.setNumberInStock(productEntry.getNumberInStock() + changeInProduct);
             productEntry.setNumberOnOrder(productEntry.getNumberOnOrder() + changeInOrder);
+
             Log.v(MyApp.LOGGING_TAG, "Total in stock is: " + productEntry.getNumberInStock() + " in InventoryManager.updateProduct");
         } else { // add new product to inventory
             Log.i(MyApp.LOGGING_TAG, "Adding a new product in InventoryManager.updateProduct");
@@ -263,11 +264,11 @@ public class InventoryManager {
                     productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-spice-and-nice-h.png");
                     inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
 
-                    productEntry = new ProductEntry(new Product("97445676", "Lipstick", "True Dimensions", 1, "Chocolate (Satin)", 18.00f), 123, 21, 234);
+                    productEntry = new ProductEntry(new Product("97445676", "Lipstick", "True Dimensions", 1, "Chocolate (Satin)", 18.00f), 50, 21, 71);
                     productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-chocolatte-h.png");
                     inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
 
-                    productEntry = new ProductEntry(new Product("95346212", "Lipstick", "True Dimensions", 1, "Tangerine Pop (Satin)", 18.00f), 56, 0, 1213);
+                    productEntry = new ProductEntry(new Product("95346212", "Lipstick", "True Dimensions", 1, "Tangerine Pop (Satin)", 18.00f), 55, 0, 55);
                     productEntry.getProduct().setImageByURL("http://www.marykay.com/en-US/products/PublishingImages/DAM/Product%20Images/Final%20Product%20Image%20Library/Makeup/Mary%20Kay%20True%20Dimensions%20Lipstick/mary-kay-true-dimensions-lipstick-tangerine-pop-h.png");
                     inventory.put(ProductCode.makeProductKey(productEntry), productEntry);
 
