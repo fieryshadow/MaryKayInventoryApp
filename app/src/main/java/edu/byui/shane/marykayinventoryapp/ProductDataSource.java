@@ -54,7 +54,7 @@ public class ProductDataSource {
         return dataSource;
     }
 
-    private void open() throws SQLException {
+    private synchronized void open() throws SQLException {
         Log.w(MyApp.LOGGING_TAG, "We are counting " + userCount + " connections in ProductDataSource.open");
         if (userCount++ == 0) {
             database = dbHelper.getWritableDatabase();
@@ -67,7 +67,7 @@ public class ProductDataSource {
         Log.w(MyApp.LOGGING_TAG, "We are done counting " + userCount + " connections in ProductDataSource.open");
     }
 
-    private void close() {
+    private synchronized void close() {
         Log.w(MyApp.LOGGING_TAG, "We are counting " + userCount + " connections in ProductDataSource.close");
         if (userCount-- == 0) {
             userCount = 0; // ensure there won't be errors if close gets called too many times?

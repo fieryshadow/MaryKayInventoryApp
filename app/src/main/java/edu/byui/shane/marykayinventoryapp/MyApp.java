@@ -26,5 +26,9 @@ public class MyApp extends Application {
         Log.i(MyApp.LOGGING_TAG, "Finished reading database in MyApp.onCreate");
         InventoryManager.createSingleton(getApplicationContext());
     }
-
+    public static String convertToPrice(float price){
+        double v = Math.round(price * 100.00) / 100.00;
+        String text = Double.toString(v);
+        return text;
+    }
 }

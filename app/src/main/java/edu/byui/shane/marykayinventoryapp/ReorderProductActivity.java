@@ -197,7 +197,7 @@ public class ReorderProductActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("productInfoList", list);
         receiptIntent.putExtras(bundle);
-        receiptIntent.putExtra("orderTotal", orderTotal.getText().toString());
+        receiptIntent.putExtra("orderTotal", MyApp.convertToPrice(total));
         startActivity(receiptIntent);
         Log.i(MyApp.LOGGING_TAG, "Started receipt activity.");
     }
