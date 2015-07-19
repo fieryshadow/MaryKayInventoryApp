@@ -1,16 +1,23 @@
 package edu.byui.shane.marykayinventoryapp;
 
-import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,20 +25,27 @@ import java.util.List;
 
 public class ReorderProductActivity extends ActionBarActivity {
     private List<ProductInfo> productList;
+    private static OrderListAdapter orderListAdapter;
+    private static TextView productNameView;
+    private static TextView productColorView;
+    private static SeekBar numberChanger;
+    private static EditText numberToOrderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reorder_product);
 
+        final View anchor = findViewById(R.id.anchor);
         ListView listView = (ListView) findViewById(R.id.orderList);
         productList = InventoryManager.getInstance().getListing();
-        OrderListAdapter adapter = new OrderListAdapter(this, R.layout.order_list_item, productList);
-        listView.setAdapter(adapter);
+        orderListAdapter = new OrderListAdapter(this, R.layout.order_list_item, productList);
+        listView.setAdapter(orderListAdapter);
+        final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProductInfo info = productList.get(position);
+                final ProductInfo info = productList.get(position);
                 if (info.getNumberToOrder() == 0) {
                     info.setNumberToOrderToDefault();
                     // do the order update and number manipulation stuff here, this is an example
@@ -40,7 +54,76 @@ public class ReorderProductActivity extends ActionBarActivity {
                     amountView.setText("You will be getting " + info.getNumberToOrder() + " of these items from MaryKay if you choose to continue...");
                     amountView.setTextColor(Color.parseColor("#ffff0000")); // red
                 } else {
-                    // do something to allow user to enter a number to set numberToOrder in the info object.
+                    View popupView = inflater.inflate(R.layout.popup_reorder_number_editer, null);
+                    productNameView = (TextView) popupView.findViewById(R.id.nameView);
+                    productColorView = (TextView) popupView.findViewById(R.id.colorView);
+                    numberToOrderView = (EditText) popupView.findViewById(R.id.numberToOrderView);
+                    numberChanger = (SeekBar) popupView.findViewById(R.id.seekBar);
+
+                    productNameView.setText(info.getName() + " " + info.getCategory());
+                    productColorView.setText(info.getColor());
+                    numberToOrderView.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            numberToOrderView.setSelection(numberToOrderView.getText().length());
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            try {
+                                numberChanger.setProgress(Integer.parseInt(s.toString()));
+                            } catch (NumberFormatException ex) {
+                                numberChanger.setProgress(0);
+                            }
+                        }
+                    });
+                    numberChanger.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            if (Integer.parseInt(numberToOrderView.getText().toString()) < progress) {
+                                numberToOrderView.setText(Integer.toString(progress));
+                            }
+                        }
+                    });
+                    numberToOrderView.setText(Integer.toString(info.getNumberToOrder()));
+                    final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+                    Button updater = (Button) popupView.findViewById(R.id.update);
+                    updater.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int amount = Integer.parseInt(numberToOrderView.getText().toString());
+                            info.setNumberToOrder(amount);
+                            orderListAdapter.notifyDataSetChanged();
+                            popupWindow.dismiss();
+                        }
+                    });
+                    Button canceler = (Button) popupView.findViewById(R.id.cancel);
+                    canceler.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+                    Log.i(MyApp.LOGGING_TAG, "Showing dropdown in ReorderProductActivity.onCreate.onItemClick");
+                    popupWindow.showAsDropDown(anchor, 0, -111);
+                    popupWindow.setFocusable(true);
+                    popupWindow.update();
                 }
             }
         });
