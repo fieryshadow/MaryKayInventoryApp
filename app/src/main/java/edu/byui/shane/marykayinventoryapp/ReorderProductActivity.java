@@ -1,8 +1,8 @@
 package edu.byui.shane.marykayinventoryapp;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -90,9 +90,36 @@ public class ReorderProductActivity extends ActionBarActivity {
 
 
     public void submit(View view) {
-        finish();
-        //instead of calling finish(), loop through the productList and call processOrder on any object that toOrder isn't 0.
+        //This will be passed to the new Receipt Activity to display what was ordered.
+        List<ProductInfo> receiptList = new ArrayList<ProductInfo>();
+        Log.i(MyApp.LOGGING_TAG, "Created receiptList to be passed to ReceiptActivity");
+
+        //Loop through the productList and call processOrder on any object that toOrder isn't 0.
+        for(ProductInfo info : productList) {
+            if(info.getNumberToOrder() != 0) {
+                receiptList.add(info);
+                Log.i(MyApp.LOGGING_TAG, "Added ProductInfo object to receiptList");
+
+                InventoryManager.getInstance().processOrders(info.getProductNumber(), info.getCategory(), info.getName(),
+                        info.getColor(), info.getCost(), info.getSection(), info.getNumberToOrder(), "");
+                Log.i(MyApp.LOGGING_TAG, "Called processOrders on same object.");
+            }
+        }
+        ArrayList<? extends Parcelable> list = new ArrayList<>(receiptList);
+        //Now we just need to pass the receiptList to the ReorderReceiptActivity.
+        Intent receiptIntent = new Intent(this, ReorderReceiptActivity.class);
+
+        TextView orderTotal = (TextView) findViewById(R.id.orderTotal);
+
+        //Have to create a bundle to pass to the new activity...
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("productInfoList", list);
+        receiptIntent.putExtras(bundle);
+        receiptIntent.putExtra("orderTotal", orderTotal.getText().toString());
+        startActivity(receiptIntent);
+        Log.i(MyApp.LOGGING_TAG, "Started receipt activity.");
     }
+
 
     /**
      * This function doesn't store any of the information that was entered on the page and it will return the user to the home page.

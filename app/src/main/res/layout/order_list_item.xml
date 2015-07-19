@@ -21,6 +21,9 @@
         android:text="Name"
         android:id="@+id/nameView"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
         android:layout_marginStart="5dp" />
 
@@ -31,6 +34,8 @@
         android:text="Category"
         android:id="@+id/categoryView"
         android:layout_below="@+id/nameView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/nameView"
         android:layout_alignStart="@+id/nameView" />
 
@@ -38,22 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:text="Stock Status"
-        android:id="@+id/stockStatusView"
-        android:gravity="start"
-        android:layout_below="@+id/colorsView"
-        android:layout_alignLeft="@+id/colorsView"
-        android:layout_alignStart="@+id/colorsView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="#ff8b8b8b" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:text="Color"
-        android:id="@+id/colorsView"
+        android:id="@+id/colorView"
         android:layout_below="@+id/categoryView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -69,10 +60,9 @@
         android:text="Amount being ordered"
         android:id="@+id/amountView"
         android:textColor="#ff00e812"
-        android:layout_below="@+id/stockStatusView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/stockStatusView"
-        android:layout_alignStart="@+id/stockStatusView" />
-
+        android:layout_below="@+id/colorView"
+        android:layout_alignLeft="@+id/colorView"
+        android:layout_alignStart="@+id/colorView" />
 </RelativeLayout>
