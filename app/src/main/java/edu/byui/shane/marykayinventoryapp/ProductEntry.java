@@ -8,7 +8,6 @@ public class ProductEntry {
     private int numberInStock, numberOnOrder, highestNumberInInventory;
 
     public ProductEntry(Product product, int numberInStock, int numberOnOrder, int highestNumberInInventory) {
-        // should we throw some exceptions for passing negative values?
         this.product = product;
         this.numberInStock = numberInStock;
         this.numberOnOrder = numberOnOrder;
@@ -24,7 +23,7 @@ public class ProductEntry {
     }
 
     private float calculateCostOf(int amount) {
-        return amount * product.getCost();
+        return Math.round(amount * product.getCost() * 100f) / 100f;
     }
 
     public boolean isOutOfStock() { // are we going to use this??

@@ -2,6 +2,7 @@ package edu.byui.shane.marykayinventoryapp;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TableRow;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class InventoryManager {
     private static Context appContext;
-    private static InventoryManager manager; // final facade
+    private static InventoryManager manager = new InventoryManager(); // it's the last one bro!
     private Hashtable<String, ProductEntry> inventory; // ProductCode -> ProductEntry
     
     /** This is a singleton */
@@ -24,18 +25,6 @@ public class InventoryManager {
     /** Retrieve the one and only, instance */
     public static InventoryManager getInstance() {
         return manager;
-    }
-
-    /**
-     * A workaround for needing the activity context for parts of the code to work correctly. Must be
-     * called at the very beginning of the program startup, or else a NullPointerException will occur!
-     * @param context Needs to be the MainActivity! Not for calling anywhere else!
-     */
-    public static void createSingleton(Context context) {
-        if (manager == null) {
-            appContext = context;
-            manager = new InventoryManager();
-        }
     }
 
     /**
@@ -140,11 +129,12 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being added
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processCheckIn(final String productNumber, final String category, final String name, final String color,
+    public Thread processCheckIn(final String productNumber, final String category, final String name, final String color,
                                final float cost, final int section, final int numOfProduct, final String imageFile) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 int changeInOrder = 0;
                 String productKey = ProductCode.makeProductKey(productNumber, section);
                 Log.i(MyApp.LOGGING_TAG, "Adding " + numOfProduct + " products to " + productKey + " in InventoryManager.processCheckIn");
@@ -154,7 +144,9 @@ public class InventoryManager {
                 }
                 updateProduct(productNumber, category, name, color, cost, section, numOfProduct, changeInOrder, imageFile);
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
     }
 
     /**
@@ -168,14 +160,16 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being removed
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processCheckOut(final String productNumber, final String category, final String name, final String color,
+    public Thread processCheckOut(final String productNumber, final String category, final String name, final String color,
                                 final float cost, final int section, final int numOfProduct, final String imageFile) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 updateProduct(productNumber, category, name, color, cost, section, -numOfProduct, 0, imageFile);
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
     }
 
     /**
@@ -189,14 +183,18 @@ public class InventoryManager {
      * @param numOfProduct Total number of products being ordered
      * @param imageFile The filename for a new icon to store in the database
      */
-    public void processOrders(final String productNumber, final String category, final String name, final String color,
+    public Thread processOrders(final String productNumber, final String category, final String name, final String color,
                               final float cost, final int section, final int numOfProduct, final String imageFile) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 updateProduct(productNumber, category, name, color, cost, section, 0, numOfProduct, imageFile);
+
             }
-        }).start();
+        });
+
+        thread.start();
+        return thread;
     }
 
     /**
@@ -215,8 +213,8 @@ public class InventoryManager {
     /**
      * Create the local inventory list from the database that has the stored data
      */
-    public void readFromDatabase() {
-        new Thread(new Runnable() {
+    public Thread readFromDatabase() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread");
@@ -266,6 +264,8 @@ public class InventoryManager {
                     Log.i(MyApp.LOGGING_TAG, "Finished creating product list in InventoryManager.readFromDatabase.thread");
                 }
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
     }
 }

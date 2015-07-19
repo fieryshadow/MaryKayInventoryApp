@@ -12,6 +12,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
@@ -22,6 +25,7 @@ public class ProductDataSource {
     private MySQLiteHelper dbHelper;
     private static ProductDataSource dataSource;
     private static Context appContext;
+    private static int userCount = 0;
 
     public static final String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PRODUCT_CODE,
             MySQLiteHelper.COLUMN_PRODUCT_NUMBER, MySQLiteHelper.COLUMN_CATEGORY, MySQLiteHelper.COLUMN_NAME,
@@ -51,11 +55,28 @@ public class ProductDataSource {
     }
 
     private void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        Log.w(MyApp.LOGGING_TAG, "We are counting " + userCount + " connections in ProductDataSource.open");
+        if (userCount++ == 0) {
+            database = dbHelper.getWritableDatabase();
+            Log.w(MyApp.LOGGING_TAG, "We are done making database in ProductDataSource.open");
+        } else {
+            while (database == null) {
+                Log.v(MyApp.LOGGING_TAG, "Waiting for another thread to finnish creating the database in ProductDataSource.open");
+            }
+        }
+        Log.w(MyApp.LOGGING_TAG, "We are done counting " + userCount + " connections in ProductDataSource.open");
     }
 
     private void close() {
-        dbHelper.close();
+        Log.w(MyApp.LOGGING_TAG, "We are counting " + userCount + " connections in ProductDataSource.close");
+        if (userCount-- == 0) {
+            userCount = 0; // ensure there won't be errors if close gets called too many times?
+        }
+        if (userCount == 0) {
+            dbHelper.close();
+            Log.w(MyApp.LOGGING_TAG, "We are done closing database in ProductDataSource.close");
+        }
+        Log.w(MyApp.LOGGING_TAG, "We are done counting " + userCount + " connections in ProductDataSource.close");
     }
 
     /** Converts a database cursor into a product entry */
@@ -132,9 +153,12 @@ public class ProductDataSource {
     public ProductEntry getProduct(String productCode) {
         open();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PRODUCTS, allColumns,
-                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = " + productCode, null, null, null, null);
+                MySQLiteHelper.COLUMN_PRODUCT_CODE + " = \"" + productCode + "\"", null, null, null, null);
         cursor.moveToFirst();
-        ProductEntry productEntry = cursor2ProductEntry(cursor);
+        ProductEntry productEntry = null;
+        if (!cursor.isAfterLast()) {
+            productEntry = cursor2ProductEntry(cursor);
+        }
         cursor.close();
         close();
         return productEntry;
@@ -159,6 +183,14 @@ public class ProductDataSource {
             products.put(ProductCode.makeProductKey(productEntry), productEntry);
             cursor.moveToNext();
         }
+
+        // log message
+        String message = "The keys: ";
+        Enumeration<String> enumKey = products.keys();
+        while(enumKey.hasMoreElements()) {
+            message += enumKey.nextElement() + ", ";
+        }
+        Log.w(MyApp.LOGGING_TAG, message + "in ProductDataSource.readAllProducts");
 
         cursor.close();
         Log.i(MyApp.LOGGING_TAG, "Finished reading the database in ProductDataSource.readAllProducts");
