@@ -22,7 +22,8 @@ public class ReorderReceiptActivity extends ActionBarActivity {
         setContentView(R.layout.activity_reorder_receipt);
         String orderTotal = getIntent().getStringExtra("orderTotal");
         TextView orderTotalView = (TextView) findViewById(R.id.orderTotalTextView);
-        orderTotalView.setText(orderTotal);
+        Log.i(MyApp.LOGGING_TAG, "Order Total: " + orderTotal);
+        orderTotalView.setText("Order Total: $" + orderTotal);
         Bundle bundle = getIntent().getExtras();
         List<ProductInfo> receiptList = bundle.getParcelableArrayList("productInfoList");
 

@@ -250,7 +250,7 @@ public class InventoryManager {
                 inventory.clear();
                 Log.v(MyApp.LOGGING_TAG, "Starting read from database in InventoryManager.readFromDatabase.thread");
                 inventory.putAll(ProductDataSource.getInstance().readAllProducts());
-                Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase.thread");
+                Log.i(MyApp.LOGGING_TAG, "Finished reading database in InventoryManager.readFromDatabase.thread" + Integer.toString(inventory.values().size()));
 
                 if (inventory.values().size() == 0) { // prepopulate inventory for testing
                     Log.i(MyApp.LOGGING_TAG, "Database is empty, creating new product list in InventoryManager.readFromDatabase.thread");
